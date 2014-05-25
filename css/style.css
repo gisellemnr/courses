@@ -1,0 +1,72 @@
+body { overflow-y: hidden; background:#ecebe9; }
+
+#holder { padding: 20px; width: 755px; }
+
+aside { padding: 20px; height:100%; float: right; width: 300px;}
+
+#top-group { clear: both; float: right; }
+
+#coursenum { height: 35px; width: 204px; float: right; }
+
+#remove { position: absolute; display: block; cursor: pointer; top: 22px; right: 22px; width: 30px; height: 30px; 
+    background: url(http://www.addemail.info/email/icons/minimal-icons-2/minimal-web-icons-2/PNG/128%20x%20128%20px/remove.png) no-repeat center center;
+	background-size: 15px 15px; }
+
+#general { width: 160px; height: 35px; vertical-align:top;}
+
+#plus { width: 40px; }
+
+.btn-info { height: 34px; vertical-align: top; display: inline-block; text-align: right; }
+
+#btnelectives { margin-top: 10px; width: 204px; clear: both; float: right; text-align: center; }
+
+#selectcourses { margin-top: 204px; }
+
+#error { position: absolute; top: 60px; left: 800px; color: #bf001c; font-style: italic; }
+
+#title { position: absolute; top: 120px; left: 800px; font: 2em Georgia; width: 4.8em;
+    letter-spacing: 0.15em; font-weight: 700; color: #555; }
+
+#link { color: #39b3d7; position: absolute; top: 120px; left: 920px; cursor: pointer;
+      height: 34px; width: 34px; margin-left: 10px; padding: 10px; }
+
+#description { position: absolute; top: 160px; left: 800px; color: #555;
+    font: 14px Tahoma, Helvetica, Arial, Sans-Serif;
+    width: 30em; line-height: 150%; }
+
+#spinner { position: absolute; top: 320px; left: 920px; }
+
+.btn-group { float: right; clear: right; display:inline; margin-bottom: 10px; width: 204px; }
+
+#btncs { background-color: #bf001c; border: 1px solid #bf001c; margin-top: 40px;}
+
+#btnmath { background-color: #5f00bf; border: 1px solid #5f00bf; }
+
+.dropdown-toggle { width: 204px; text-align: right; }
+
+.dropdown-menu { width: 204px; border: 1px solid #ccc; }
+
+.dropdown-menu li:hover a { cursor: pointer; color: #0097cf; background-color: #ccc;}
+
+.tt-hint { color: #999; padding: 6px 11px; height: 35px; width: 204px; 
+    -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+          border-radius: 5px;
+}
+
+.tt-dropdown-menu { width: 204px; margin-top: 5px; 
+  border: 1px solid #ccc; background-color: #fff;
+  -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+          border-radius: 5px;
+}
+
+#selectcourses > #top-group > .twitter-typeahead > .tt-hint { width: 160px; }
+
+#selectcourses > #top-group > .twitter-typeahead > .tt-dropdown-menu { width: 160px; }
+
+.tt-suggestion { padding: 6px 10px; }
+
+.tt-suggestion.tt-is-under-cursor { color: #0097cf; background-color: #ccc; }
+
+.tt-suggestion p { margin: 0; }

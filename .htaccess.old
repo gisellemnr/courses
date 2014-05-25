@@ -1,0 +1,7 @@
+AuthType WebISO
+PubCookieInactiveExpire 400
+PubCookieHardExpire 3700
+PubCookieAppID www.qatar
+
+Order deny,allow
+Require valid-user
