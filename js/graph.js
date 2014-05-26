@@ -1,4 +1,4 @@
-function Graph() {
+function Graph(semesters) {
 
 	function reposition(shape, y, boolean) { // if boolean is true all elements on the same row will reposition
 		var list = [];
@@ -44,53 +44,47 @@ function Graph() {
 		}
 	}
 
-	function course(id, info, area, color, x, y) {
-		var shape = r.circle(x, y, 20);
-		shape.area = area;
-		shape.id = id;
-		shape.color = color;
-		shape.number = shape.id.replace('-','');
-		var label = r.text(x, y, id);
-		// getCourseInformation(shape.number, function(data){
-		// 	if (data && data.course) {
-		// 		shape.title = data.course.name.replace(':','');
-		// 		shape.units = data.course.units;
-		// 		shape.tooltip(shape.title);
-		// 		label.tooltip(shape.title);
-		// 	}
-		// });
-		// getCourseDescription(shape.id, function(data) {
-		// 	if (data && data.description) {
-		// 		shape.description = data.description;
-		// 		shape.website = data.website;
-		// 		if (!shape.title) {
-		// 			shape.title = data.title;
-		// 			shape.units = data.units;
-		// 			shape.tooltip(shape.title);
-		// 			label.tooltip(shape.title);
-		// 		}
-		// 	} else {
-		// 		shape.description = 'Description unavailable.';
-		// 	}
-		// });
-
-		shape.attr({fill: color, stroke: color, "fill-opacity": .7, "stroke-width": 2, cursor: "move"}).toFront();
+	function createShape(course) {
+		var shape = r.circle(course.x, course.y, 20);
+		var label = r.text(course.x, course.y, course.id);
+		shape.id = course.id;
+		shape.area = course.area;
+		shape.color = course.color;
+		shape.number = course.id.replace('-','');
+		shape.website = course.link;
+		shape.description = course.description;
+		if (!shape.description) {
+			shape.description = 'Description unavailable.';
+		}
+		shape.attr({fill: shape.color, stroke: shape.color, "fill-opacity": .7, "stroke-width": 2, cursor: "move"}).toFront();
 		label.attr({stroke: "none", fill: "#fff", cursor: "move"}).toFront();
 		shape.drag(move, dragger, up);
-		label.drag(move, dragger, up);
-		shape.pair = label;
-		label.pair = shape;		
-		var children = info.slice(7).split(',');
-		$.each(children, function(j,c){
+		label.drag(move, dragger, up);		
+		$.each(course.dependencies, function(j, c){
 			if (c) {
 				connections.push(r.connection(r.getById(shape.id), r.getById(c)));
 			}
-		});	
+		});
+		if (!course.title) {
+			getCourseInformation(shape.number, function(data){
+				if (data && data.course) {
+					shape.title = data.course.name.replace(':','');
+					shape.units = data.course.units;		
+				}
+			});
+		} else {
+			shape.title = course.title;
+			shape.units = course.units;
+		}
+		shape.tooltip(shape.title);
+		label.pair = shape;
+		label.tooltip(shape.title);
+		shape.pair = label;
 		return shape;
 	}
 
-	this.addCourse = function(info, area, color) {
-		var dependencies = info.slice(7).split(',');
+	this.addCourse = function(course) {
+		var dependencies = course.dependencies;
 		for (var i = dependencies.length; i--;) {
 			if (cours.indexOf(dependencies[i]) == -1 && dependencies[i] != "") {
 				$("#error").html('You must add ' + dependencies[i] + ' first.');
@@ -99,15 +93,17 @@ function Graph() {
 				return;
 			}
 		}
-		if (area != 'general') {
-			$("#btn" + area).click(function() { selectColor(color); });
-			$('#' + area).hide();
-    		$('#btn' + area).show();
-    		$('#btn' + area).animate({opacity: .5}, 200);
+		if (course.area != 'general') {
+			$("#btn" + course.area).click(function() { selectColor(course.color); });
+			$('#' + course.area).hide();
+    		$('#btn' + course.area).show();
+    		$('#btn' + course.area).animate({opacity: .5}, 200);
 		}
-		var id = info.slice(0,6);
-		if (info && cours.indexOf(id) == -1) {
-			var c = new course(id, info, area, color, 700, 25);
+		var id = course.id;
+		if (cours.indexOf(id) == -1) {
+			course.x = 700;
+			course.y = 25;
+			var c = new createShape(child);
 			shapes.push(c);
 			labels.push(c.pair);
 			cours.push(c.id);
@@ -325,7 +321,7 @@ function Graph() {
     	unselectCourse();
     }
 
-    function initGraph(){
+    function initGraph(semesters){
     	var lineattr = {stroke: "#555", "stroke-dasharray": ". "};
 		var labeattr = {stroke: "none", fill: "#555", transform: "r270", 'font-size': '15px'};
 		
@@ -344,25 +340,17 @@ function Graph() {
 		r.path('M,50,437.5,L,750,437.5').attr(lineattr);
 		r.text(25, 512.5, 'freshman').attr(labeattr);
 
-		$.each($('#semesters').children(), function(i,semester) {
-			$.each($('#'+semester.id).children(), function(j,child) {
-				var info = child.innerHTML;
-				var id = info.slice(0,6);
-				var area = 'core';
-				var color = '#2663bf';
-				if (id.slice(0,2) == '15') {
-					color = '#bf001c';
-				} else if (id.slice(0,2) == '21' || id.slice(0,2) == '36') {
-					color = '#5f00bf';
-				}
-				var total = $('#'+semester.id).children().length;
-				var alpha = (800 - (750 * (total - 1) / total)) / 2;
-				var x = 750 / total * j + alpha;
+		semesters.forEach(function (semester, i) {
+			semester.forEach(function (child, j) {
+				var alpha = (800 - (750 * (semester.length - 1) / semester.length)) / 2;
+				var x = 750 / semester.length * j + alpha;
 				var y = ((7 - i) * 75) + 25;
-				var c = new course(id, info, area, color, x, y);
-				shapes.push(c);
-				labels.push(c.pair);
-				cours.push(c.id);
+				child.x = x;
+				child.y = y;
+				var shape = new createShape(child);
+				shapes.push(shape);
+				labels.push(shape.pair);
+				cours.push(shape.id);
 			});
 		});
 		$('#coursenum').typeahead({ local: cours.sort() });
@@ -378,7 +366,7 @@ function Graph() {
 		shapes = [],
 		labels = [],
 		connections = [];
-	initGraph();
+	initGraph(semesters);
 };
 
 Raphael.fn.connection = function (obj1, obj2, line) {

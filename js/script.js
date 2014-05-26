@@ -5,36 +5,25 @@ document.addEventListener('DOMContentLoaded', function () {
 	});
 });
 
-function core(id, title, units, dependencies, semester, link, description, color) {
-	this.id 	= null;
-	this.title 	= null;
-	this.units 	= null;
-	this.dependencies = null;
-	this.semester = null;
-	this.link 	= null;
-	this.description = null;
-	this.color 	= null;
-}
-
-function elective(id, title, units, area, dependencies, link, description, color) {
+function course(id, title, units, dependencies, link, description, color, area) {
 	this.id 	= id;
 	this.title 	= title;
 	this.units 	= units;
-	this.area 	= area;
 	this.dependencies = dependencies;
 	this.link 	= link;
 	this.description = description;
 	this.color 	= color;
+	this.area 	= area;
 }
 
 function init(result) {
 	tooltip();
 
-	var colors = {};
-	var cores = [];
-	var areas = {};
+	var colors 	= {};
+	var areas 	= {};
 	var general = [];
 	var electives = [];
+	var semesters = [[],[],[],[],[],[],[],[]];
 
 	result.colors.elements.forEach(function (row) {
 		colors[row.area] = row.color;
@@ -42,13 +31,15 @@ function init(result) {
 
 	result.core.elements.forEach(function (row) {
 		if (!row.number) return;
-		var c = new core(row.number, row.title, row.units, row.dependencies.split(','), row.semester, row.link, row.description, colors[row.number.slice(0,2)]);
-		cores.push(c);
+		var color = colors[row.number.slice(0,2)];
+		if (!color) { color = colors['Other']; }
+		var c = new course(row.number, row.title, row.units, row.dependencies.split(','), row.link, row.description, color, 'core');
+		semesters[parseInt(row.semester)].push(c);
 	});
 	
 	result.electives.elements.forEach(function (row) {
 		if (!row.number) return;
-		var e = new elective(row.number, row.title, row.units, row.area, row.dependencies.split(','), row.link, row.description, colors[row.area]);
+		var e = new course(row.number, row.title, row.units, row.dependencies.split(','), row.link, row.description, colors[row.area], row.area);
 		electives.push(e);
 		general.push(row.number);
 		if (row.area in areas) {
@@ -63,7 +54,7 @@ function init(result) {
 		general.push(row.number);
 	});
 
-	var graph = new Graph();
+	var graph = new Graph(semesters);
 	for (a in areas) {
 		addElective(a, areas[a], colors[a]);
 	}
@@ -82,14 +73,9 @@ function init(result) {
 	});
 
     $("li > a").click(function() {
-    	var course = $(this)[0].text;
-    	var area = $(this).parent().parent().parent()[0].id;
-    	for (i in electives[area]) {
-    		if (electives[area][i].slice(0,6) == course) {
-    			course = electives[area][i];
-    		}
-    	}
-    	graph.addCourse(course, area, colors[area]);
+    	var c = $(this)[0].text;
+    	// TODO  function takes c return the course
+    	graph.addCourse(c);
 	});
 }
 
