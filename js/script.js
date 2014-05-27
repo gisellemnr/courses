@@ -21,8 +21,7 @@ function init(result) {
 
 	var colors 	= {};
 	var areas 	= {};
-	var general = [];
-	var electives = [];
+	var electives = {};
 	var semesters = [[],[],[],[],[],[],[],[]];
 
 	result.colors.elements.forEach(function (row) {
@@ -40,8 +39,7 @@ function init(result) {
 	result.electives.elements.forEach(function (row) {
 		if (!row.number) return;
 		var e = new course(row.number, row.title, row.units, row.dependencies.split(','), row.link, row.description, colors[row.area], row.area);
-		electives.push(e);
-		general.push(row.number);
+		electives[row.number] = e;
 		if (row.area in areas) {
 			areas[row.area].push(row.number);
 		} else {
@@ -51,7 +49,7 @@ function init(result) {
 
 	result.general.elements.forEach(function (row) {
 		if (!row.number) return;
-		general.push(row.number);
+		electives[row.number] = null;
 	});
 
 	var graph = new Graph(semesters);
@@ -64,18 +62,21 @@ function init(result) {
 		<button class="btn btn-info" type="button" id="plus"><span class="glyphicon glyphicon-plus"></span></button>\
 		</div>');
 	
-	$('#general').typeahead({ local: general.sort() });
-	$('#plus').click(function(){ addGeneralCourse(general, graph, colors['General']) } );
+	$('#general').typeahead({ local: Object.keys(electives).sort() });
+	
+	$('#plus').click(function(){ 
+		addGeneralCourse(graph, colors['General']);
+	});
+
 	$('#general').on('keyup', function(e) {
 	    if (e.which == 13) {
-	    	addGeneralCourse(general, graph, colors);
+	    	addGeneralCourse(graph, colors['General']);
 	    }
 	});
 
     $("li > a").click(function() {
     	var c = $(this)[0].text;
-    	// TODO  function takes c return the course
-    	graph.addCourse(c);
+    	graph.addCourse(electives[c]);
 	});
 }
 
@@ -97,12 +98,13 @@ function addElective(name, list, color) {
 	$("#" + name).tooltip({placement: 'left', title: label});
 }
 
-function addGeneralCourse(general, graph, color){
-	var course = $('#general').val();
+function addGeneralCourse(graph, color){
+	var number = $('#general').val();
 	var re = /([0-9][0-9]-[0-9][0-9][0-9])/;
-	var match = course.match(re);
-	if (general.indexOf(course) != -1 || match && match[0] == course) {
-		graph.addCourse(course, 'general', color);
+	var match = number.match(re);
+	if (match && match[0] == number) {
+		var g = new course(number, 'Undefined title', 'undefined', [], null, null, color, 'general');
+		graph.addCourse(g);
 		$('#general').val('');
 		$('#general').typeahead('setQuery', '');
 	}

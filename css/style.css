@@ -1,4 +1,7 @@
-body { overflow-y: hidden; background:#ecebe9; }
+@import url(http://fonts.googleapis.com/css?family=Lato);
+@import url(http://fonts.googleapis.com/css?family=Vidaloka:300,400,700);
+
+body { overflow-y: hidden; background:#ecebe9; font-family: 'Lato', sans-serif;}
 
 #holder { padding: 20px; width: 755px; }
 
@@ -24,14 +27,13 @@ aside { padding: 20px; height:100%; float: right; width: 300px;}
 
 #error { position: absolute; top: 60px; left: 800px; color: #bf001c; font-style: italic; }
 
-#title { position: absolute; top: 120px; left: 800px; font: 2em Georgia; width: 4.8em;
-    letter-spacing: 0.15em; font-weight: 700; color: #555; }
+#title { position: absolute; top: 110px; left: 800px; font: 2.5em 'Vidaloka', serif; font-weight: 700; color: #555; }
 
-#link { color: #39b3d7; position: absolute; top: 120px; left: 920px; cursor: pointer;
+#link { color: #39b3d7; position: absolute; top: 110px; left: 920px; cursor: pointer;
       height: 34px; width: 34px; margin-left: 10px; padding: 10px; }
 
 #description { position: absolute; top: 160px; left: 800px; color: #555;
-    font: 14px Tahoma, Helvetica, Arial, Sans-Serif;
+    font: 14px 'Lato', sans-serif;
     width: 30em; line-height: 150%; }
 
 #spinner { position: absolute; top: 320px; left: 920px; }

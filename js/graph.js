@@ -2,22 +2,32 @@ function Graph(semesters) {
 
 	function reposition(shape, y, boolean) { // if boolean is true all elements on the same row will reposition
 		var list = [];
-		if (boolean) {
-			for (s in shapes) {
-				if (shapes[s].attrs.cy == y) {
+		var x = shape.attr('cx');
+		for (s in shapes) { 
+			if (shapes[s] != shape && shapes[s].attrs.cy == y) {
+				if (boolean) {
 					list.push(shapes[s]);
+				} else {					
+					if (Math.abs(x - shapes[s].attrs.cx) < shape.attr('r') * 2) {
+						if (x < shapes[s].attrs.cx) {
+							x = shapes[s].attrs.cx - shape.attr('r') * 2 - 2;
+						} else {
+							x = shapes[s].attrs.cx + shape.attr('r') * 2 + 2;
+						}
+					}
 				}
 			}
 		}
-		if (shape && shape.attrs.cy != y) {
+		if (shape) {
 			list.push(shape);
 			shape.clicked = false;
 		}
 		list.sort(function(a, b){ return a.attrs.cx - b.attrs.cx });
 		var alpha = (800 - (750 * (list.length - 1) / list.length)) / 2;
 		for (index in list) {
-			var x = 750 / list.length * index + alpha;
-			if (!boolean && shape) { x = shape.attr('cx'); }
+			if (boolean) {
+				x = 750 / list.length * index + alpha;
+			}
 			list[index].animate({cx: x, cy: y}, 100);
 			list[index].pair.animate({x: x, y: y}, 100);
 			for (var i = connections.length; i--;) {
@@ -103,7 +113,7 @@ function Graph(semesters) {
 		if (cours.indexOf(id) == -1) {
 			course.x = 700;
 			course.y = 25;
-			var c = new createShape(child);
+			var c = new createShape(course);
 			shapes.push(c);
 			labels.push(c.pair);
 			cours.push(c.id);
@@ -155,6 +165,7 @@ function Graph(semesters) {
 	}
 
 	function selectCourse(list, hide) {
+		$("#link").hide();
 		if (!hide) {
 			var last = list[list.length - 1];
 			var search = $('#title').html() != last.id;
