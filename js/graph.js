@@ -205,6 +205,12 @@ function Graph(semesters) {
 	    	}
 	    	$('#description').html(output);
 	    }
+	    if ($("#selectcourses").is(":visible")){
+			$("#btnelectives")[0].innerHTML = 'Add Electives';
+			$("#selectcourses").hide();
+			$("#highlightcourses").hide();
+			$("article").show();
+		}
 	}
 
 	function unselectCourse() {
@@ -286,11 +292,11 @@ function Graph(semesters) {
     	if (ylimit < 25 && rcon == 0) {
     		dy = 25 - shape.oy;
     	}
-    	if (xlimit > 730) {
-    		dx = 730 - shape.ox;
+    	if (xlimit > 710) {
+    		dx = 710 - shape.ox;
     	}
-    	if (xlimit < 70) {
-    		dx = 70 - shape.ox;
+    	if (xlimit < 25) {
+    		dx = 25 - shape.ox;
     	}
         var att = {cx: shape.ox + dx, cy: shape.oy + dy};
         shape.attr(att);
@@ -334,7 +340,7 @@ function Graph(semesters) {
 
     function initGraph(semesters){
     	var lineattr = {stroke: "#555", "stroke-dasharray": ". "};
-		var labeattr = {stroke: "none", fill: "#555", transform: "r270", 'font-size': '15px'};
+		var labeattr = {stroke: "none", fill: "#555", transform: "r90", 'font-size': '15px'};
 		
 		var remove = r.circle(700, 25, 20).attr({fill: '#555', "fill-opacity": .3, "stroke-width": 0, opacity: 0});
 		var removelab = r.text(700, 25, 'X').attr({stroke: "none", fill: "#000", opacity: 0}).toFront();
@@ -342,19 +348,23 @@ function Graph(semesters) {
 		var removetoo = r.path(getTooltipPath(removetxt, 'bottom', 1)).attr({fill: '#000'});
 
 		removetxt.hide(); removetoo.hide();
-		remove.id = 'del'; remove.label = removelab; remove.text = removetxt; remove.tooltip = removetoo;
-		r.text(25, 62.5, 'senior').attr(labeattr);
-		r.path('M,50,137.5,L,750,137.5').attr(lineattr);
-		r.text(25, 212.5, 'junior').attr(labeattr);
-		r.path('M,50,287.5,L,750,287.5').attr(lineattr);
-		r.text(25, 362.5, 'sophomore').attr(labeattr);
-		r.path('M,50,437.5,L,750,437.5').attr(lineattr);
-		r.text(25, 512.5, 'freshman').attr(labeattr);
+		remove.id = 'del'; 
+		remove.label = removelab; 
+		remove.text = removetxt; 
+		remove.tooltip = removetoo;
+
+		r.text(750, 62.5, 'senior').attr(labeattr);
+		r.path('M,0,137.5,L,700,137.5').attr(lineattr);
+		r.text(750, 212.5, 'junior').attr(labeattr);
+		r.path('M,0,287.5,L,700,287.5').attr(lineattr);
+		r.text(750, 362.5, 'sophomore').attr(labeattr);
+		r.path('M,0,437.5,L,700,437.5').attr(lineattr);
+		r.text(750, 512.5, 'freshman').attr(labeattr);
 
 		semesters.forEach(function (semester, i) {
 			semester.forEach(function (child, j) {
-				var alpha = (800 - (750 * (semester.length - 1) / semester.length)) / 2;
-				var x = 750 / semester.length * j + alpha;
+				var alpha = (700 - (700 * (semester.length - 1) / semester.length)) / 2;
+				var x = 700 / semester.length * j + alpha;
 				var y = ((7 - i) * 75) + 25;
 				child.x = x;
 				child.y = y;

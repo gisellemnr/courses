@@ -82,8 +82,8 @@ function init(result) {
 
 function addElective(name, list, color) {
 	var content = '<div class="btn-group" id="'+name+'">\
-			<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" style="background-color:'+color+'; border: 1px solid '+color+';">'+name+' &nbsp;&nbsp;<span class="caret"></span></button>\
-			<ul class="dropdown-menu pull-right">';
+			<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" style="background-color:'+color+'; border: 1px solid '+color+';"><span class="caret"></span>&nbsp;&nbsp;'+name+'</button>\
+			<ul class="dropdown-menu">';
 	for (i in list){
 		var number = list[i].slice(0,6);
 		content += '<li><a>'+number+'</a></li>';
@@ -92,10 +92,10 @@ function addElective(name, list, color) {
 	content += '<button class="btn btn-info btn-group" type="button" id="btn'+name+'" style="background-color:'+color+'; border: 1px solid '+color+';">'+name+'</button>';
 	$('#selectcourses').append(content);
 	$("#btn"+name).hide();
-	$("#btn"+name).tooltip({placement: 'left', title: 'Highlight ' + name + ' course'});
+	$("#btn"+name).tooltip({placement: 'right', title: 'Highlight ' + name + ' course'});
 	var label = 'Add ';
 	if (name[0] == 'A') { label += 'an ' + name + ' course'} else { label += 'a ' + name + ' course'}
-	$("#" + name).tooltip({placement: 'left', title: label});
+	$("#" + name).tooltip({placement: 'right', title: label});
 }
 
 function addGeneralCourse(graph, color){
@@ -115,12 +115,12 @@ function showElectives(){
 		$("#btnelectives")[0].innerHTML = 'Add Electives';
 		$("#selectcourses").fadeOut();
 		$("#highlightcourses").fadeOut();
-		$("#description").animate({width: "30em"}, 500);
+		$("article").fadeIn();
 	} else {
 		$("#btnelectives")[0].innerHTML = 'Hide Electives';
 		$("#selectcourses").fadeIn();
 		$("#highlightcourses").fadeIn();
-		$("#description").animate({width: "23em"}, 500);
+		$("article").fadeOut();
 	}
 }
 
@@ -130,9 +130,9 @@ function tooltip(){
     $("#error").hide();
     $("#selectcourses").hide();
 	$("#highlightcourses").hide();
+	$("#coursenum").tooltip({placement: 'right', title: 'Example 15-112 15-221'});
 	$("#link").tooltip({placement: 'right', title: 'View course page'});
-	$("#coursenum").tooltip({placement: 'left', title: 'E.g. 15-112 15-221'});
-	$("#btncs").tooltip({placement: 'left', title: 'Highlight CS courses'});
-	$("#btnmath").tooltip({placement: 'left', title: 'Highlight Mathematics courses'});
+	$("#btncs").tooltip({placement: 'right', title: 'Highlight CS courses'});
+	$("#btnmath").tooltip({placement: 'right', title: 'Highlight Mathematics courses'});
 	$("#btnelectives").click(showElectives);
 }

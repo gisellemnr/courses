@@ -1,74 +1,161 @@
 @import url(http://fonts.googleapis.com/css?family=Lato);
 @import url(http://fonts.googleapis.com/css?family=Vidaloka:300,400,700);
 
-body { overflow-y: hidden; background:#ecebe9; font-family: 'Lato', sans-serif;}
+body {
+    overflow-x: hidden;
+    background: #ecebe9;
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+}
 
-#holder { padding: 20px; width: 755px; }
+#holder {
+	position: absolute;
+    width: 755px;
+    top: 20px;
+    right: 40px;
+}
 
-aside { padding: 20px; height:100%; float: right; width: 300px;}
+aside {
+	margin: 20px;
+	float: left;
+}
 
-#top-group { clear: both; float: right; }
+#top-group, #coursenum, #btnelectives, .btn-group, .btn-info, #general {
+    clear: both;
+    float: right;
+    width: 204px;
+    height: 35px;
+    margin-bottom: 10px;
+    display: inline;
+    vertical-align: top;
+    text-align: left;
+}
 
-#coursenum { height: 35px; width: 204px; float: right; }
+#plus {
+    width: 40px;
+}
 
-#remove { position: absolute; display: block; cursor: pointer; top: 22px; right: 22px; width: 30px; height: 30px; 
-    background: url(http://www.addemail.info/email/icons/minimal-icons-2/minimal-web-icons-2/PNG/128%20x%20128%20px/remove.png) no-repeat center center;
-	background-size: 15px 15px; }
+#remove {
+    position: absolute;
+    display: block;
+    cursor: pointer;
+    top: 22px;
+    left: 190px;
+    width: 30px;
+    height: 30px;
+    background: url(../fonts/remove.png) no-repeat center center;
+    background-size: 15px 15px;
+}
 
-#general { width: 160px; height: 35px; vertical-align:top;}
-
-#plus { width: 40px; }
-
-.btn-info { height: 34px; vertical-align: top; display: inline-block; text-align: right; }
-
-#btnelectives { margin-top: 10px; width: 204px; clear: both; float: right; text-align: center; }
-
-#selectcourses { margin-top: 204px; }
-
-#error { position: absolute; top: 60px; left: 800px; color: #bf001c; font-style: italic; }
-
-#title { position: absolute; top: 110px; left: 800px; font: 2.5em 'Vidaloka', serif; font-weight: 700; color: #555; }
-
-#link { color: #39b3d7; position: absolute; top: 110px; left: 920px; cursor: pointer;
-      height: 34px; width: 34px; margin-left: 10px; padding: 10px; }
-
-#description { position: absolute; top: 160px; left: 800px; color: #555;
-    font: 14px 'Lato', sans-serif;
-    width: 30em; line-height: 150%; }
-
-#spinner { position: absolute; top: 320px; left: 920px; }
-
-.btn-group { float: right; clear: right; display:inline; margin-bottom: 10px; width: 204px; }
-
-#btncs { background-color: #bf001c; border: 1px solid #bf001c; margin-top: 40px;}
-
-#btnmath { background-color: #5f00bf; border: 1px solid #5f00bf; }
-
-.dropdown-toggle { width: 204px; text-align: right; }
-
-.dropdown-menu { width: 204px; border: 1px solid #ccc; }
-
-.dropdown-menu li:hover a { cursor: pointer; color: #0097cf; background-color: #ccc;}
-
-.tt-hint { color: #999; padding: 6px 11px; height: 35px; width: 204px; 
+.tt-dropdown-menu, .dropdown-menu {
+    width: 204px;
+    border: 1px solid #ccc;
+    background-color: #fff;
     -webkit-border-radius: 5px;
-     -moz-border-radius: 5px;
-          border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
 }
 
-.tt-dropdown-menu { width: 204px; margin-top: 5px; 
-  border: 1px solid #ccc; background-color: #fff;
-  -webkit-border-radius: 5px;
-     -moz-border-radius: 5px;
-          border-radius: 5px;
+.dropdown-menu li:hover a {
+    cursor: pointer;
+    color: #0097cf;
+    background-color: #ccc;
 }
 
-#selectcourses > #top-group > .twitter-typeahead > .tt-hint { width: 160px; }
+#general, #selectcourses > #top-group > .twitter-typeahead > .tt-hint,  
+#selectcourses > #top-group > .twitter-typeahead > .tt-dropdown-menu {
+    width: 160px;
+}
 
-#selectcourses > #top-group > .twitter-typeahead > .tt-dropdown-menu { width: 160px; }
+.tt-hint {
+    width: 204px;
+    color: #999;
+    padding: 6px 11px;
+    height: 35px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
 
-.tt-suggestion { padding: 6px 10px; }
+.tt-dropdown-menu {
+    margin-top: -8px;
+}
 
-.tt-suggestion.tt-is-under-cursor { color: #0097cf; background-color: #ccc; }
+.tt-suggestion {
+    padding: 6px 10px;
+}
 
-.tt-suggestion p { margin: 0; }
+.tt-suggestion.tt-is-under-cursor {
+    color: #0097cf;
+    background-color: #ccc;
+}
+
+.tt-suggestion p {
+    margin: 0;
+}
+
+/* COURSE DETAILS */
+
+article {
+	position: absolute;
+	top: 180px;
+	left: 25px;
+	color: #555;
+	width: calc(100% - 850px);
+}
+
+#error {
+    color: #bf001c;
+    font-style: italic;
+}
+
+#title {
+    font-weight: 700;
+    font: 2.5em 'Vidaloka', serif;
+}
+
+#link {
+	position: absolute;
+	left: 100px;
+    cursor: pointer;
+    color: #39b3d7;
+    height: 34px;
+    width: 34px;
+    padding: 10px;
+}
+
+#btncs {
+    background-color: #bf001c;
+    border: 1px solid #bf001c;
+    margin-top: 40px;
+}
+
+#btnmath {
+    background-color: #5f00bf;
+    border: 1px solid #5f00bf;
+}
+
+@media screen and (min-width: 960px) and (max-width: 1040px) {
+    #general, #selectcourses > #top-group > .twitter-typeahead > .tt-hint,  
+    #selectcourses > #top-group > .twitter-typeahead > .tt-dropdown-menu {
+        width: 120px;
+    }
+
+    #remove {
+    	left: 150px;
+    }
+
+    #top-group, #btnelectives, #coursenum, .btn-group, .dropdown-toggle, .tt-hint, .tt-dropdown-menu, .dropdown-menu {
+        width: 164px;
+    }
+
+    article {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 0px) and (max-width: 959px) {
+    aside, article {
+        display: none;
+    }
+}

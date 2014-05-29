@@ -2,6 +2,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>CS Courses</title>
+	<link rel="stylesheet" type="text/css" href="css/reset.css" >
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" >
 	<link rel="stylesheet" type="text/css" href="css/style.css" media="screen">	
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -14,10 +15,8 @@
 	</head>
 	<body>
 		<aside>
-			<div id="top-group">
-				<input  class="form-control" type="text" id="coursenum" placeholder="Highlight courses...">
-				<span id="remove"></span>
-			</div>
+			<input  class="form-control" type="text" id="coursenum" placeholder="Highlight courses...">
+			<span id="remove"></span>
 			<button class="btn btn-info" type="button" id="btnelectives">Add Electives</button>
 			<div id="selectcourses"></div>
 			<div id="highlightcourses">
@@ -26,9 +25,12 @@
 			</div>
 		</aside>
 		<div id="holder"></div>
-		<div id="link"><span class="glyphicon glyphicon-link"></span></div>
-		<div id="error"></div>
-		<div id="title"></div>
-		<div id="description"></div>
+
+		<article>
+			<div id="error"></div>
+			<div id="link"><span class="glyphicon glyphicon-link"></span></div>
+			<div id="title"></div>
+			<div id="description"></div>	
+		</article>
 	</body>
 </html>
