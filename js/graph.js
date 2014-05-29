@@ -165,12 +165,12 @@ function Graph(semesters) {
 	}
 
 	function selectCourse(list, hide) {
-		$("#link").hide();
 		if (!hide) {
 			var last = list[list.length - 1];
 			var search = $('#title').html() != last.id;
 			$('#title').html(last.id);
 			if (search) {
+				$("#link").hide();
 				$('#description').html('');
 			}
 		}
@@ -205,12 +205,6 @@ function Graph(semesters) {
 	    	}
 	    	$('#description').html(output);
 	    }
-	    if ($("#selectcourses").is(":visible")){
-			$("#btnelectives")[0].innerHTML = 'Add Electives';
-			$("#selectcourses").hide();
-			$("#highlightcourses").hide();
-			$("article").show();
-		}
 	}
 
 	function unselectCourse() {
@@ -252,6 +246,12 @@ function Graph(semesters) {
         	shape.tooltitle.hide(); 
         	shape.tooltip.hide(); 
         }
+        if ($("#selectcourses").is(":visible")){
+			$("#btnelectives")[0].innerHTML = 'Add Electives';
+			$("#selectcourses").hide();
+			$("#highlightcourses").hide();
+			$("article").show();
+		}
     },
     move = function (dx, dy) {
     	var shape = this;
