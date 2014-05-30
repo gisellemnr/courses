@@ -131,6 +131,11 @@ article {
 }
 
 @media screen and (min-width: 960px) and (max-width: 1040px) {
+    #top-group, #coursenum, #btnelectives, .btn-group, .btn-info, 
+    .dropdown-toggle, .tt-hint, .tt-dropdown-menu, .dropdown-menu {
+        width: 164px;
+    }
+
     #general, #selectcourses > #top-group > .twitter-typeahead > .tt-hint,  
     #selectcourses > #top-group > .twitter-typeahead > .tt-dropdown-menu {
         width: 120px;
@@ -138,11 +143,6 @@ article {
 
     #remove {
     	left: 150px;
-    }
-
-    #top-group, #coursenum, #btnelectives, .btn-group, .btn-info, 
-    .dropdown-toggle, .tt-hint, .tt-dropdown-menu, .dropdown-menu {
-        width: 164px;
     }
 
     article {
