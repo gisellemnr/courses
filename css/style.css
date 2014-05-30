@@ -140,7 +140,8 @@ article {
     	left: 150px;
     }
 
-    #top-group, #btnelectives, #coursenum, .btn-group, .dropdown-toggle, .tt-hint, .tt-dropdown-menu, .dropdown-menu {
+    #top-group, #coursenum, #btnelectives, .btn-group, .btn-info, 
+    .dropdown-toggle, .tt-hint, .tt-dropdown-menu, .dropdown-menu {
         width: 164px;
     }
 
