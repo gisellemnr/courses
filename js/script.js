@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+	tooltip();
 	Tabletop.init({
 		key: "0AhtG6Yl2-hiRdE9KVHEtSkxscnoxTExua3dyNXJZUXc",
 		callback: init
@@ -17,8 +18,6 @@ function course(id, title, units, dependencies, link, description, color, area) 
 }
 
 function init(result) {
-	tooltip();
-
 	var colors 	= {};
 	var areas 	= {};
 	var electives = {};
@@ -57,6 +56,9 @@ function init(result) {
 		addElective(a, areas[a], colors[a]);
 	}
 
+	$('#btncs').css({"background-color":colors['15'], "border": "1px solid" + colors['15']});
+	$('#btnmath').css({"background-color":colors['36'], "border": "1px solid" + colors['36']});
+
 	$('#selectcourses').append('<div id="top-group">\
 		<input class="form-control" type="text" id="general" placeholder="Add other courses...">\
 		<button class="btn btn-info" type="button" id="plus"><span class="glyphicon glyphicon-plus"></span></button>\
@@ -89,7 +91,7 @@ function addElective(name, list, color) {
 		content += '<li><a>'+number+'</a></li>';
 	}
 	content += '</ul></div>';
-	content += '<button class="btn btn-info btn-group" type="button" id="btn'+name+'" style="background-color:'+color+'; border: 1px solid '+color+';">'+name+'</button>';
+	content += '<button class="btn btn-info" type="button" id="btn'+name+'" style="background-color:'+color+'; border: 1px solid '+color+';">'+name+'</button>';
 	$('#selectcourses').append(content);
 	$("#btn"+name).hide();
 	$("#btn"+name).tooltip({placement: 'right', title: 'Highlight ' + name + ' course'});
@@ -103,7 +105,7 @@ function addGeneralCourse(graph, color){
 	var re = /([0-9][0-9]-[0-9][0-9][0-9])/;
 	var match = number.match(re);
 	if (match && match[0] == number) {
-		var g = new course(number, 'Undefined title', 'undefined', [], null, null, color, 'general');
+		var g = new course(number, null, 'undefined', [], null, null, color, 'general');
 		graph.addCourse(g);
 		$('#general').val('');
 		$('#general').typeahead('setQuery', '');

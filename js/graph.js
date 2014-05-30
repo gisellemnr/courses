@@ -23,10 +23,10 @@ function Graph(semesters) {
 			shape.clicked = false;
 		}
 		list.sort(function(a, b){ return a.attrs.cx - b.attrs.cx });
-		var alpha = (800 - (750 * (list.length - 1) / list.length)) / 2;
+		var alpha = (700 - (700 * (list.length - 1) / list.length)) / 2;
 		for (index in list) {
 			if (boolean) {
-				x = 750 / list.length * index + alpha;
+				x = 700 / list.length * index + alpha;
 			}
 			list[index].animate({cx: x, cy: y}, 100);
 			list[index].pair.animate({x: x, y: y}, 100);
@@ -111,7 +111,7 @@ function Graph(semesters) {
 		}
 		var id = course.id;
 		if (cours.indexOf(id) == -1) {
-			course.x = 700;
+			course.x = 710;
 			course.y = 25;
 			var c = new createShape(course);
 			shapes.push(c);
@@ -307,7 +307,7 @@ function Graph(semesters) {
         	}
         }
         r.safari();
-        var inter = Raphael.pathIntersection(getCircletoPath(700, 25, 20), getCircletoPath(shape.attr("cx"), shape.attr("cy"), 20))[0];
+        var inter = Raphael.pathIntersection(getCircletoPath(650, 25, 20), getCircletoPath(shape.attr("cx"), shape.attr("cy"), 20))[0];
         if (inter) {
         	r.getById('del').animate({r: 25}, 200);
         } else {
@@ -342,9 +342,9 @@ function Graph(semesters) {
     	var lineattr = {stroke: "#555", "stroke-dasharray": ". "};
 		var labeattr = {stroke: "none", fill: "#555", transform: "r90", 'font-size': '15px'};
 		
-		var remove = r.circle(700, 25, 20).attr({fill: '#555', "fill-opacity": .3, "stroke-width": 0, opacity: 0});
-		var removelab = r.text(700, 25, 'X').attr({stroke: "none", fill: "#000", opacity: 0}).toFront();
-		var removetxt = r.text(700, 25 + 40, 'Drag here to remove').attr({stroke: "none", fill: "#fff"});
+		var remove = r.circle(650, 25, 20).attr({fill: '#555', "fill-opacity": .3, "stroke-width": 0, opacity: 0});
+		var removelab = r.text(650, 25, 'X').attr({stroke: "none", fill: "#000", opacity: 0}).toFront();
+		var removetxt = r.text(650, 25 + 40, 'Drag here to remove').attr({stroke: "none", fill: "#fff"});
 		var removetoo = r.path(getTooltipPath(removetxt, 'bottom', 1)).attr({fill: '#000'});
 
 		removetxt.hide(); removetoo.hide();
@@ -379,8 +379,14 @@ function Graph(semesters) {
 
     $("#coursenum").keyup(function() { findCourse(); });
     $("#remove").click(function() { $("#remove").hide(); $("#coursenum").val(''); $('#description').html(''); $('#title').html(''); unselectCourse(); $("#link").hide(); $('#coursenum').typeahead('setQuery', ''); });
-	$('#btncs').click(function() { selectColor('#bf001c'); });
-    $('#btnmath').click(function() { selectColor('#5f00bf'); });
+	$('#btncs').click(function() {
+		var color = rgb2hex($(this).css("background-color"));
+		selectColor('#' + color);
+	 });
+    $('#btnmath').click(function() { 
+    	var color = rgb2hex($(this).css("background-color"));
+		selectColor('#' + color); 
+	});
     
 	var r = Raphael("holder", 755, 580),
 		cours = [],
@@ -492,4 +498,14 @@ function getTooltipPath(label, direction, position) {
         		{ x: x + r, y: y, w: w, w4: w / 4, h4: h / 4, left: w / 2 - gap, right: w / 2 - gap, top: h / 2 - gap, bottom: h / 2 - gap, r: r, h: h, gap: gap }, 
 				{ x: x + r, y: y, w: w, w4: w / 4, h4: h / 4, left: 0, right: w - gap * 2, top: 0, bottom: h - gap * 2, r: r, h: h, gap: gap }];
     return fill(shapes[direction], mask[position]);
+}
+
+function rgb2hex(value) {
+	var v = value.slice(4,value.length - 1).split(', ');
+	var r = parseInt(v[0]);
+	var g = parseInt(v[1]);
+	var b = parseInt(v[2]);
+    if (r > 255 || g > 255 || b > 255)
+        throw "Invalid color component";
+    return ((r << 16) | (g << 8) | b).toString(16);
 }
