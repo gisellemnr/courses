@@ -165,6 +165,7 @@ function Graph(semesters) {
 	}
 
 	function selectCourse(list, hide) {
+		$("article").show();
 		if (!hide) {
 			var last = list[list.length - 1];
 			var search = $('#title').html() != last.id;
@@ -205,6 +206,9 @@ function Graph(semesters) {
 	    	}
 	    	$('#description').html(output);
 	    }
+	    $('article').mCustomScrollbar({
+			theme:"rounded-dots-dark"
+		});
 	}
 
 	function unselectCourse() {
@@ -292,11 +296,11 @@ function Graph(semesters) {
     	if (ylimit < 25 && rcon == 0) {
     		dy = 25 - shape.oy;
     	}
-    	if (xlimit > 710) {
-    		dx = 710 - shape.ox;
+    	if (xlimit > 680) {
+    		dx = 680 - shape.ox;
     	}
-    	if (xlimit < 25) {
-    		dx = 25 - shape.ox;
+    	if (xlimit < 20) {
+    		dx = 20 - shape.ox;
     	}
         var att = {cx: shape.ox + dx, cy: shape.oy + dy};
         shape.attr(att);
@@ -353,13 +357,13 @@ function Graph(semesters) {
 		remove.text = removetxt; 
 		remove.tooltip = removetoo;
 
-		r.text(750, 62.5, 'senior').attr(labeattr);
+		r.text(730, 62.5, 'senior').attr(labeattr);
 		r.path('M,0,137.5,L,700,137.5').attr(lineattr);
-		r.text(750, 212.5, 'junior').attr(labeattr);
+		r.text(730, 212.5, 'junior').attr(labeattr);
 		r.path('M,0,287.5,L,700,287.5').attr(lineattr);
-		r.text(750, 362.5, 'sophomore').attr(labeattr);
+		r.text(730, 362.5, 'sophomore').attr(labeattr);
 		r.path('M,0,437.5,L,700,437.5').attr(lineattr);
-		r.text(750, 512.5, 'freshman').attr(labeattr);
+		r.text(730, 512.5, 'freshman').attr(labeattr);
 
 		semesters.forEach(function (semester, i) {
 			semester.forEach(function (child, j) {

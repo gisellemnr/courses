@@ -1,4 +1,13 @@
 document.addEventListener('DOMContentLoaded', function () {
+	window.onresize = function(event) {
+		if ($(window).width() < 1049) {
+			$("article").hide();
+		} else {
+			if (!$("#selectcourses").is(":visible")){
+				$("article").show();
+			}
+		}
+	};
 	tooltip();
 	Tabletop.init({
 		key: "0AhtG6Yl2-hiRdE9KVHEtSkxscnoxTExua3dyNXJZUXc",
@@ -117,7 +126,9 @@ function showElectives(){
 		$("#btnelectives")[0].innerHTML = 'Add Electives';
 		$("#selectcourses").fadeOut();
 		$("#highlightcourses").fadeOut();
-		$("article").fadeIn();
+		if ($(window).width() > 1049) {
+			$("article").fadeIn();
+		}
 	} else {
 		$("#btnelectives")[0].innerHTML = 'Hide Electives';
 		$("#selectcourses").fadeIn();
@@ -128,8 +139,7 @@ function showElectives(){
 
 function tooltip(){
 	$("#remove").hide();
-	$("#link").hide();
-    $("#error").hide();
+	$("article").hide();
     $("#selectcourses").hide();
 	$("#highlightcourses").hide();
 	$("#coursenum").tooltip({placement: 'right', title: 'Example 15-112 15-221'});

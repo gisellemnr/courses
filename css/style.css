@@ -1,35 +1,37 @@
-@import url(http://fonts.googleapis.com/css?family=Lato);
+@import url(http://fonts.googleapis.com/css?family=Open+Sans);
 @import url(http://fonts.googleapis.com/css?family=Vidaloka:300,400,700);
 
 body {
     overflow-x: hidden;
     background: #ecebe9;
-    font-family: 'Lato', sans-serif;
+    font-family: 'Open Sans', sans-serif;
     font-size: 14px;
+    line-height: 25px;
 }
 
 #holder {
 	position: absolute;
     width: 755px;
     top: 10px;
-    right: 30px;
+    right: 10px;
 }
 
 aside {
 	margin: 20px;
-    width: 204px;
+    width: 250px;
     float: left;
 }
 
 #top-group, #coursenum, #btnelectives, .btn-group, .btn-info, #general {
     clear: both;
     float: left;
-    width: 204px;
+    width: 250px;
     height: 35px;
     margin-bottom: 10px;
     display: inline;
     vertical-align: top;
     text-align: left;
+    font-size: 14px;
 }
 
 #plus {
@@ -42,7 +44,7 @@ aside {
     display: block;
     cursor: pointer;
     top: 22px;
-    left: 190px;
+    left: 236px;
     width: 30px;
     height: 30px;
     background: url(../fonts/remove.png) no-repeat center center;
@@ -50,7 +52,7 @@ aside {
 }
 
 .tt-dropdown-menu, .dropdown-menu {
-    width: 204px;
+    width: 250px;
     border: 1px solid #ccc;
     background-color: #fff;
     -webkit-border-radius: 5px;
@@ -66,17 +68,19 @@ aside {
 
 #general, #selectcourses > #top-group > .twitter-typeahead > .tt-hint,  
 #selectcourses > #top-group > .twitter-typeahead > .tt-dropdown-menu {
-    width: 160px;
+    width: 200px;
 }
 
 .tt-hint {
-    width: 204px;
+    width: 250px;
     color: #999;
     padding: 6px 11px;
     height: 35px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
+    font-size: 14px;
+    line-height: 25px;
 }
 
 .tt-dropdown-menu {
@@ -100,37 +104,68 @@ aside {
 
 article {
 	position: absolute;
-	top: 180px;
-	left: 25px;
-	color: #555;
-	width: calc(100% - 850px);
+	top: 110px;
+	left: 20px;
+	width: 400px;
+    height: 480px;
+    padding: 20px;
+    overflow: auto;
+    color: #333;
+    background: #ddd;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    overflow: hidden;
 }
 
-#error {
-    color: #bf001c;
-    font-style: italic;
+hr {
+    border-bottom: 1px solid rgba(255,255,255,0.6);
+    border-top: 1px solid rgba(0,0,0,0.1);
 }
 
 #title {
     font-weight: 700;
-    font: 2.5em 'Vidaloka', serif;
+    font: 40px 'Vidaloka', serif;
+    color: #0097cf;
+    font-style: italic;
 }
 
 #link {
 	position: absolute;
-	left: 100px;
+	left: 110px;
     cursor: pointer;
     color: #39b3d7;
     height: 34px;
     width: 34px;
-    padding: 10px;
+    padding: 15px;
 }
 
 #btncs {
     margin-top: 40px;
 }
 
-@media screen and (min-width: 960px) and (max-width: 1040px) {
+@media screen and (min-width: 1150px) and (max-width: 1200px) { 
+    article {
+        width: 350px;
+    }
+}
+
+@media screen and (min-width: 1100px) and (max-width: 1149px) { 
+    article {
+        width: 300px;
+    }
+}
+
+@media screen and (min-width: 1050px) and (max-width: 1099px) { 
+    article {
+        width: 250px;
+    }
+}
+
+@media screen and (min-width: 960px) and (max-width: 1049px) {
     #top-group, #coursenum, #btnelectives, .btn-group, .btn-info, 
     .dropdown-toggle, .tt-hint, .tt-dropdown-menu, .dropdown-menu {
         width: 164px;
