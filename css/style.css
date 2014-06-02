@@ -37,6 +37,8 @@ aside {
 #plus {
     width: 40px;
     float: right;
+    background: #5bc0de url(../img/plus.png) no-repeat center center;
+    background-size: 15px 15px;
 }
 
 #remove {
@@ -47,7 +49,7 @@ aside {
     left: 236px;
     width: 30px;
     height: 30px;
-    background: url(../fonts/remove.png) no-repeat center center;
+    background: url(../img/remove.png) no-repeat center center;
     background-size: 15px 15px;
 }
 
@@ -119,6 +121,8 @@ article {
     border-radius: 5px;
     margin-bottom: 10px;
     overflow: hidden;
+    width: calc(100% - 850px);
+    min-width: 250px;
 }
 
 hr {
@@ -137,32 +141,14 @@ hr {
 	position: absolute;
 	left: 110px;
     cursor: pointer;
-    color: #39b3d7;
-    height: 34px;
-    width: 34px;
-    padding: 15px;
+    height: 40px;
+    width: 40px;
+    background: url(../img/link.png) no-repeat center center;
+    background-size: 15px 15px;
 }
 
 #btncs {
     margin-top: 40px;
-}
-
-@media screen and (min-width: 1150px) and (max-width: 1200px) { 
-    article {
-        width: 350px;
-    }
-}
-
-@media screen and (min-width: 1100px) and (max-width: 1149px) { 
-    article {
-        width: 300px;
-    }
-}
-
-@media screen and (min-width: 1050px) and (max-width: 1099px) { 
-    article {
-        width: 250px;
-    }
 }
 
 @media screen and (min-width: 960px) and (max-width: 1049px) {

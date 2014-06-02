@@ -70,7 +70,7 @@ function init(result) {
 
 	$('#selectcourses').append('<div id="top-group">\
 		<input class="form-control" type="text" id="general" placeholder="Add other courses...">\
-		<button class="btn btn-info" type="button" id="plus"><span class="glyphicon glyphicon-plus"></span></button>\
+		<button class="btn btn-info" type="button" id="plus"></button>\
 		</div>');
 	
 	$('#general').typeahead({ local: Object.keys(electives).sort() });
