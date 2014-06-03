@@ -1,25 +1,18 @@
-@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
 @import url(http://fonts.googleapis.com/css?family=Vidaloka:300,400,700);
 
-body {
-    overflow-x: hidden;
-    background: #ecebe9;
+body, html {
+    height: 100%;
+    overflow: hidden;
     font-family: 'Open Sans', sans-serif;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 25px;
 }
 
 #holder {
-	position: absolute;
+    float: right;
+    padding: 0 10px;
     width: 755px;
-    top: 10px;
-    right: 10px;
-}
-
-aside {
-	margin: 20px;
-    width: 250px;
-    float: left;
 }
 
 #top-group, #coursenum, #btnelectives, .btn-group, .btn-info, #general {
@@ -31,7 +24,6 @@ aside {
     display: inline;
     vertical-align: top;
     text-align: left;
-    font-size: 14px;
 }
 
 #plus {
@@ -45,8 +37,8 @@ aside {
     position: absolute;
     display: block;
     cursor: pointer;
-    top: 22px;
-    left: 236px;
+    top: 12px;
+    left: 230px;
     width: 30px;
     height: 30px;
     background: url(../img/remove.png) no-repeat center center;
@@ -59,6 +51,8 @@ aside {
     background-color: #fff;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
     border-radius: 5px;
 }
 
@@ -80,6 +74,8 @@ aside {
     height: 35px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
     border-radius: 5px;
     font-size: 14px;
     line-height: 25px;
@@ -105,23 +101,16 @@ aside {
 /* COURSE DETAILS */
 
 article {
-	position: absolute;
-	top: 110px;
-	left: 20px;
-	width: 400px;
-    height: 480px;
-    padding: 20px;
-    overflow: auto;
     color: #333;
     background: #ddd;
+    height: calc(100% - 90px);
+    padding: 20px 15px 20px 20px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     -ms-border-radius: 5px;
     -o-border-radius: 5px;
     border-radius: 5px;
-    margin-bottom: 10px;
     overflow: hidden;
-    width: calc(100% - 850px);
     min-width: 250px;
 }
 
@@ -130,49 +119,37 @@ hr {
     border-top: 1px solid rgba(0,0,0,0.1);
 }
 
-#title {
+#number {
     font-weight: 700;
     font: 40px 'Vidaloka', serif;
     color: #0097cf;
     font-style: italic;
+    width: 120px;
+    float: left;
 }
 
 #link {
-	position: absolute;
-	left: 110px;
     cursor: pointer;
     height: 40px;
     width: 40px;
     background: url(../img/link.png) no-repeat center center;
     background-size: 15px 15px;
+    float: left;
+}
+
+b {
+    font-weight: 700;
+}
+
+#clear {
+    clear: both;
+}
+
+#title {
+    font-weight: 700;
+    font-size: 16px;
 }
 
 #btncs {
     margin-top: 40px;
-}
-
-@media screen and (min-width: 960px) and (max-width: 1049px) {
-    #top-group, #coursenum, #btnelectives, .btn-group, .btn-info, 
-    .dropdown-toggle, .tt-hint, .tt-dropdown-menu, .dropdown-menu {
-        width: 164px;
-    }
-
-    #general, #selectcourses > #top-group > .twitter-typeahead > .tt-hint,  
-    #selectcourses > #top-group > .twitter-typeahead > .tt-dropdown-menu {
-        width: 120px;
-    }
-
-    #remove {
-    	left: 150px;
-    }
-
-    article {
-        display: none;
-    }
-}
-
-@media screen and (min-width: 0px) and (max-width: 959px) {
-    aside, article {
-        display: none;
-    }
 }

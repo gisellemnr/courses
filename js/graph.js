@@ -124,11 +124,7 @@ function Graph(semesters) {
 		var dependencies = course.dependencies;
 		for (var i = dependencies.length; i--;) {
 			if (cours.indexOf(dependencies[i]) == -1 && dependencies[i] != "") {
-				$("#error").html('You must add ' + dependencies[i] + ' first.');
-				$("#error").fadeIn();
-				setTimeout(function () {
-					$("#error").fadeOut()
-				}, 3000);
+				alert('You must add ' + dependencies[i] + ' first.');
 				return;
 			}
 		}
@@ -207,15 +203,6 @@ function Graph(semesters) {
 	}
 
 	function selectCourse(list, hide) {
-		if (!hide) {
-			var last = list[list.length - 1];
-			var search = $('#title').html() != last.id;
-			$('#title').html(last.id);
-			if (search) {
-				$("#link").hide();
-				$('#description').html('');
-			}
-		}
 		for (var i = shapes.length; i--;) {
 			shapes[i].animate({
 				"fill-opacity": .1,
@@ -254,12 +241,15 @@ function Graph(semesters) {
 				}
 			}
 		});
-		if (!hide && search) {
-			var output = '<br>Description unavailable.'
-			if (last.title) {
-				var output = last.title + '<br><br>';
-				output += last.description + '<br><br>';
-				output += 'Units: ' + last.units + '<br><br>';
+		if (!hide) {
+			var last = list[list.length - 1];
+			var isNew = $('#number').html() != last.id;
+			$('#number').html(last.id);
+			if (isNew) {
+				$("#link").hide();
+				$('#title').html(last.title);
+				$('#description').html(last.description);
+				$('#units').html('<b>Units:</b> ' + last.units);
 				if (last.website) {
 					$("#link").show();
 					$('#link').unbind("click").click(function () {
@@ -267,13 +257,10 @@ function Graph(semesters) {
 					});
 				}
 			}
-			$('#description').html(output);
 		}
-		if ($(window).width() > 1049) {
-			$('article').mCustomScrollbar({
-				theme: "rounded-dots-dark"
-			});
-		}
+		$('article').mCustomScrollbar({
+			theme: "rounded-dots-dark"
+		});
 	}
 
 	function unselectCourse() {
@@ -306,9 +293,6 @@ function Graph(semesters) {
 		selectCourse(list, true);
 	}
 	var dragger = function () {
-			if ($(window).width() > 1049) {
-				$('article').show();
-			}
 			var shape = this;
 			if (this.type == 'text') {
 				shape = this.pair;
@@ -333,10 +317,9 @@ function Graph(semesters) {
 			}
 			if ($("#selectcourses").is(":visible")) {
 				$("#btnelectives")[0].innerHTML = 'Add Electives';
-				$("#selectcourses").hide();
-				$("#highlightcourses").hide();
-				$("article").show();
+				$("#buttons").hide();
 			}
+			$("article").show();
 		},
 		move = function (dx, dy) {
 			var shape = this;
@@ -508,12 +491,14 @@ function Graph(semesters) {
 		findCourse();
 	});
 	$("#remove").click(function () {
+		$("#link").hide();
 		$("#remove").hide();
 		$("#coursenum").val('');
-		$('#description').html('');
+		$('#number').html('');
 		$('#title').html('');
+		$('#description').html('');
+		$('#units').html('');
 		unselectCourse();
-		$("#link").hide();
 		$('#coursenum').typeahead('setQuery', '');
 	});
 	$('#btncs').click(function () {
@@ -623,7 +608,7 @@ Raphael.el.tooltip = function (text) {
 		if (shape.clicked) return;
 		var direction = 'right';
 		var position = shape.attr('cx') + 33 + shape.tooltitle.getBBox().width / 2;
-		if (position > 680) {
+		if (position > 650) {
 			direction = 'left';
 			position = shape.attr('cx') - 33 - shape.tooltitle.getBBox().width / 2;
 		}

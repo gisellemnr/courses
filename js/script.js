@@ -1,14 +1,16 @@
 document.addEventListener('DOMContentLoaded', function () {
-	window.onresize = function(event) {
-		if ($(window).width() < 1049) {
-			$("article").hide();
+	tooltip();    
+	$("[data-toggle]").click(function() {
+		var toggle_el = $(this).data("toggle");
+		$(toggle_el).toggleClass("open-sidebar");
+	});
+	$(window).resize(function() {
+		if ($(window).width() < 1050) {
+			$('#coursenum').tooltip('destroy');
 		} else {
-			if (!$("#selectcourses").is(":visible")){
-				$("article").show();
-			}
+			tooltip();
 		}
-	};
-	tooltip();
+	});
 	Tabletop.init({
 		key: "0AhtG6Yl2-hiRdE9KVHEtSkxscnoxTExua3dyNXJZUXc",
 		callback: init
@@ -124,27 +126,26 @@ function addGeneralCourse(graph, color){
 function showElectives(){
 	if ($("#selectcourses").is(":visible")){
 		$("#btnelectives")[0].innerHTML = 'Add Electives';
-		$("#selectcourses").fadeOut();
-		$("#highlightcourses").fadeOut();
-		if ($(window).width() > 1049) {
+		$("#buttons").hide();
+		if ($("#title").html() != '') {
 			$("article").fadeIn();
 		}
 	} else {
 		$("#btnelectives")[0].innerHTML = 'Hide Electives';
-		$("#selectcourses").fadeIn();
-		$("#highlightcourses").fadeIn();
-		$("article").fadeOut();
+		$("article").hide();
+		$("#buttons").fadeIn();
 	}
 }
 
 function tooltip(){
 	$("#remove").hide();
+	$("#buttons").hide();
 	$("article").hide();
-    $("#selectcourses").hide();
-	$("#highlightcourses").hide();
-	$("#coursenum").tooltip({placement: 'right', title: 'Example 15-112 15-221'});
-	$("#link").tooltip({placement: 'right', title: 'View course page'});
-	$("#btncs").tooltip({placement: 'right', title: 'Highlight CS courses'});
-	$("#btnmath").tooltip({placement: 'right', title: 'Highlight Mathematics courses'});
+	if ($(window).width() > 1050) {
+		$("#coursenum").tooltip({placement: 'right', title: 'Example 15-112 15-221 21-127', keyboard: false});
+		$("#link").tooltip({placement: 'right', title: 'View course page'});
+		$("#btncs").tooltip({placement: 'right', title: 'Highlight CS courses'});
+		$("#btnmath").tooltip({placement: 'right', title: 'Highlight Math courses'});
+	}
 	$("#btnelectives").click(showElectives);
 }

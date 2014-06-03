@@ -4,9 +4,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	<link rel="shortcut icon" href="img/scs.gif">
 	<title>CS Courses</title>
-	<link rel="stylesheet" type="text/css" href="css/reset.css" >
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" >
-	<link rel="stylesheet" type="text/css" href="css/style.css" media="screen">	
+	<link rel="stylesheet" type="text/css" href="css/reset.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">	
+	<link rel="stylesheet" type="text/css" href="css/aside.css">
 	<link rel="stylesheet" href="http://malihu.github.io/custom-scrollbar/jquery.mCustomScrollbar.min.css" />
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.1.0/tabletop.min.js"></script>
@@ -15,25 +16,45 @@
 	<script type="text/javascript" src="js/typeahead.js"></script>
 	<script type="text/javascript" src="js/graph.js"></script>
 	<script type="text/javascript" src="js/script.js"></script>
-	<script src="http://malihu.github.io/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+	<script type="text/javascript" src="http://malihu.github.io/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
 	</head>
 	<body>
-		<aside>
-			<input  class="form-control" type="text" id="coursenum" placeholder="Highlight courses...">
-			<span id="remove"></span>
-			<button class="btn btn-info" type="button" id="btnelectives">Add Electives</button>
-			<div id="selectcourses"></div>
-			<div id="highlightcourses">
-				<button class="btn btn-info" type="button" id="btncs">Computer Science</button>
-				<button class="btn btn-info" type="button" id="btnmath">Mathematics</button>
+		<div class="container">
+			<aside>
+				<input  class="form-control" type="text" id="coursenum" placeholder="Highlight courses..."><span id="remove"></span>
+				<button class="btn btn-info" type="button" id="btnelectives">Add Electives</button>
+
+				<div id="buttons">
+					<div id="selectcourses"></div>
+					<button class="btn btn-info" type="button" id="btncs">Computer Science</button>
+					<button class="btn btn-info" type="button" id="btnmath">Mathematics</button>
+				</div>
+
+				<div id="clear"></div>
+				
+				<article>
+					<section>
+						<div id="number"></div>
+						<div id="link"></div>
+					</section>
+					<div id="clear"></div>
+					<hr>
+					<p id="title"></p>
+					<br>
+					<p id="description"></p>
+					<br>
+					<p id="units"></p>
+				</article>
+			</aside>
+			<div class="main-content">
+				<div class="swipe-area"></div>
+				<a data-toggle=".container" id="sidebar-toggle">
+					<span class="bar"></span>
+					<span class="bar"></span>
+					<span class="bar"></span>
+				</a>
+				<div class="content" id="holder"></div>
 			</div>
-		</aside>
-		<div id="holder"></div>
-		<article>
-			<div id="link"></div>
-			<div id="title"></div>
-			<hr>
-			<div id="description"></div>	
-		</article>
+		</div>
 	</body>
 </html>
