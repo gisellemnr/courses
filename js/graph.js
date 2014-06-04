@@ -292,6 +292,7 @@ function Graph(semesters) {
 		}
 		selectCourse(list, true);
 	}
+	
 	var dragger = function () {
 			var shape = this;
 			if (this.type == 'text') {
