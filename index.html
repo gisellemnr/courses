@@ -11,12 +11,13 @@
 	<link rel="stylesheet" href="http://malihu.github.io/custom-scrollbar/jquery.mCustomScrollbar.min.css" />
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.1.0/tabletop.min.js"></script>
-	<script type="text/javascript" src="js/raphael.js"></script>
+	<script type="text/javascript" src="http://malihu.github.io/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+	<script type="text/javascript" src="js/jquery.touchSwipe.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/typeahead.js"></script>
+	<script type="text/javascript" src="js/raphael.js"></script>
 	<script type="text/javascript" src="js/graph.js"></script>
 	<script type="text/javascript" src="js/script.js"></script>
-	<script type="text/javascript" src="http://malihu.github.io/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
 	</head>
 	<body>
 		<div class="container">
@@ -53,7 +54,11 @@
 					<span class="bar"></span>
 					<span class="bar"></span>
 				</a>
-				<div class="content" id="holder"></div>
+				<div class="content">
+					<div id="right"></div>
+					<div id="holder"></div>
+					<div id="left"></div>
+				</div>
 			</div>
 		</div>
 	</body>

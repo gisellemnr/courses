@@ -12,7 +12,20 @@ body, html {
 #holder {
     padding: 0 10px;
     float: right;
-    width: 755px;
+    width: 720px;
+}
+
+#left, #right {
+    float: right;
+    width: 30px;
+}
+
+#left {
+    visibility: hidden;
+}
+
+#right {
+    visibility: visible;
 }
 
 #top-group, #coursenum, #btnelectives, .btn-group, .btn-info, #general {

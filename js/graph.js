@@ -439,6 +439,12 @@ function Graph(semesters) {
 			transform: "r90",
 			'font-size': '15px'
 		};
+		var labeattl = {
+			stroke: "none",
+			fill: "#555",
+			transform: "r270",
+			'font-size': '15px'
+		};
 		var remove = r.circle(650, 25, 20).attr({
 			fill: '#555',
 			"fill-opacity": .3,
@@ -463,13 +469,21 @@ function Graph(semesters) {
 		remove.label = removelab;
 		remove.text = removetxt;
 		remove.tooltip = removetoo;
-		r.text(730, 62.5, 'senior').attr(labeattr);
-		r.path('M,0,137.5,L,700,137.5').attr(lineattr);
-		r.text(730, 212.5, 'junior').attr(labeattr);
+		
+		r.path('M,0,137.5,L,700,137.5').attr(lineattr);		
 		r.path('M,0,287.5,L,700,287.5').attr(lineattr);
-		r.text(730, 362.5, 'sophomore').attr(labeattr);
 		r.path('M,0,437.5,L,700,437.5').attr(lineattr);
-		r.text(730, 512.5, 'freshman').attr(labeattr);
+
+		ri.text(20, 62.5, 'senior').attr(labeattr);
+		ri.text(20, 212.5, 'junior').attr(labeattr);
+		ri.text(20, 362.5, 'sophomore').attr(labeattr);
+		ri.text(20, 512.5, 'freshman').attr(labeattr);
+
+		le.text(10, 62.5, 'senior').attr(labeattl);
+		le.text(10, 212.5, 'junior').attr(labeattl);
+		le.text(10, 362.5, 'sophomore').attr(labeattl);
+		le.text(10, 512.5, 'freshman').attr(labeattl);
+
 		semesters.forEach(function (semester, i) {
 			semester.forEach(function (child, j) {
 				var alpha = (700 - (700 * (semester.length - 1) / semester.length)) / 2;
@@ -509,7 +523,9 @@ function Graph(semesters) {
 		var color = rgb2hex($(this).css("background-color"));
 		selectColor('#' + color);
 	});
-	var r = Raphael("holder", 755, 580),
+	var r = Raphael("holder", 720, 580),
+		ri = Raphael("right", 30, 580),
+		le = Raphael("left",  30, 580),
 		cours = [],
 		shapes = [],
 		labels = [],

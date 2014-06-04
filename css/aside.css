@@ -19,7 +19,7 @@
 
 aside {
     position: absolute;
-    background: #f3f3f3;
+    background: #fff;
     height: 100%;
     box-sizing: border-box;
     padding: 10px;
@@ -27,6 +27,11 @@ aside {
     width: calc(100% - 780px);
     min-width: 270px;
     max-width: 450px;
+}
+
+.content {
+    float: right;
+    margin-left: 0px;
 }
 
 .main-content {
@@ -74,16 +79,32 @@ aside {
 }
 
 @media screen and (min-width: 0px) and (max-width: 1050px) {
-    #holder {
-        padding-left: 40px;
+    .content {
         float: left;
+        margin-left: 30px;
     }
+
+    #holder {
+        width: 50px;
+    }
+
+    #right {
+        visibility: hidden;
+    }
+    
+    #left {
+        visibility: visible;
+    }
+
     aside {
         left: -270px;
+        background: #f3f3f3;
     }
+
     .container.open-sidebar {
         left: 270px;
     }
+
     .main-content #sidebar-toggle {
         display: block;
     }
