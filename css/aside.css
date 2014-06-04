@@ -74,6 +74,10 @@ aside {
 }
 
 @media screen and (min-width: 0px) and (max-width: 1050px) {
+    #holder {
+        padding-left: 40px;
+        float: left;
+    }
     aside {
         left: -270px;
     }

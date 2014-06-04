@@ -10,8 +10,8 @@ body, html {
 }
 
 #holder {
-    float: right;
     padding: 0 10px;
+    float: right;
     width: 755px;
 }
 
