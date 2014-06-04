@@ -505,13 +505,7 @@ function Graph(semesters) {
 		findCourse();
 	});
 	$("#remove").click(function () {
-		$("#link").hide();
 		$("#remove").hide();
-		$("#coursenum").val('');
-		$('#number').html('');
-		$('#title').html('');
-		$('#description').html('');
-		$('#units').html('');
 		unselectCourse();
 		$('#coursenum').typeahead('setQuery', '');
 	});
