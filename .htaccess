@@ -1,4 +1,7 @@
-AuthType WebISO
-
-Order deny,allow
+AuthName "CMU Only"
+Authtype WebISO
 Require valid-user
+PubCookieInactiveExpire 400
+PubCookieHardExpire 3700
+PubCookieAppID www.qatar
+
