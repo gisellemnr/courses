@@ -71,12 +71,8 @@ function init(result) {
 	result.courses.elements.forEach(function (row) {
 		if (!row.number) return;
 		if (row.visible == "TRUE") {
-			var color = colors[row.number.slice(0, 2)];
-			if (!color) {
-				color = colors['Other'];
-			}
-			var c = new course(row.number, row.title, row.units, row.dependencies.split(','), row.link, row.description, color, 'core');
-			semesters[parseInt(row.semester)].push(c);
+			var c = new course(row.number, row.title, row.units, row.dependencies.split(','), row.link, row.description, colors[row.area], 'core');
+			semesters[parseInt(row.semester) - 1].push(c);
 		} else {
 			var e = new course(row.number, row.title, row.units, row.dependencies.split(','), row.link, row.description, colors[row.area], row.area);
 			electives[row.number] = e;
