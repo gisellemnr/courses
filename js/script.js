@@ -1,8 +1,19 @@
+$.tzGET = function(action, data, callback) {
+	$.get('/course-planner/php/data.php?action='+action,data,callback,'json');
+}
+
 document.addEventListener('DOMContentLoaded', function () {
+	$.tzGET('getUser', {}, function(r) {
+		console.log(r);
+	})
 	tooltip();
 	$("[data-toggle]").click(function () {
 		var toggle_el = $(this).data("toggle");
 		$(toggle_el).toggleClass("open-sidebar");
+	});
+	$("#logout").click(function () {
+		$.tzGET('delUser');
+		window.location.replace("https://cs.qatar.cmu.edu/course-planner/");
 	});
 	$(".swipe-area").swipe({
 		swipeStatus: function (event, phase, direction, distance, duration, fingers) {
@@ -57,28 +68,24 @@ function init(result) {
 	result.colors.elements.forEach(function (row) {
 		colors[row.area] = row.color;
 	});
-	result.core.elements.forEach(function (row) {
+	result.courses.elements.forEach(function (row) {
 		if (!row.number) return;
-		var color = colors[row.number.slice(0, 2)];
-		if (!color) {
-			color = colors['Other'];
-		}
-		var c = new course(row.number, row.title, row.units, row.dependencies.split(','), row.link, row.description, color, 'core');
-		semesters[parseInt(row.semester)].push(c);
-	});
-	result.electives.elements.forEach(function (row) {
-		if (!row.number) return;
-		var e = new course(row.number, row.title, row.units, row.dependencies.split(','), row.link, row.description, colors[row.area], row.area);
-		electives[row.number] = e;
-		if (row.area in areas) {
-			areas[row.area].push(row.number);
+		if (row.area == 'Core') {
+			var color = colors[row.number.slice(0, 2)];
+			if (!color) {
+				color = colors['Other'];
+			}
+			var c = new course(row.number, row.title, row.units, row.dependencies.split(','), row.link, row.description, color, 'core');
+			semesters[parseInt(row.semester)].push(c);
 		} else {
-			areas[row.area] = [row.number];
+			var e = new course(row.number, row.title, row.units, row.dependencies.split(','), row.link, row.description, colors[row.area], row.area);
+			electives[row.number] = e;
+			if (row.area in areas) {
+				areas[row.area].push(row.number);
+			} else {
+				areas[row.area] = [row.number];
+			}
 		}
-	});
-	result.general.elements.forEach(function (row) {
-		if (!row.number) return;
-		electives[row.number] = null;
 	});
 	var graph = new Graph(semesters);
 	for (a in areas) {
