@@ -70,7 +70,7 @@ function init(result) {
 	});
 	result.courses.elements.forEach(function (row) {
 		if (!row.number) return;
-		if (row.area == 'Core') {
+		if (row.visible == "TRUE") {
 			var color = colors[row.number.slice(0, 2)];
 			if (!color) {
 				color = colors['Other'];
