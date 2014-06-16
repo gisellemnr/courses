@@ -66,20 +66,20 @@ function init(result) {
 		[]
 	];
 	result.colors.elements.forEach(function (row) {
-		colors[row.area] = row.color;
+		colors[row.category] = row.color;
 	});
 	result.courses.elements.forEach(function (row) {
 		if (!row.number) return;
 		if (row.visible == "TRUE") {
-			var c = new course(row.number, row.title, row.units, row.dependencies.split(','), row.link, row.description, colors[row.area], 'core');
+			var c = new course(row.number, row.title, row.units, row.dependencies.split(','), row.URL, row.description, colors[row.category], 'core');
 			semesters[parseInt(row.semester) - 1].push(c);
 		} else {
-			var e = new course(row.number, row.title, row.units, row.dependencies.split(','), row.link, row.description, colors[row.area], row.area);
+			var e = new course(row.number, row.title, row.units, row.dependencies.split(','), row.URL, row.description, colors[row.category], row.category);
 			electives[row.number] = e;
-			if (row.area in areas) {
-				areas[row.area].push(row.number);
+			if (row.category in areas) {
+				areas[row.category].push(row.number);
 			} else {
-				areas[row.area] = [row.number];
+				areas[row.category] = [row.number];
 			}
 		}
 	});
@@ -88,12 +88,12 @@ function init(result) {
 		addElective(a, areas[a], colors[a]);
 	}
 	$('#btncs').css({
-		"background-color": colors['15'],
-		"border": "1px solid" + colors['15']
+		"background-color": colors['Core'],
+		"border": "1px solid" + colors['Core']
 	});
 	$('#btnmath').css({
-		"background-color": colors['36'],
-		"border": "1px solid" + colors['36']
+		"background-color": colors['Math'],
+		"border": "1px solid" + colors['Math']
 	});
 	$('#selectcourses').append('<div id="top-group">\
 		<input class="form-control" type="text" id="general" placeholder="Add other courses...">\

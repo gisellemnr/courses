@@ -619,7 +619,7 @@ Raphael.el.tooltip = function (text) {
 		if (shape.clicked) return;
 		var direction = 'right';
 		var position = shape.attr('cx') + 33 + shape.tooltitle.getBBox().width / 2;
-		if (position > 650) {
+		if (position > 590) {
 			direction = 'left';
 			position = shape.attr('cx') - 33 - shape.tooltitle.getBBox().width / 2;
 		}
