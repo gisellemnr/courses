@@ -6,7 +6,13 @@ document.addEventListener('DOMContentLoaded', function () {
 	$.tzGET('getUser', {}, function(r) {
 		console.log(r);
 	})
-	tooltip();
+	$("#remove").hide();
+	$("#buttons").hide();
+	$("article").hide();
+	if ($(window).width() > 1050) {
+		addTooltip();
+	}
+	$("#btnelectives").click(showElectives);
 	$("[data-toggle]").click(function () {
 		var toggle_el = $(this).data("toggle");
 		$(toggle_el).toggleClass("open-sidebar");
@@ -29,9 +35,9 @@ document.addEventListener('DOMContentLoaded', function () {
 	});
 	$(window).resize(function () {
 		if ($(window).width() < 1050) {
-			$('#coursenum').tooltip('destroy');
+			destroyTooltip();
 		} else {
-			tooltip();
+			addTooltip();
 		}
 	});
 	Tabletop.init({
@@ -170,28 +176,29 @@ function showElectives() {
 	}
 }
 
-function tooltip() {
-	$("#remove").hide();
-	$("#buttons").hide();
-	$("article").hide();
-	if ($(window).width() > 1050) {
-		$("#coursenum").tooltip({
-			placement: 'right',
-			title: 'Example 15-112 15-221 21-127',
-			keyboard: false
-		});
-		$("#link").tooltip({
-			placement: 'right',
-			title: 'View course page'
-		});
-		$("#btncs").tooltip({
-			placement: 'right',
-			title: 'Highlight CS courses'
-		});
-		$("#btnmath").tooltip({
-			placement: 'right',
-			title: 'Highlight Math courses'
-		});
-	}
-	$("#btnelectives").click(showElectives);
+function destroyTooltip(){
+	$('#coursenum').tooltip('destroy');
+	$('#link').tooltip('destroy');
+	$('#btncs').tooltip('destroy');
+	$('#btnmath').tooltip('destroy');
+}
+
+function addTooltip(){
+	$("#coursenum").tooltip({
+		placement: 'right',
+		title: 'Example 15-112 15-221 21-127',
+		keyboard: false
+	});
+	$("#link").tooltip({
+		placement: 'right',
+		title: 'View course page'
+	});
+	$("#btncs").tooltip({
+		placement: 'right',
+		title: 'Highlight CS courses'
+	});
+	$("#btnmath").tooltip({
+		placement: 'right',
+		title: 'Highlight Math courses'
+	});
 }
