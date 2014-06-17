@@ -75,7 +75,7 @@ function init(result) {
 		colors[row.category] = row.color;
 	});
 	result.courses.elements.forEach(function (row) {
-		if (!row.number) return;
+		if (row.number.length < 2) return;
 		if (row.visible == "TRUE") {
 			var c = new course(row.number, row.title, row.units, row.dependencies.split(','), row.URL, row.description, colors[row.category], 'core');
 			semesters[parseInt(row.semester) - 1].push(c);
