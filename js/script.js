@@ -5,7 +5,7 @@ $.tzGET = function(action, data, callback) {
 document.addEventListener('DOMContentLoaded', function () {
 	$.tzGET('getUser', {}, function(r) {
 		console.log(r);
-	})
+	});
 	$("#remove").hide();
 	$("#buttons").hide();
 	$("article").hide();
@@ -18,8 +18,8 @@ document.addEventListener('DOMContentLoaded', function () {
 		$(toggle_el).toggleClass("open-sidebar");
 	});
 	$("#logout").click(function () {
-		$.tzGET('delUser');
-		window.location.replace("https://cs.qatar.cmu.edu/course-planner/");
+		document.cookie = "pubcookie_s_www.qatar=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+		window.location.href = "https://qatar.webiso.andrew.cmu.edu/logout.cgi";
 	});
 	$(".swipe-area").swipe({
 		swipeStatus: function (event, phase, direction, distance, duration, fingers) {
@@ -122,6 +122,13 @@ function init(result) {
 	});
 }
 
+var tools = {
+	"Algorithms": 	"Add an Algorithm and Complexity constrained elective",
+	"Applications": "Add an Applications constrained elective",
+	"Logics": 		"Add a Logics and Languages constrained elective",
+	"Systems": 		"Add a Software Systems constrained elective"
+}
+
 function addElective(name, list, color) {
 	var content = '<div class="btn-group" id="' + name + '">\
 			<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" style="background-color:' + color + '; border: 1px solid ' + color + ';"><span class="caret"></span>&nbsp;&nbsp;' + name + '</button>\
@@ -138,15 +145,9 @@ function addElective(name, list, color) {
 		placement: 'right',
 		title: 'Highlight ' + name + ' course'
 	});
-	var label = 'Add ';
-	if (name[0] == 'A') {
-		label += 'an ' + name + ' course'
-	} else {
-		label += 'a ' + name + ' course'
-	}
 	$("#" + name).tooltip({
 		placement: 'right',
-		title: label
+		title: tools[name]
 	});
 }
 
