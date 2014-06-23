@@ -4,3 +4,7 @@ Require valid-user
 PubCookieInactiveExpire 400
 PubCookieHardExpire 3700
 PubCookieAppID www.qatar
+
+<Files "logout">
+	PubcookieEndSession clearLogin
+</Files>

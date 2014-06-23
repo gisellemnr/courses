@@ -1,11 +1,27 @@
-$.tzGET = function(action, data, callback) {
-	$.get('/course-planner/php/data.php?action='+action,data,callback,'json');
+$.dbGET = function(action, data, callback) {
+	$.get('/course-planner/data.php?action='+action,data,callback,'json');
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-	$.tzGET('getUser', {}, function(r) {
-		console.log(r);
+	
+	console.log('***************************************************');
+	
+	$.dbGET('addUser', {}, function(r) {
+		console.log('Add User');
+		$.dbGET('getUsers', {}, function(r) {
+			console.log('Get Users');
+			console.log(r);
+		});
 	});
+
+	$.dbGET('setUser', {json: 'TEST'}, function(r) {
+		console.log('Set User');
+		$.dbGET('getUser', {}, function(r) {
+			console.log('Get User');
+			console.log(r);
+		});
+	});
+
 	$("#remove").hide();
 	$("#buttons").hide();
 	$("article").hide();
@@ -16,10 +32,6 @@ document.addEventListener('DOMContentLoaded', function () {
 	$("[data-toggle]").click(function () {
 		var toggle_el = $(this).data("toggle");
 		$(toggle_el).toggleClass("open-sidebar");
-	});
-	$("#logout").click(function () {
-		document.cookie = "pubcookie_s_www.qatar=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
-		window.location.href = "https://qatar.webiso.andrew.cmu.edu/logout.cgi";
 	});
 	$(".swipe-area").swipe({
 		swipeStatus: function (event, phase, direction, distance, duration, fingers) {
