@@ -8,19 +8,20 @@ document.addEventListener('DOMContentLoaded', function () {
 	
 	$.dbGET('addUser', {}, function(r) {
 		console.log('Add User');
+		console.log(r);
 		$.dbGET('getUsers', {}, function(r) {
 			console.log('Get Users');
 			console.log(r);
 		});
 	});
 
-	$.dbGET('setUser', {json: 'TEST'}, function(r) {
-		console.log('Set User');
-		$.dbGET('getUser', {}, function(r) {
-			console.log('Get User');
-			console.log(r);
-		});
-	});
+	// $.dbGET('setUser', {json: 'TEST'}, function(r) {
+	// 	console.log('Set User');
+	// 	$.dbGET('getUser', {}, function(r) {
+	// 		console.log('Get User');
+	// 		console.log(r);
+	// 	});
+	// });
 
 	$("#remove").hide();
 	$("#buttons").hide();
