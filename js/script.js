@@ -1,28 +1,11 @@
-$.dbGET = function(action, data, callback) {
-	$.get('/course-planner/data.php?action='+action,data,callback,'json');
-}
-
 document.addEventListener('DOMContentLoaded', function () {
-	
-	console.log('***************************************************');
-	
-	$.dbGET('addUser', {}, function(r) {
-		console.log('Add User');
-		console.log(r);
-		$.dbGET('getUsers', {}, function(r) {
-			console.log('Get Users');
-			console.log(r);
-		});
+	$("#logout div").click(function () {
+		if (this.innerHTML != "LOGIN") {
+			window.location.href = 'logout';
+		} else {
+			location.reload();
+		}
 	});
-
-	// $.dbGET('setUser', {json: 'TEST'}, function(r) {
-	// 	console.log('Set User');
-	// 	$.dbGET('getUser', {}, function(r) {
-	// 		console.log('Get User');
-	// 		console.log(r);
-	// 	});
-	// });
-
 	$("#remove").hide();
 	$("#buttons").hide();
 	$("article").hide();
@@ -102,7 +85,37 @@ function init(result) {
 			}
 		}
 	});
+
 	var graph = new Graph(semesters);
+
+	// USER DATA
+	$.dbGET('getUser', {}, function(r) {
+		$('#logout div').html("LOGOUT");
+		console.log(r);
+		if (r.length == 0) {
+			console.log("Adding user...");
+			$.dbGET('addUser');
+			return;
+		}
+		console.log("Getting content...");
+		var content = JSON.parse(r[0].json);
+		for (c in content){
+			// adding non-core courses
+			if (content[c].area != 'core'){
+				if (c in electives) {
+					graph.addCourse(electives[c]);
+				} else {
+					var g = new course(c, null, 'undefined', [], null, null, colors['General'], 'general');
+					graph.addCourse(g);
+				}
+			}
+			// updating position
+			if (content[c].cx) {
+				graph.repositionCourse(c, content[c].cx, content[c].cy);
+			}
+		}
+	});
+
 	for (a in areas) {
 		addElective(a, areas[a], colors[a]);
 	}
@@ -132,6 +145,7 @@ function init(result) {
 	$("li > a").click(function () {
 		var c = $(this)[0].text;
 		graph.addCourse(electives[c]);
+		$.dbGET('setUser', { json: JSON.stringify(graph.getContent()) });
 	});
 }
 
@@ -171,6 +185,7 @@ function addGeneralCourse(graph, color) {
 	if (match && match[0] == number) {
 		var g = new course(number, null, 'undefined', [], null, null, color, 'general');
 		graph.addCourse(g);
+		$.dbGET('setUser', { json: JSON.stringify(graph.getContent()) });
 		$('#general').val('');
 		$('#general').typeahead('setQuery', '');
 	}

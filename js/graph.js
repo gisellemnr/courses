@@ -1,19 +1,32 @@
+$.dbGET = function(action, data, callback) {
+	$.get('/course-planner/data.php?action='+action,data,callback,'json');
+}
+
 function Graph(semesters) {
-	function reposition(shape, y, boolean) { // if boolean is true all elements on the same row will reposition
+	var graph = this;
+
+	// y is the cy value of the semester
+	// shape is the shape newly moved that must be repositioned
+	function reposition(y, shape) { 
 		var list = [];
-		var x = shape.attr('cx');
+		var x = 0;
+		if (shape){
+			x = shape.attrs.cx;
+		}
 		for (s in shapes) {
-			if (shapes[s] != shape && shapes[s].attrs.cy == y) {
-				if (boolean) {
-					list.push(shapes[s]);
-				} else {
-					if (Math.abs(x - shapes[s].attrs.cx) < shape.attr('r') * 2) {
+			if (shapes[s].attrs.cy == y && shape != shapes[s]){
+				if (shape){
+					// to make sure that two shapes do not collide
+					if (Math.abs(x - shapes[s].attrs.cx) < shape.attrs.r * 2) {
 						if (x < shapes[s].attrs.cx) {
-							x = shapes[s].attrs.cx - shape.attr('r') * 2 - 2;
+							x = shapes[s].attrs.cx - shape.attrs.r * 2 - 2;
 						} else {
-							x = shapes[s].attrs.cx + shape.attr('r') * 2 + 2;
+							x = shapes[s].attrs.cx + shape.attrs.r * 2 + 2;
 						}
 					}
+				} else {
+					// to reposition the entire row of shapes
+					list.push(shapes[s]);
 				}
 			}
 		}
@@ -26,48 +39,34 @@ function Graph(semesters) {
 		});
 		var alpha = (700 - (700 * (list.length - 1) / list.length)) / 2;
 		for (index in list) {
-			if (boolean) {
-				x = 700 / list.length * index + alpha;
-			}
-			list[index].animate({
-				cx: x,
-				cy: y
-			}, 100);
-			list[index].pair.animate({
-				x: x,
-				y: y
-			}, 100);
-			for (var i = connections.length; i--;) {
-				if (connections[i].from.id == list[index].id || connections[i].to.id == list[index].id) {
-					var x1 = x,
-						y1 = y;
-					var x2 = connections[i].to.attr("cx"),
-						y2 = connections[i].to.attr("cy");
-					if (connections[i].to.id == list[index].id) {
-						var x1 = connections[i].from.attr("cx"),
-							y1 = connections[i].from.attr("cy");
-						var x2 = x,
-							y2 = y;
-					}
-					var p = ["M", x1, y1, "L", x2, y2].join(",");
-					var p1 = Raphael.pathIntersection(getCircletoPath(x1, y1, 20), p)[0];
-					var p2 = Raphael.pathIntersection(getCircletoPath(x2, y2, 20), p)[0];
-					var c = 6;
-					var path = ["M", p1.x, p1.y, "C", p2.x - (p2.x - p1.x) / c, p1.y + (p2.y - p1.y) / c, p1.x + (p2.x - p1.x) / c, p2.y - (p2.y - p1.y) / c, p2.x, p2.y].join(",");
-					var arr = r.arrow(p1.x + (p2.x - p1.x) / c, p2.y - (p2.y - p1.y) / c, p2.x, p2.y, 4);
-					var line = connections[i];
-					line.bg && line.bg.animate({
-						path: path
-					}, 100);
-					line.line.animate({
-						path: path
-					}, 100);
-					line.arrow.remove();
-					line.arrow = r.path(arr.path).attr({
-						stroke: line.line.attrs.stroke,
-						fill: line.line.attrs.stroke
-					}).rotate((90 + arr.angle), p2.x, p2.y);
+			if (shape) {
+				list[index].animate({
+					cx: x,
+					cy: y
+				}, 100);
+				list[index].pair.animate({
+					x: x,
+					y: y
+				}, 100);
+				for (var i = connections.length; i--;) {
+					r.reconnect(connections[i], list[index], x, y);
 				}
+			} else {
+				x = 700 / list.length * index + alpha;
+				list[index].attr({
+					cx: x,
+					cy: y
+				});
+				list[index].pair.attr({
+					x: x,
+					y: y
+				});
+				for (var i = connections.length; i--;) {
+					if (connections[i].from.id == list[index].id || connections[i].to.id == list[index].id) {
+						r.connect(connections[i]);
+					}
+				}
+				r.safari();
 			}
 		}
 	}
@@ -100,7 +99,7 @@ function Graph(semesters) {
 		label.drag(move, dragger, up);
 		$.each(course.dependencies, function (j, c) {
 			if (c) {
-				connections.push(r.connection(r.getById(shape.id), r.getById(c)));
+				connections.push(r.connect(r.getById(shape.id), r.getById(c)));
 			}
 		});
 		if (!course.title) {
@@ -120,6 +119,25 @@ function Graph(semesters) {
 		shape.pair = label;
 		return shape;
 	}
+
+	this.repositionCourse = function (course, x, y) {
+		var shape = r.getById(course);
+		shape.attr({
+			cx: x,
+			cy: y
+		});
+		shape.pair.attr({
+			x: x,
+			y: y
+		});
+		for (var i = connections.length; i--;) {
+			if (connections[i].from.id == shape.id || connections[i].to.id == shape.id) {
+				r.connect(connections[i]);
+			}
+		}
+		r.safari();
+	}
+
 	this.addCourse = function (course) {
 		var dependencies = course.dependencies;
 		for (var i = dependencies.length; i--;) {
@@ -146,12 +164,25 @@ function Graph(semesters) {
 			shapes.push(c);
 			labels.push(c.pair);
 			cours.push(c.id);
-			reposition(c, 25, true);
+			reposition(25);
 			$('#coursenum').typeahead('destroy');
 			$('#coursenum').typeahead({
 				local: cours.sort()
 			});
 		}
+	}
+
+	this.getContent = function () {
+		console.log("CONTENT");
+		result = {};
+		for (var i = shapes.length; i--;) {
+			result[shapes[i].id] = {
+				area: shapes[i].area,
+				cx: shapes[i].attrs.cx,
+				cy: shapes[i].attrs.cy
+			}
+		}
+		return result;
 	}
 
 	function removeCourse(course) {
@@ -299,8 +330,8 @@ function Graph(semesters) {
 				shape = this.pair;
 			}
 			selectCourse([shape]);
-			shape.ox = shape.attr("cx");
-			shape.oy = shape.attr("cy");
+			shape.ox = shape.attrs.cx;
+			shape.oy = shape.attrs.cy;
 			if (shape.area != 'core') {
 				r.getById('del').animate({
 					opacity: 1
@@ -333,16 +364,16 @@ function Graph(semesters) {
 			var lcon = 1000;
 			for (var i = connections.length; i--;) {
 				if (connections[i].to.id == shape.id) {
-					if (ylimit - connections[i].from.attr("cy") < 75) {
-						if (connections[i].from.attr("cy") > rcon) {
-							rcon = connections[i].from.attr("cy");
+					if (ylimit - connections[i].from.attrs.cy < 75) {
+						if (connections[i].from.attrs.cy > rcon) {
+							rcon = connections[i].from.attrs.cy;
 						}
 					}
 				}
 				if (connections[i].from.id == shape.id) {
-					if (connections[i].to.attr("cy") - ylimit < 75) {
-						if (connections[i].to.attr("cy") < lcon) {
-							lcon = connections[i].to.attr("cy");
+					if (connections[i].to.attrs.cy - ylimit < 75) {
+						if (connections[i].to.attrs.cy < lcon) {
+							lcon = connections[i].to.attrs.cy;
 						}
 					}
 				}
@@ -371,16 +402,16 @@ function Graph(semesters) {
 			};
 			shape.attr(att);
 			shape.pair.attr({
-				x: shape.attr("cx"),
-				y: shape.attr("cy")
+				x: shape.attrs.cx,
+				y: shape.attrs.cy
 			});
 			for (var i = connections.length; i--;) {
 				if (connections[i].from.id == shape.id || connections[i].to.id == shape.id) {
-					r.connection(connections[i]);
+					r.connect(connections[i]);
 				}
 			}
 			r.safari();
-			var inter = Raphael.pathIntersection(getCircletoPath(650, 25, 20), getCircletoPath(shape.attr("cx"), shape.attr("cy"), 20))[0];
+			var inter = Raphael.pathIntersection(getCircletoPath(650, 25, 20), getCircletoPath(shape.attrs.cx, shape.attrs.cy, 20))[0];
 			if (inter) {
 				r.getById('del').animate({
 					r: 25
@@ -406,27 +437,28 @@ function Graph(semesters) {
 			r.getById('del').text.hide();
 			if (r.getById('del').attr('r') == 25 && shape.area != 'core') {
 				removeCourse(shape);
-			} else if (shape.attr("cy") <= 62.5) {
-				reposition(shape, 25);
-			} else if (shape.attr("cy") <= 137.5) {
-				reposition(shape, 100);
-			} else if (shape.attr("cy") <= 212.5) {
-				reposition(shape, 175);
-			} else if (shape.attr("cy") <= 287.5) {
-				reposition(shape, 250);
-			} else if (shape.attr("cy") <= 362.5) {
-				reposition(shape, 325);
-			} else if (shape.attr("cy") <= 437.5) {
-				reposition(shape, 400);
-			} else if (shape.attr("cy") <= 512.5) {
-				reposition(shape, 475);
+			} else if (shape.attrs.cy <= 62.5) {
+				reposition(25, shape);
+			} else if (shape.attrs.cy <= 137.5) {
+				reposition(100, shape);
+			} else if (shape.attrs.cy <= 212.5) {
+				reposition(175, shape);
+			} else if (shape.attrs.cy <= 287.5) {
+				reposition(250, shape);
+			} else if (shape.attrs.cy <= 362.5) {
+				reposition(325, shape);
+			} else if (shape.attrs.cy <= 437.5) {
+				reposition(400, shape);
+			} else if (shape.attrs.cy <= 512.5) {
+				reposition(475, shape);
 			} else {
-				reposition(shape, 550);
+				reposition(550, shape);
 			}
 			r.getById('del').animate({
 				r: 20
 			});
 			unselectCourse();
+			$.dbGET('setUser', { json: JSON.stringify(graph.getContent()) });
 		}
 
 	function initGraph(semesters) {
@@ -486,11 +518,9 @@ function Graph(semesters) {
 		le.text(10, 512.5, 'freshman').attr(labeattl);
 
 		semesters.forEach(function (semester, i) {
+			var y = ((7 - i) * 75) + 25;
 			semester.forEach(function (child, j) {
-				var alpha = (700 - (700 * (semester.length - 1) / semester.length)) / 2;
-				var x = 700 / semester.length * j + alpha;
-				var y = ((7 - i) * 75) + 25;
-				child.x = x;
+				child.x = 700;
 				child.y = y;
 				var shape = new createShape(child);
 				shapes.push(shape);
@@ -498,10 +528,18 @@ function Graph(semesters) {
 				cours.push(shape.id);
 			});
 		});
+
+		// to reposition courses evenly
+		for (var i = 8; i--;) {
+			var y = ((7 - i) * 75) + 25;
+			reposition(y);
+		}
+
 		$('#coursenum').typeahead({
 			local: cours.sort()
 		});
 	}
+
 	$("#coursenum").keyup(function () {
 		findCourse();
 	});
@@ -526,8 +564,9 @@ function Graph(semesters) {
 		labels = [],
 		connections = [];
 	initGraph(semesters);
-};
-Raphael.fn.connection = function (obj1, obj2, line) {
+}
+
+Raphael.fn.connect = function (obj1, obj2, line) {
 	if (obj1.line && obj1.from && obj1.to) {
 		line = obj1;
 		obj1 = line.from;
@@ -572,26 +611,47 @@ Raphael.fn.connection = function (obj1, obj2, line) {
 	}
 }
 
-function getCourseDescription(number, callback) {
-	var url = "http://cs-dev1.qatar.cmu.local/api/course/";
-	$.get(url, {
-		number: number
-	}, callback, "json");
+Raphael.fn.reconnect = function (line, object, x, y) {
+	var from = line.from.id == object.id;
+	var to = line.to.id == object.id;
+	if (from || to) {
+		if (from) {
+			var x1 = x,
+				y1 = y,
+				x2 = line.to.attrs.cx,
+				y2 = line.to.attrs.cy;
+		} else {
+			var x1 = line.from.attrs.cx,
+				y1 = line.from.attrs.cy,
+				x2 = x,
+				y2 = y;
+		}
+		var p = ["M", x1, y1, "L", x2, y2].join(",");
+		var p1 = Raphael.pathIntersection(getCircletoPath(x1, y1, 20), p)[0];
+		var p2 = Raphael.pathIntersection(getCircletoPath(x2, y2, 20), p)[0];
+		var c = 6;
+		var path = ["M", p1.x, p1.y, "C", p2.x - (p2.x - p1.x) / c, p1.y + (p2.y - p1.y) / c, p1.x + (p2.x - p1.x) / c, p2.y - (p2.y - p1.y) / c, p2.x, p2.y].join(",");
+		var arr = this.arrow(p1.x + (p2.x - p1.x) / c, p2.y - (p2.y - p1.y) / c, p2.x, p2.y, 4);
+		line.bg && line.bg.animate({
+			path: path
+		}, 100);
+		line.line.animate({
+			path: path
+		}, 100);
+		line.arrow.remove();
+		line.arrow = this.path(arr.path).attr({
+			stroke: line.line.attrs.stroke,
+			fill: line.line.attrs.stroke
+		}).rotate((90 + arr.angle), p2.x, p2.y);
+	}
 }
 
-function getCourseInformation(number, callback) {
-	var appID = 'ba7e7d9f-686a-4408-b9b5-49d40718a5bc';
-	var appKey = '19mSVSVhKyROHlpQ_nMOXIC-OzS5ACP9ItbP0R6FaLjma-UdUaiTFxU6';
-	var baseURL = 'https://apis.scottylabs.org/v1/schedule/S14/';
-	$.get(baseURL + 'courses/' + number + '?app_id=' + appID + '&app_secret_key=' + appKey,
-		callback, "json").fail(function () {
-		alert("Error");
-	})
-}
+
 
 function getCircletoPath(x, y, r) {
 	return ["M", x, (y - r), "A", r, r, 0, 1, 1, (x - 0.1), (y - r), "z"].join(",");
 }
+
 Raphael.fn.arrow = function (x1, y1, x2, y2, size) {
 	var angle = Math.atan2(x1 - x2, y2 - y1);
 	angle = (angle / (2 * Math.PI)) * 360;
@@ -601,6 +661,7 @@ Raphael.fn.arrow = function (x1, y1, x2, y2, size) {
 		angle: angle
 	};
 }
+
 Raphael.el.tooltip = function (text) {
 	var shape = this;
 	if (this.type == 'text') {
@@ -725,4 +786,14 @@ function rgb2hex(value) {
 	if (r > 255 || g > 255 || b > 255)
 		throw "Invalid color component";
 	return ((r << 16) | (g << 8) | b).toString(16);
+}
+
+function getCourseInformation(number, callback) {
+	var appID = 'ba7e7d9f-686a-4408-b9b5-49d40718a5bc';
+	var appKey = '19mSVSVhKyROHlpQ_nMOXIC-OzS5ACP9ItbP0R6FaLjma-UdUaiTFxU6';
+	var baseURL = 'https://apis.scottylabs.org/v1/schedule/S14/';
+	$.get(baseURL + 'courses/' + number + '?app_id=' + appID + '&app_secret_key=' + appKey,
+		callback, "json").fail(function () {
+		alert("Error");
+	})
 }
