@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	$.dbGET('getUsername', {}, function(r) {
 		if (r) {
 			$('#logout div').html("LOGOUT " + r.toUpperCase());
+			$('a#logout').css('width', '200px');
 		}
 	});
 
@@ -13,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	});
 });
 
-function course(id, title, units, dependencies, link, description, color, area) {
+function course(id, title, units, dependencies, link, description, color, area, faded) {
 	this.id = id;
 	this.title = title;
 	this.units = units;
@@ -22,6 +23,7 @@ function course(id, title, units, dependencies, link, description, color, area) 
 	this.description = description;
 	this.color = color;
 	this.area = area;
+	this.faded = faded;
 }
 
 function init(result) {
@@ -45,10 +47,10 @@ function init(result) {
 	result.courses.elements.forEach(function (row) {
 		if (row.number.length < 2) return;
 		if (row.visible == "TRUE") {
-			var c = new course(row.number, row.title, row.units, row.dependencies.split(','), row.URL, row.description, colors[row.category], 'core');
+			var c = new course(row.number, row.title, row.units, row.dependencies.split(','), row.URL, row.description, colors[row.category], 'core', row.faded == "TRUE" ? true : false);
 			semesters[parseInt(row.semester) - 1].push(c);
 		} else {
-			var e = new course(row.number, row.title, row.units, row.dependencies.split(','), row.URL, row.description, colors[row.category], row.category);
+			var e = new course(row.number, row.title, row.units, row.dependencies.split(','), row.URL, row.description, colors[row.category], row.category, row.faded == "TRUE" ? true : false);
 			electives[row.number] = e;
 			if (row.category in areas) {
 				areas[row.category].push(row.number);

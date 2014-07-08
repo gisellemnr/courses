@@ -101,7 +101,8 @@ function Graph(semesters) {
 			stroke: shape.color,
 			"fill-opacity": .7,
 			"stroke-width": 2,
-			cursor: "move"
+			cursor: "move",
+			opacity: course.faded? 0.5 : 1
 		}).toFront();
 		label.attr({
 			stroke: "none",
@@ -348,7 +349,7 @@ function Graph(semesters) {
 				shape.tooltitle.hide();
 				shape.tooltip.hide();
 			}
-			if ($("#selectcourses").is(":visible")) {
+			if ($("#select").is(":visible")) {
 				$("#btnelectives")[0].innerHTML = 'Add Electives';
 				$("#buttons").hide();
 			}
