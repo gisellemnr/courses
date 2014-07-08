@@ -1,41 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
-	$("#logout div").click(function () {
-		if (this.innerHTML != "LOGIN") {
-			window.location.href = 'logout';
-		} else {
-			location.reload();
+	setUp();
+
+	$.dbGET('getUsername', {}, function(r) {
+		if (r) {
+			$('#logout div').html("LOGOUT " + r.toUpperCase());
 		}
 	});
-	$("#remove").hide();
-	$("#buttons").hide();
-	$("article").hide();
-	if ($(window).width() > 1050) {
-		addTooltip();
-	}
-	$("#btnelectives").click(showElectives);
-	$("[data-toggle]").click(function () {
-		var toggle_el = $(this).data("toggle");
-		$(toggle_el).toggleClass("open-sidebar");
-	});
-	$(".swipe-area").swipe({
-		swipeStatus: function (event, phase, direction, distance, duration, fingers) {
-			if (phase == "move" && direction == "right") {
-				$(".container").addClass("open-sidebar");
-				return false;
-			}
-			if (phase == "move" && direction == "left") {
-				$(".container").removeClass("open-sidebar");
-				return false;
-			}
-		}
-	});
-	$(window).resize(function () {
-		if ($(window).width() < 1050) {
-			destroyTooltip();
-		} else {
-			addTooltip();
-		}
-	});
+
 	Tabletop.init({
 		key: "0AhtG6Yl2-hiRdE9KVHEtSkxscnoxTExua3dyNXJZUXc",
 		callback: init
@@ -69,6 +40,7 @@ function init(result) {
 	];
 	result.colors.elements.forEach(function (row) {
 		colors[row.category] = row.color;
+		addColorBtn(row.category, row.color);
 	});
 	result.courses.elements.forEach(function (row) {
 		if (row.number.length < 2) return;
@@ -90,14 +62,10 @@ function init(result) {
 
 	// USER DATA
 	$.dbGET('getUser', {}, function(r) {
-		$('#logout div').html("LOGOUT");
-		console.log(r);
 		if (r.length == 0) {
-			console.log("Adding user...");
 			$.dbGET('addUser');
 			return;
 		}
-		console.log("Getting content...");
 		var content = JSON.parse(r[0].json);
 		for (c in content){
 			// adding non-core courses
@@ -119,18 +87,7 @@ function init(result) {
 	for (a in areas) {
 		addElective(a, areas[a], colors[a]);
 	}
-	$('#btncs').css({
-		"background-color": colors['Core'],
-		"border": "1px solid" + colors['Core']
-	});
-	$('#btnmath').css({
-		"background-color": colors['Math'],
-		"border": "1px solid" + colors['Math']
-	});
-	$('#selectcourses').append('<div id="top-group">\
-		<input class="form-control" type="text" id="general" placeholder="Add other courses...">\
-		<button class="btn btn-info" type="button" id="plus"></button>\
-		</div>');
+
 	$('#general').typeahead({
 		local: Object.keys(electives).sort()
 	});
@@ -147,6 +104,11 @@ function init(result) {
 		graph.addCourse(electives[c]);
 		$.dbGET('setUser', { json: JSON.stringify(graph.getContent()) });
 	});
+	if ($(window).width() > 1050) {
+		addTooltip();
+	} else {
+		destroyTooltip();
+	}
 }
 
 var tools = {
@@ -157,25 +119,20 @@ var tools = {
 }
 
 function addElective(name, list, color) {
-	var content = '<div class="btn-group" id="' + name + '">\
-			<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" style="background-color:' + color + '; border: 1px solid ' + color + ';"><span class="caret"></span>&nbsp;&nbsp;' + name + '</button>\
-			<ul class="dropdown-menu">';
+	var content = '<div class="btn-group" id="' + name + '" title="' + tools[name] + '">\
+			<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" style="background-color:' + color + '; border: 1px solid ' + color + ';">\
+			<span class="caret"></span>&nbsp;&nbsp;' + name + '</button><ul class="dropdown-menu">';
 	for (i in list) {
 		var number = list[i].slice(0, 6);
 		content += '<li><a>' + number + '</a></li>';
 	}
 	content += '</ul></div>';
-	content += '<button class="btn btn-info" type="button" id="btn' + name + '" style="background-color:' + color + '; border: 1px solid ' + color + ';">' + name + '</button>';
-	$('#selectcourses').append(content);
-	$("#btn" + name).hide();
-	$("#btn" + name).tooltip({
-		placement: 'right',
-		title: 'Highlight ' + name + ' course'
-	});
-	$("#" + name).tooltip({
-		placement: 'right',
-		title: tools[name]
-	});
+	$('#select').append(content);
+}
+
+function addColorBtn(name, color){
+	var content = '<button class="btn color" type="button" id="btn' + name + '" style="background-color:' + color + ';" title="Highlight ' + name + ' courses"></button>';
+	$('#highlight').append(content);
 }
 
 function addGeneralCourse(graph, color) {
@@ -192,7 +149,7 @@ function addGeneralCourse(graph, color) {
 }
 
 function showElectives() {
-	if ($("#selectcourses").is(":visible")) {
+	if ($("#select").is(":visible")) {
 		$("#btnelectives")[0].innerHTML = 'Add Electives';
 		$("#buttons").hide();
 		if ($("#title").html() != '') {
@@ -205,29 +162,57 @@ function showElectives() {
 	}
 }
 
-function destroyTooltip(){
-	$('#coursenum').tooltip('destroy');
-	$('#link').tooltip('destroy');
-	$('#btncs').tooltip('destroy');
-	$('#btnmath').tooltip('destroy');
+function setUp(){
+	$("#logout div").click(function () {
+		if (this.innerHTML != "LOGIN") {
+			window.location.href = 'logout';
+		} else {
+			location.reload();
+		}
+	});
+	$("#remove").hide();
+	$("#buttons").hide();
+	$("article").hide();
+	$("#btnelectives").click(showElectives);
+	$("[data-toggle]").click(function () {
+		var toggle_el = $(this).data("toggle");
+		$(toggle_el).toggleClass("open-sidebar");
+	});
+	$(".swipe-area").swipe({
+		swipeStatus: function (event, phase, direction, distance, duration, fingers) {
+			if (phase == "move" && direction == "right") {
+				$(".container").addClass("open-sidebar");
+				return false;
+			}
+			if (phase == "move" && direction == "left") {
+				$(".container").removeClass("open-sidebar");
+				return false;
+			}
+		}
+	});
+	$(window).resize(function () {
+		if ($(window).width() < 1050) {
+			destroyTooltip();
+		} else {
+			addTooltip();
+		}
+	});
 }
 
 function addTooltip(){
-	$("#coursenum").tooltip({
-		placement: 'right',
-		title: 'Example 15-112 15-221 21-127',
-		keyboard: false
-	});
-	$("#link").tooltip({
-		placement: 'right',
-		title: 'View course page'
-	});
-	$("#btncs").tooltip({
-		placement: 'right',
-		title: 'Highlight CS courses'
-	});
-	$("#btnmath").tooltip({
-		placement: 'right',
-		title: 'Highlight Math courses'
-	});
+	$("#coursenum").tooltip({ placement: 'right', keyboard: false });
+	$("#link").tooltip({placement: 'right'});
+	$(".color").tooltip({placement: 'right'});
+	$("#select .btn-group").tooltip({placement: 'right'});
+	if ($("#logout div")[0].innerHTML == "LOGIN") {
+		$("#logout").tooltip({placement: 'right'});
+	}
+}
+
+function destroyTooltip(){
+	$("#coursenum").tooltip('destroy');
+	$("#logout").tooltip('destroy');
+	$("#link").tooltip('destroy');
+	$(".color").tooltip('destroy');
+	$("#select .btn-group").tooltip('destroy');
 }

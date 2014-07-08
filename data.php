@@ -40,6 +40,9 @@
 				$db->close();
 				unset($db);
 			break;
+			case 'getUsername':
+				$response = $user;
+			break;
 			default: throw new Exception('Wrong action');
 		}
 		echo json_encode($response);

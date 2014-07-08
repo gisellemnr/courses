@@ -7,7 +7,8 @@ function Graph(semesters) {
 
 	// y is the cy value of the semester
 	// shape is the shape newly moved that must be repositioned
-	function reposition(y, shape) { 
+	// effect if true, allows courses to slide
+	function reposition(y, shape, effect) { 
 		var list = [];
 		var x = 0;
 		if (shape){
@@ -16,7 +17,7 @@ function Graph(semesters) {
 		for (s in shapes) {
 			if (shapes[s].attrs.cy == y && shape != shapes[s]){
 				if (shape){
-					// to make sure that two shapes do not collide
+					// to prevent shapes from overlapping
 					if (Math.abs(x - shapes[s].attrs.cx) < shape.attrs.r * 2) {
 						if (x < shapes[s].attrs.cx) {
 							x = shapes[s].attrs.cx - shape.attrs.r * 2 - 2;
@@ -53,20 +54,32 @@ function Graph(semesters) {
 				}
 			} else {
 				x = 700 / list.length * index + alpha;
-				list[index].attr({
-					cx: x,
-					cy: y
-				});
-				list[index].pair.attr({
-					x: x,
-					y: y
-				});
+				if (effect) {
+					list[index].animate({
+						cx: x,
+						cy: y
+					}, 100);
+					list[index].pair.animate({
+						x: x,
+						y: y
+					}, 100);
+				} else {
+					list[index].attr({
+						cx: x,
+						cy: y
+					});
+					list[index].pair.attr({
+						x: x,
+						y: y
+					});
+				}
 				for (var i = connections.length; i--;) {
-					if (connections[i].from.id == list[index].id || connections[i].to.id == list[index].id) {
+					if (effect) {
+						r.reconnect(connections[i], list[index], x, y);
+					} else if (connections[i].from.id == list[index].id || connections[i].to.id == list[index].id) {
 						r.connect(connections[i]);
 					}
 				}
-				r.safari();
 			}
 		}
 	}
@@ -135,7 +148,6 @@ function Graph(semesters) {
 				r.connect(connections[i]);
 			}
 		}
-		r.safari();
 	}
 
 	this.addCourse = function (course) {
@@ -146,16 +158,6 @@ function Graph(semesters) {
 				return;
 			}
 		}
-		if (course.area != 'general') {
-			$("#btn" + course.area).click(function () {
-				selectColor(course.color);
-			});
-			$('#' + course.area).hide();
-			$('#btn' + course.area).show();
-			$('#btn' + course.area).animate({
-				opacity: .5
-			}, 200);
-		}
 		var id = course.id;
 		if (cours.indexOf(id) == -1) {
 			course.x = 710;
@@ -164,7 +166,7 @@ function Graph(semesters) {
 			shapes.push(c);
 			labels.push(c.pair);
 			cours.push(c.id);
-			reposition(25);
+			reposition(25, null, true);
 			$('#coursenum').typeahead('destroy');
 			$('#coursenum').typeahead({
 				local: cours.sort()
@@ -173,7 +175,6 @@ function Graph(semesters) {
 	}
 
 	this.getContent = function () {
-		console.log("CONTENT");
 		result = {};
 		for (var i = shapes.length; i--;) {
 			result[shapes[i].id] = {
@@ -317,7 +318,7 @@ function Graph(semesters) {
 	function selectColor(color) {
 		var list = [];
 		for (var i = shapes.length; i--;) {
-			if (shapes[i].color == color) {
+			if (hex2rgb(shapes[i].color).toString() == color) {
 				list.push(shapes[i]);
 			}
 		}
@@ -548,13 +549,13 @@ function Graph(semesters) {
 		unselectCourse();
 		$('#coursenum').typeahead('setQuery', '');
 	});
-	$('#btncs').click(function () {
-		var color = rgb2hex($(this).css("background-color"));
-		selectColor('#' + color);
+	$(".color").click(function () {
+		selectColor($(this).css("background-color"));
 	});
-	$('#btnmath').click(function () {
-		var color = rgb2hex($(this).css("background-color"));
-		selectColor('#' + color);
+	$("body").click(function (e) {
+		if (e.target.className == "" || e.target.className == "main-content") {
+			unselectCourse();
+		}
 	});
 	var r = Raphael("holder", 720, 580),
 		ri = Raphael("right", 30, 580),
@@ -778,14 +779,20 @@ function getTooltipPath(label, direction, position) {
 	return fill(shapes[direction], mask[position]);
 }
 
-function rgb2hex(value) {
-	var v = value.slice(4, value.length - 1).split(', ');
-	var r = parseInt(v[0]);
-	var g = parseInt(v[1]);
-	var b = parseInt(v[2]);
-	if (r > 255 || g > 255 || b > 255)
-		throw "Invalid color component";
-	return ((r << 16) | (g << 8) | b).toString(16);
+function hex2rgb(hex) {
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})|([a-f\d]{1})([a-f\d]{1})([a-f\d]{1})$/i.exec(hex);
+  return result ? {        
+    r: parseInt(hex.length <= 4 ? result[4]+result[4] : result[1], 16),
+    g: parseInt(hex.length <= 4 ? result[5]+result[5] : result[2], 16),
+    b: parseInt(hex.length <= 4 ? result[6]+result[6] : result[3], 16),
+    toString: function() {
+      var arr = [];
+      arr.push(this.r);
+      arr.push(this.g);
+      arr.push(this.b);
+      return "rgb(" + arr.join(", ") + ")";
+    }
+  } : null;
 }
 
 function getCourseInformation(number, callback) {

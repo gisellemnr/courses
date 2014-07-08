@@ -23,15 +23,18 @@
 	<body>
 		<div class="container">
 			<aside>
-				<a id="logout"><div>LOGIN</div></a>
+				<a id="logout" title="Login with your AndrewID to save/retrieve your course plan"><div>LOGIN</div></a>
 				<div id="clear"></div>
-				<input  class="form-control" type="text" id="coursenum" placeholder="Highlight courses..."><span id="remove"></span>
+				<input  class="form-control" type="text" id="coursenum" placeholder="Highlight courses..." title="Example 15-112 15-221 21-127"><span id="remove"></span>
 				<button class="btn btn-info" type="button" id="btnelectives">Add Electives</button>
 
 				<div id="buttons">
-					<div id="selectcourses"></div>
-					<button class="btn btn-info" type="button" id="btncs">Computer Science</button>
-					<button class="btn btn-info" type="button" id="btnmath">Mathematics</button>
+					<div id="select"></div>
+					<div id="add">
+						<input class="form-control" type="text" id="general" placeholder="Add other courses...">
+						<button class="btn btn-info" type="button" id="plus"></button>
+					</div>
+					<div id="highlight"></div>
 				</div>
 
 				<div id="clear"></div>
@@ -39,7 +42,7 @@
 				<article>
 					<section>
 						<div id="number"></div>
-						<div id="link"></div>
+						<div id="link" title="View course page"></div>
 					</section>
 					<div id="clear"></div>
 					<hr>
