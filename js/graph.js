@@ -352,7 +352,7 @@ function Graph(semesters) {
 			selectCourse([shape]);
 			shape.ox = shape.attrs.cx;
 			shape.oy = shape.attrs.cy;
-			if (shape.area != 'core') {
+			if (shape.area != 'core' && shape.area != 'placeholder') {
 				r.getById('del').animate({
 					opacity: 1
 				}, 100);
