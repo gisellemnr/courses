@@ -347,6 +347,8 @@ function Graph(semesters) {
 			if (this.type == 'text') {
 				shape = this.pair;
 			}
+			shape.toFront();
+			shape.pair.toFront();
 			selectCourse([shape]);
 			shape.ox = shape.attrs.cx;
 			shape.oy = shape.attrs.cy;
