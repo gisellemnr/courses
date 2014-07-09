@@ -4,6 +4,7 @@ $.dbGET = function(action, data, callback) {
 
 function Graph(semesters) {
 	var graph = this;
+	var hidden = false;
 
 	// y is the cy value of the semester
 	// shape is the shape newly moved that must be repositioned
@@ -102,7 +103,7 @@ function Graph(semesters) {
 			"fill-opacity": .7,
 			"stroke-width": 2,
 			cursor: "move",
-			opacity: course.faded? 0.5 : 1
+			opacity: shape.area == "placeholder"? 0.5 : 1
 		}).toFront();
 		label.attr({
 			stroke: "none",
@@ -325,7 +326,22 @@ function Graph(semesters) {
 		}
 		selectCourse(list, true);
 	}
-	
+
+	function showHidePlaceholders() {
+		for (var i = shapes.length; i--;) {
+			if (shapes[i].area == "placeholder") {
+				if (hidden) {
+					shapes[i].show();
+					shapes[i].pair.show();
+				} else {
+					shapes[i].hide();
+					shapes[i].pair.hide();
+				}
+			}
+		}
+		hidden = !hidden;
+	}
+
 	var dragger = function () {
 			var shape = this;
 			if (this.type == 'text') {
@@ -349,11 +365,6 @@ function Graph(semesters) {
 				shape.tooltitle.hide();
 				shape.tooltip.hide();
 			}
-			if ($("#select").is(":visible")) {
-				$("#btnelectives")[0].innerHTML = 'Add Electives';
-				$("#buttons").hide();
-			}
-			$("article").show();
 		},
 		move = function (dx, dy) {
 			var shape = this;
@@ -435,8 +446,8 @@ function Graph(semesters) {
 			r.getById('del').label.animate({
 				opacity: 0
 			}, 100);
-			r.getById('del').tooltip.hide();
 			r.getById('del').text.hide();
+			r.getById('del').tooltip.hide();
 			if (r.getById('del').attr('r') == 25 && shape.area != 'core') {
 				removeCourse(shape);
 			} else if (shape.attrs.cy <= 62.5) {
@@ -553,6 +564,7 @@ function Graph(semesters) {
 	$(".color").click(function () {
 		selectColor($(this).css("background-color"));
 	});
+	$("#more").click(showHidePlaceholders);
 	$("body").click(function (e) {
 		if (e.target.className == "" || e.target.className == "main-content") {
 			unselectCourse();
@@ -566,6 +578,7 @@ function Graph(semesters) {
 		labels = [],
 		connections = [];
 	initGraph(semesters);
+	
 }
 
 Raphael.fn.connect = function (obj1, obj2, line) {

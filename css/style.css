@@ -17,6 +17,10 @@ a:hover {
     text-decoration: none;
 }
 
+b {
+    font-weight: 700;
+}
+
 #holder {
     padding: 0 10px;
     float: right;
@@ -36,7 +40,7 @@ a:hover {
     visibility: visible;
 }
 
-#add, #highlight, #coursenum, #btnelectives, .btn-group, .btn-info, #general {
+.btn-group, .btn-info, #add, #colors, #coursenum, #general {
     clear: both;
     float: left;
     width: 250px;
@@ -52,31 +56,25 @@ a#logout {
     display: block;
 }
 
+#colors {
+    margin-top: 10px;
+}
+
 .color {
-    width: 31px;
-    height: 31px;
-    position: relative;
-    border: none;
-    border-radius: 50%;
-}
-
-#plus {
-    width: 40px;
-    float: right;
-    background: #5bc0de url(../img/plus.png) no-repeat center center;
-    background-size: 15px 15px;
-}
-
-#remove {
-    position: absolute;
-    display: block;
-    cursor: pointer;
-    top: 36px;
-    left: 230px;
     width: 30px;
     height: 30px;
-    background: url(../img/remove.png) no-repeat center center;
-    background-size: 15px 15px;
+    clear: both;
+    float: left;
+    border-radius: 50%;
+    margin: 0 5px 5px 0;
+}
+
+label {
+    clear: right;
+    height: 30px;
+    width: 85%;
+    font-size: 10px;
+    line-height: 30px;
 }
 
 .tt-dropdown-menu, .dropdown-menu {
@@ -98,7 +96,7 @@ a#logout {
 
 #general, #add > .twitter-typeahead > .tt-hint,  
 #add > .twitter-typeahead > .tt-dropdown-menu {
-    width: 200px;
+    width: 206px;
 }
 
 .tt-hint {
@@ -132,12 +130,9 @@ a#logout {
     margin: 0;
 }
 
-/* COURSE DETAILS */
-
 article {
     color: #333;
     background: #ddd;
-    /*height: calc(100% - 90px);*/
     height: calc(100% - 120px);
     padding: 20px 15px 20px 20px;
     -webkit-border-radius: 5px;
@@ -156,32 +151,84 @@ hr {
 
 #number {
     font-weight: 700;
-    font: 35px 'Vidaloka', serif;
+    font: 30px 'Vidaloka', serif;
     color: #0097cf;
     font-style: italic;
     width: 120px;
     float: left;
 }
 
-#link {
-    cursor: pointer;
-    height: 40px;
-    width: 40px;
-    background: url(../img/link.png) no-repeat center center;
-    background-size: 15px 15px;
-    float: left;
-}
-
-b {
+#title {
     font-weight: 700;
+    font-size: 18px;
 }
 
 #clear {
     clear: both;
 }
 
-#title {
-    font-weight: 700;
-    font-size: 16px;
+/*ICONS*/
+
+.icon {
+    cursor: pointer;
+    opacity: .8;
+    width: 35px;
+    height: 35px;
+    float: left;
+    clear: none;
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 15px 15px;
+    -webkit-transition: background-color 0.4s;
+    -moz-transition: background-color 0.4s;
+    -ms-transition: background-color 0.4s;
+    -o-transition: background-color 0.4s;
+    transition: background-color 0.4s;
 }
 
+.icon.menu {
+    background-color: #fff;
+}
+
+.icon:hover, .menu.checked {
+    background-color: #5bc0de;
+}
+
+#settings {
+    background-image: url(../img/settings.png);
+}
+
+#details {
+    background-image: url(../img/details.png);
+}
+
+#more {
+    background-image: url(../img/more.png);
+}
+
+#color {
+    background-image: url(../img/color.png);
+}
+
+#settings, #details, #color, #more {
+    margin-right: 5px;
+}
+
+#link {
+    background-image: url(../img/link.png);
+}
+
+#plus {
+    float: right;
+    background-image: url(../img/plus.png);
+    background-color: #5bc0de;
+}
+
+#remove {
+    position: absolute;
+    display: block;
+    top: 36px;
+    left: 225px;
+    background-image: url(../img/remove.png);
+}

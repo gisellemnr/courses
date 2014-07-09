@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	});
 });
 
-function course(id, title, units, dependencies, link, description, color, area, faded) {
+function course(id, title, units, dependencies, link, description, color, area) {
 	this.id = id;
 	this.title = title;
 	this.units = units;
@@ -23,7 +23,6 @@ function course(id, title, units, dependencies, link, description, color, area, 
 	this.description = description;
 	this.color = color;
 	this.area = area;
-	this.faded = faded;
 }
 
 function init(result) {
@@ -42,15 +41,15 @@ function init(result) {
 	];
 	result.colors.elements.forEach(function (row) {
 		colors[row.category] = row.color;
-		addColorBtn(row.category, row.color);
+		addColorBtn(row.category, row.legend, row.color);
 	});
 	result.courses.elements.forEach(function (row) {
 		if (row.number.length < 2) return;
 		if (row.visible == "TRUE") {
-			var c = new course(row.number, row.title, row.units, row.dependencies.split(','), row.URL, row.description, colors[row.category], 'core', row.faded == "TRUE" ? true : false);
+			var c = new course(row.number, row.title, row.units, row.dependencies.split(','), row.URL, row.description, colors[row.category], 'core');
 			semesters[parseInt(row.semester) - 1].push(c);
 		} else {
-			var e = new course(row.number, row.title, row.units, row.dependencies.split(','), row.URL, row.description, colors[row.category], row.category, row.faded == "TRUE" ? true : false);
+			var e = new course(row.number, row.title, row.units, row.dependencies.split(','), row.URL, row.description, colors[row.category], row.category);
 			electives[row.number] = e;
 			if (row.category in areas) {
 				areas[row.category].push(row.number);
@@ -58,6 +57,10 @@ function init(result) {
 				areas[row.category] = [row.number];
 			}
 		}
+	});
+	result.placeholders.elements.forEach(function (row) {
+		var c = new course(row.number, row.title, null, [], row.URL, row.description, colors[row.category], 'placeholder');
+		semesters[parseInt(row.semester) - 1].push(c);
 	});
 
 	var graph = new Graph(semesters);
@@ -132,9 +135,10 @@ function addElective(name, list, color) {
 	$('#select').append(content);
 }
 
-function addColorBtn(name, color){
+function addColorBtn(name, label, color){
 	var content = '<button class="btn color" type="button" id="btn' + name + '" style="background-color:' + color + ';" title="Highlight ' + name + ' courses"></button>';
-	$('#highlight').append(content);
+	content += '<label>' + label + '</label>';
+	$('#colors').append(content);
 }
 
 function addGeneralCourse(graph, color) {
@@ -150,20 +154,6 @@ function addGeneralCourse(graph, color) {
 	}
 }
 
-function showElectives() {
-	if ($("#select").is(":visible")) {
-		$("#btnelectives")[0].innerHTML = 'Add Electives';
-		$("#buttons").hide();
-		if ($("#title").html() != '') {
-			$("article").fadeIn();
-		}
-	} else {
-		$("#btnelectives")[0].innerHTML = 'Hide Electives';
-		$("article").hide();
-		$("#buttons").fadeIn();
-	}
-}
-
 function setUp(){
 	$("#logout div").click(function () {
 		if (this.innerHTML != "LOGIN") {
@@ -173,9 +163,9 @@ function setUp(){
 		}
 	});
 	$("#remove").hide();
-	$("#buttons").hide();
-	$("article").hide();
-	$("#btnelectives").click(showElectives);
+	$("#link").hide();
+	$(".target").hide();
+	$(".menu").click(showHideMenus);
 	$("[data-toggle]").click(function () {
 		var toggle_el = $(this).data("toggle");
 		$(toggle_el).toggleClass("open-sidebar");
@@ -205,6 +195,8 @@ function addTooltip(){
 	$("#coursenum").tooltip({ placement: 'right', keyboard: false });
 	$("#link").tooltip({placement: 'right'});
 	$(".color").tooltip({placement: 'right'});
+	$(".menu").tooltip({placement: 'right'});
+	$("#more").tooltip({placement: 'right'});
 	$("#select .btn-group").tooltip({placement: 'right'});
 	if ($("#logout div")[0].innerHTML == "LOGIN") {
 		$("#logout").tooltip({placement: 'right'});
@@ -215,6 +207,20 @@ function destroyTooltip(){
 	$("#coursenum").tooltip('destroy');
 	$("#logout").tooltip('destroy');
 	$("#link").tooltip('destroy');
+	$("#more").tooltip('destroy');
 	$(".color").tooltip('destroy');
+	$(".menu").tooltip('destroy');
 	$("#select .btn-group").tooltip('destroy');
+}
+
+function showHideMenus(){
+	$(".menu").removeClass('checked');
+	if ($(this.name).is(":visible")) {
+		$(".target").hide();
+		$(this).removeClass('checked');
+	} else {
+		$(".target").hide();
+		$(this).addClass('checked');
+		$(this.name).fadeIn();
+	}
 }
