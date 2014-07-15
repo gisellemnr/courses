@@ -9,7 +9,7 @@ function Graph(semesters) {
 	// y is the cy value of the semester
 	// shape is the shape newly moved that must be repositioned
 	// effect if true, allows courses to slide
-	function reposition(y, shape, effect) { 
+	function position(y, shape, effect) { 
 		var list = [];
 		var x = 0;
 		if (shape){
@@ -27,7 +27,7 @@ function Graph(semesters) {
 						}
 					}
 				} else {
-					// to reposition the entire row of shapes
+					// to position the entire row of shapes
 					list.push(shapes[s]);
 				}
 			}
@@ -100,10 +100,9 @@ function Graph(semesters) {
 		shape.attr({
 			fill: shape.color,
 			stroke: shape.color,
-			"fill-opacity": .7,
 			"stroke-width": 2,
 			cursor: "move",
-			opacity: shape.area == "placeholder"? 0.5 : 1
+			"fill-opacity": shape.area == "placeholder"? 0.5 : 0.7
 		}).toFront();
 		label.attr({
 			stroke: "none",
@@ -135,7 +134,7 @@ function Graph(semesters) {
 		return shape;
 	}
 
-	this.repositionCourse = function (course, x, y) {
+	this.reposition = function (course, x, y) {
 		var shape = r.getById(course);
 		shape.attr({
 			cx: x,
@@ -150,9 +149,10 @@ function Graph(semesters) {
 				r.connect(connections[i]);
 			}
 		}
+		r.safari();
 	}
 
-	this.addCourse = function (course) {
+	this.addCourse = function (course, init) {
 		var dependencies = course.dependencies;
 		for (var i = dependencies.length; i--;) {
 			if (cours.indexOf(dependencies[i]) == -1 && dependencies[i] != "") {
@@ -168,7 +168,11 @@ function Graph(semesters) {
 			shapes.push(c);
 			labels.push(c.pair);
 			cours.push(c.id);
-			reposition(25, null, true);
+			if (init) {
+				position(25, null, false);
+			} else {
+				position(25, null, true);
+			}
 			$('#coursenum').typeahead('destroy');
 			$('#coursenum').typeahead({
 				local: cours.sort()
@@ -195,13 +199,6 @@ function Graph(semesters) {
 				connections[i].arrow.remove();
 				connections.splice(i, 1);
 			}
-		}
-		if (course.area != 'general') {
-			$('#btn' + course.area).animate({
-				opacity: 1
-			});
-			$('#btn' + course.area).hide();
-			$('#' + course.area).show();
 		}
 		cours.splice(cours.indexOf(course.id), 1);
 		shapes.splice(shapes.indexOf(course), 1);
@@ -300,7 +297,7 @@ function Graph(semesters) {
 	function unselectCourse() {
 		for (var i = shapes.length; i--;) {
 			shapes[i].animate({
-				"fill-opacity": .7,
+				"fill-opacity": shapes[i].area == "placeholder"? 0.5 : 0.7,
 				"stroke-width": 2
 			}, 500);
 		}
@@ -450,30 +447,32 @@ function Graph(semesters) {
 			}, 100);
 			r.getById('del').text.hide();
 			r.getById('del').tooltip.hide();
-			if (r.getById('del').attr('r') == 25 && shape.area != 'core') {
+			if (r.getById('del').attr('r') == 25 && shape.area != 'core' && shape.area != 'placeholder') {
 				removeCourse(shape);
 			} else if (shape.attrs.cy <= 62.5) {
-				reposition(25, shape);
+				position(25, shape);
 			} else if (shape.attrs.cy <= 137.5) {
-				reposition(100, shape);
+				position(100, shape);
 			} else if (shape.attrs.cy <= 212.5) {
-				reposition(175, shape);
+				position(175, shape);
 			} else if (shape.attrs.cy <= 287.5) {
-				reposition(250, shape);
+				position(250, shape);
 			} else if (shape.attrs.cy <= 362.5) {
-				reposition(325, shape);
+				position(325, shape);
 			} else if (shape.attrs.cy <= 437.5) {
-				reposition(400, shape);
+				position(400, shape);
 			} else if (shape.attrs.cy <= 512.5) {
-				reposition(475, shape);
+				position(475, shape);
 			} else {
-				reposition(550, shape);
+				position(550, shape);
 			}
 			r.getById('del').animate({
 				r: 20
 			});
 			unselectCourse();
-			$.dbGET('setUser', { json: JSON.stringify(graph.getContent()) });
+			setTimeout(function(){
+				$.dbGET('setUser', { json: JSON.stringify(graph.getContent()) });
+			}, 200);			
 		}
 
 	function initGraph(semesters) {
@@ -544,10 +543,10 @@ function Graph(semesters) {
 			});
 		});
 
-		// to reposition courses evenly
+		// to position courses evenly
 		for (var i = 8; i--;) {
 			var y = ((7 - i) * 75) + 25;
-			reposition(y);
+			position(y);
 		}
 
 		$('#coursenum').typeahead({
@@ -580,7 +579,6 @@ function Graph(semesters) {
 		labels = [],
 		connections = [];
 	initGraph(semesters);
-	
 }
 
 Raphael.fn.connect = function (obj1, obj2, line) {

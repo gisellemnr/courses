@@ -74,18 +74,15 @@ function init(result) {
 		var content = JSON.parse(r[0].json);
 		for (c in content){
 			// adding non-core courses
-			if (content[c].area != 'core'){
+			if (content[c].area != 'core' && content[c].area != 'placeholder'){
 				if (c in electives) {
-					graph.addCourse(electives[c]);
+					graph.addCourse(electives[c], true);
 				} else {
 					var g = new course(c, null, 'undefined', [], null, null, colors['General'], 'general');
-					graph.addCourse(g);
+					graph.addCourse(g, true);
 				}
 			}
-			// updating position
-			if (content[c].cx) {
-				graph.repositionCourse(c, content[c].cx, content[c].cy);
-			}
+			graph.reposition(c, content[c].cx, content[c].cy);
 		}
 	});
 
@@ -97,11 +94,11 @@ function init(result) {
 		local: Object.keys(electives).sort()
 	});
 	$('#plus').click(function () {
-		addGeneralCourse(graph, colors['General']);
+		addGeneralCourse(graph, colors, electives);
 	});
 	$('#general').on('keyup', function (e) {
 		if (e.which == 13) {
-			addGeneralCourse(graph, colors['General']);
+			addGeneralCourse(graph, colors, electives);
 		}
 	});
 	$("li > a").click(function () {
@@ -141,16 +138,20 @@ function addColorBtn(name, label, color){
 	$('#colors').append(content);
 }
 
-function addGeneralCourse(graph, color) {
+function addGeneralCourse(graph, colors, electives) {
 	var number = $('#general').val();
 	var re = /([0-9][0-9]-[0-9][0-9][0-9])/;
 	var match = number.match(re);
 	if (match && match[0] == number) {
-		var g = new course(number, null, 'undefined', [], null, null, color, 'general');
-		graph.addCourse(g);
-		$.dbGET('setUser', { json: JSON.stringify(graph.getContent()) });
+		if (number in electives) {
+			graph.addCourse(electives[number]);
+		} else {
+			var g = new course(number, null, 'undefined', [], null, null, colors['General'], 'general');
+			graph.addCourse(g);
+		}
 		$('#general').val('');
 		$('#general').typeahead('setQuery', '');
+		$.dbGET('setUser', { json: JSON.stringify(graph.getContent()) });
 	}
 }
 
