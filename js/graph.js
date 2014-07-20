@@ -16,7 +16,7 @@ function Graph(semesters) {
 			x = shape.attrs.cx;
 		}
 		for (s in shapes) {
-			if (shapes[s].attrs.cy == y && shape != shapes[s]){
+			if (shapes[s].attrs.cy == y && shape != shapes[s] && shapes[s].visible){
 				if (shape){
 					// to prevent shapes from overlapping
 					if (Math.abs(x - shapes[s].attrs.cx) < shape.attrs.r * 2) {
@@ -94,6 +94,8 @@ function Graph(semesters) {
 		shape.number = course.id.replace('-', '');
 		shape.website = course.link;
 		shape.description = course.description;
+		shape.replaced = true;
+		shape.visible = true;
 		if (!shape.description) {
 			shape.description = 'Description unavailable.';
 		}
@@ -165,6 +167,7 @@ function Graph(semesters) {
 			course.x = 710;
 			course.y = 25;
 			var c = new createShape(course);
+			c.replaced = false;
 			shapes.push(c);
 			labels.push(c.pair);
 			cours.push(c.id);
@@ -177,6 +180,8 @@ function Graph(semesters) {
 			$('#coursenum').typeahead({
 				local: cours.sort()
 			});
+		} else {
+			alert(id + ' is already in your course planner.');
 		}
 	}
 
@@ -247,6 +252,13 @@ function Graph(semesters) {
 			connections[i].arrow.animate({
 				opacity: 0
 			}, 300);
+		}
+		if (list.length == 1 && list[0].replaced == false) {
+			for (var i = shapes.length; i--;) {
+				if (shapes[i].area == "placeholder") {
+					list.push(shapes[i]);
+				}
+			}
 		}
 		$.each(list, function (i, shape) {
 			shape.animate({
@@ -433,6 +445,20 @@ function Graph(semesters) {
 					r: 20
 				}, 200);
 			}
+			for (var i = shapes.length; i--;) {
+				if (shapes[i].area == "placeholder" && shapes[i].visible) {
+					var inters = Raphael.pathIntersection(getCircletoPath(shapes[i].attrs.cx, shapes[i].attrs.cy, 20), getCircletoPath(shape.attrs.cx, shape.attrs.cy, 20))[0];
+					if (inters) {
+						shapes[i].animate({
+							r: 25
+						}, 200);
+					} else {
+						shapes[i].animate({
+							r: 20
+						}, 200);
+					}
+				}
+			}
 		},
 		up = function () {
 			var shape = this;
@@ -447,7 +473,21 @@ function Graph(semesters) {
 			}, 100);
 			r.getById('del').text.hide();
 			r.getById('del').tooltip.hide();
-			if (r.getById('del').attr('r') == 25 && shape.area != 'core' && shape.area != 'placeholder') {
+			for (var i = shapes.length; i--;) {
+				if (shapes[i].area == "placeholder" && shapes[i].attrs.r == 25) {
+					shapes[i].animate({ r: 0 }, 1000);
+					shapes[i].pair.hide();
+					shapes[i].visible = false;
+					shape.replaced = true;
+					shape.placeholder = shapes[i].id;
+				}
+			}
+			if (r.getById('del').attrs.r == 25 && shape.area != 'core' && shape.area != 'placeholder') {
+				if (shape.placeholder) {
+					r.getById(shape.placeholder).animate({ r: 20 }, 1000);
+					r.getById(shape.placeholder).pair.show();
+					r.getById(shape.placeholder).visible = true;
+				}
 				removeCourse(shape);
 			} else if (shape.attrs.cy <= 62.5) {
 				position(25, shape);
