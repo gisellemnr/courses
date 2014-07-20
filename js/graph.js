@@ -445,19 +445,22 @@ function Graph(semesters) {
 					r: 20
 				}, 200);
 			}
-			for (var i = shapes.length; i--;) {
-				if (shapes[i].area == "placeholder" && shapes[i].visible) {
-					var inters = Raphael.pathIntersection(getCircletoPath(shapes[i].attrs.cx, shapes[i].attrs.cy, 20), getCircletoPath(shape.attrs.cx, shape.attrs.cy, 20))[0];
-					if (inters) {
-						shapes[i].animate({
-							r: 25
-						}, 200);
-					} else {
-						shapes[i].animate({
-							r: 20
-						}, 200);
+			if (shape.area != 'core' && shape.area != 'placeholder') {
+				for (var i = shapes.length; i--;) {
+					if (shapes[i].area == "placeholder" && shapes[i].visible) {
+						var inters = Raphael.pathIntersection(getCircletoPath(shapes[i].attrs.cx, shapes[i].attrs.cy, 20), getCircletoPath(shape.attrs.cx, shape.attrs.cy, 20))[0];
+						if (inters) {
+							shapes[i].animate({
+								r: 25
+							}, 200);
+						} else {
+							shapes[i].animate({
+								r: 20
+							}, 200);
+						}
 					}
 				}
+
 			}
 		},
 		up = function () {
