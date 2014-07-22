@@ -16,7 +16,7 @@ function Graph(semesters) {
 			x = shape.attrs.cx;
 		}
 		for (s in shapes) {
-			if (shapes[s].attrs.cy == y && shape != shapes[s] && shapes[s].visible){
+			if (shapes[s].attrs.cy == y && shape != shapes[s] && shapes[s].attrs.r == 20){
 				if (shape){
 					// to prevent shapes from overlapping
 					if (Math.abs(x - shapes[s].attrs.cx) < shape.attrs.r * 2) {
@@ -94,8 +94,8 @@ function Graph(semesters) {
 		shape.number = course.id.replace('-', '');
 		shape.website = course.link;
 		shape.description = course.description;
+		shape.holder = course.holder;
 		shape.replaced = true;
-		shape.visible = true;
 		if (!shape.description) {
 			shape.description = 'Description unavailable.';
 		}
@@ -166,15 +166,26 @@ function Graph(semesters) {
 		if (cours.indexOf(id) == -1) {
 			course.x = 710;
 			course.y = 25;
+			for (var i = shapes.length; i--;) {
+				if (shapes[i].area == "placeholder" && !shapes[i].hidden 
+					&& shapes[i].color == course.color) {
+					course.x = shapes[i].attrs.cx;
+					course.y = shapes[i].attrs.cy;
+					course.holder = shapes[i];
+					hide(shapes[i]);
+				}
+			}
 			var c = new createShape(course);
 			c.replaced = false;
 			shapes.push(c);
 			labels.push(c.pair);
 			cours.push(c.id);
-			if (init) {
-				position(25, null, false);
-			} else {
-				position(25, null, true);
+			if (!c.holder) {
+				if (init) {
+					position(25, null, false);
+				} else {
+					position(25, null, true);
+				}
 			}
 			$('#coursenum').typeahead('destroy');
 			$('#coursenum').typeahead({
@@ -351,6 +362,18 @@ function Graph(semesters) {
 		hidden = !hidden;
 	}
 
+	function hide(shape) {
+		shape.hidden = true;
+		shape.pair.hide();
+		shape.animate({ r: 0 }, 1000);
+	}
+
+	function show(shape) {
+		shape.hidden = false;
+		shape.pair.show();
+		shape.animate({ r: 20 }, 1000);
+	}
+
 	var dragger = function () {
 			var shape = this;
 			if (this.type == 'text') {
@@ -361,7 +384,7 @@ function Graph(semesters) {
 			selectCourse([shape]);
 			shape.ox = shape.attrs.cx;
 			shape.oy = shape.attrs.cy;
-			if (shape.area != 'core' && shape.area != 'placeholder') {
+			if (shape.area != 'core' && shape.area != "placeholder") {
 				r.getById('del').animate({
 					opacity: 1
 				}, 100);
@@ -375,6 +398,10 @@ function Graph(semesters) {
 			if (shape.title) {
 				shape.tooltitle.hide();
 				shape.tooltip.hide();
+			}
+			if (shape.holder) {
+				shape.holder.hidden = false;
+				shape.holder = null;
 			}
 		},
 		move = function (dx, dy) {
@@ -445,9 +472,10 @@ function Graph(semesters) {
 					r: 20
 				}, 200);
 			}
-			if (shape.area != 'core' && shape.area != 'placeholder') {
+			if (shape.area != 'core' && shape.area != "placeholder") {
 				for (var i = shapes.length; i--;) {
-					if (shapes[i].area == "placeholder" && shapes[i].visible) {
+					if (shapes[i].area == "placeholder" && !shapes[i].hidden) {
+						shapes[i].pair.show();
 						var inters = Raphael.pathIntersection(getCircletoPath(shapes[i].attrs.cx, shapes[i].attrs.cy, 20), getCircletoPath(shape.attrs.cx, shape.attrs.cy, 20))[0];
 						if (inters) {
 							shapes[i].animate({
@@ -477,20 +505,12 @@ function Graph(semesters) {
 			r.getById('del').text.hide();
 			r.getById('del').tooltip.hide();
 			for (var i = shapes.length; i--;) {
-				if (shapes[i].area == "placeholder" && shapes[i].attrs.r == 25) {
-					shapes[i].animate({ r: 0 }, 1000);
-					shapes[i].pair.hide();
-					shapes[i].visible = false;
-					shape.replaced = true;
-					shape.placeholder = shapes[i].id;
+				if (shapes[i].area == "placeholder" && shapes[i].attrs.r > 24.9) {
+					hide(shapes[i]);
+					shape.holder = shapes[i];
 				}
 			}
 			if (r.getById('del').attrs.r == 25 && shape.area != 'core' && shape.area != 'placeholder') {
-				if (shape.placeholder) {
-					r.getById(shape.placeholder).animate({ r: 20 }, 1000);
-					r.getById(shape.placeholder).pair.show();
-					r.getById(shape.placeholder).visible = true;
-				}
 				removeCourse(shape);
 			} else if (shape.attrs.cy <= 62.5) {
 				position(25, shape);
