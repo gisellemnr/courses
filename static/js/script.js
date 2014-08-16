@@ -3,8 +3,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	$.dbGET('getUsername', {}, function(r) {
 		if (r) {
-			$('#logout div').html("LOGOUT " + r.toUpperCase());
-			$('a#logout').css('width', '200px');
+			$('#log div').html("LOGOUT " + r.toUpperCase());
+			$('a#log').css('width', '200px');
 		}
 	});
 
@@ -156,11 +156,11 @@ function addGeneralCourse(graph, colors, electives) {
 }
 
 function setUp(){
-	$("#logout div").click(function () {
-		if (this.innerHTML != "LOGIN") {
-			window.location.href = 'logout';
+	$("#log div").click(function () {
+		if (this.innerHTML == "LOGIN") {
+			window.location.href = 'private';
 		} else {
-			location.reload();
+			window.location.href = 'https://cs.qatar.cmu.edu/course-planner/private/logout';
 		}
 	});
 	$("#remove").hide();
@@ -199,14 +199,14 @@ function addTooltip(){
 	$(".menu").tooltip({placement: 'right'});
 	$("#more").tooltip({placement: 'right'});
 	$("#select .btn-group").tooltip({placement: 'right'});
-	if ($("#logout div")[0].innerHTML == "LOGIN") {
-		$("#logout").tooltip({placement: 'right'});
+	if ($("#log div")[0].innerHTML == "LOGIN") {
+		$("#log").tooltip({placement: 'right'});
 	}
 }
 
 function destroyTooltip(){
 	$("#coursenum").tooltip('destroy');
-	$("#logout").tooltip('destroy');
+	$("#log").tooltip('destroy');
 	$("#link").tooltip('destroy');
 	$("#more").tooltip('destroy');
 	$(".color").tooltip('destroy');

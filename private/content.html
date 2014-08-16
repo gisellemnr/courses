@@ -1,0 +1,80 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link rel="shortcut icon" href="/private/img/scs.gif">
+	<title>Course Planner</title>
+
+	<link rel="stylesheet" type="text/css" href="https://samakanbour.github.io/lib/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="https://samakanbour.github.io/lib/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="https://samakanbour.github.io/lib/css/scrollbar.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cs.qatar.cmu.edu/course-planner/static/css/style.css">
+	<link rel="stylesheet" type="text/css" href="https://cs.qatar.cmu.edu/course-planner/static/css/aside.css">
+
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script type="text/javascript" src="https://samakanbour.github.io/lib/js/tabletop.min.js"></script>
+	<script type="text/javascript" src="https://samakanbour.github.io/lib/js/scrollbar.min.js"></script>
+	<script type="text/javascript" src="https://samakanbour.github.io/lib/js/swipe.min.js"></script>
+	<script type="text/javascript" src="https://samakanbour.github.io/lib/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="https://samakanbour.github.io/lib/js/typeahead.min.js"></script>
+	<script type="text/javascript" src="https://samakanbour.github.io/lib/js/raphael.min.js"></script>
+	<script type="text/javascript" src="https://cs.qatar.cmu.edu/course-planner/static/js/graph.js"></script>
+	<script type="text/javascript" src="https://cs.qatar.cmu.edu/course-planner/static/js/script.js"></script>
+
+</head>
+<body>
+	<div class="container">
+		<aside>
+			<a id="log" title="Login with your AndrewID to save/retrieve your course plan"><div>LOGIN</div></a>
+			<div id="clear"></div>
+			<input  class="form-control" type="text" id="coursenum" placeholder="Highlight courses..." title="Example 15-112 15-221 21-127"><span id="remove"></span>
+
+			<div id="clear"></div>
+			<button class="btn btn-info icon menu" type="button" id="settings" title="Add courses" name="#buttons"></button>
+			<button class="btn btn-info icon menu" type="button" id="details" title="View course details" name="article"></button>
+			<button class="btn btn-info icon menu" type="button" id="color" title="View color legend" name="#colors"></button>
+			<button class="btn btn-info icon" type="button" id="more" title="Hide/show placeholders"></button>
+			<div id="clear"></div>
+
+			<div id="buttons" class="target">
+				<div id="select"></div>
+				<div id="add">
+					<input class="form-control" type="text" id="general" placeholder="Add other courses...">
+					<button class="btn btn-info icon" type="button" id="plus"></button>
+				</div>
+			</div>
+			
+			<article class="target">
+				<section>
+					<div id="number"></div>
+					<div class="icon" id="link" title="View course page"></div>
+				</section>
+				<div id="clear"></div>
+				<hr>
+				<p id="title"></p>
+				<br>
+				<p id="description"></p>
+				<br>
+				<p id="units"></p>
+			</article>
+
+			<div id="colors" class="target"></div>
+		</aside>
+
+		<div class="main-content">
+			<div class="swipe-area"></div>
+			<a data-toggle=".container" id="sidebar-toggle">
+				<span class="bar"></span>
+				<span class="bar"></span>
+				<span class="bar"></span>
+			</a>
+			<div class="content">
+				<div id="right"></div>
+				<div id="holder"></div>
+				<div id="left"></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

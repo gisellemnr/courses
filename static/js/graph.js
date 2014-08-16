@@ -1,5 +1,5 @@
 $.dbGET = function(action, data, callback) {
-	$.get('/course-planner/data.php?action='+action,data,callback,'json');
+	$.get('/course-planner/private/data.php?action='+action,data,callback,'json');
 }
 
 function Graph(semesters) {
