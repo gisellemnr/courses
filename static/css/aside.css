@@ -85,14 +85,6 @@ aside {
         width: 50px;
     }
 
-    #right {
-        visibility: hidden;
-    }
-    
-    #left {
-        visibility: visible;
-    }
-
     aside {
         left: -270px;
         background: #f3f3f3;

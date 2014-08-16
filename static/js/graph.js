@@ -543,18 +543,6 @@ function Graph(semesters) {
 			stroke: "#555",
 			"stroke-dasharray": ". "
 		};
-		var labeattr = {
-			stroke: "none",
-			fill: "#555",
-			transform: "r90",
-			'font-size': '15px'
-		};
-		var labeattl = {
-			stroke: "none",
-			fill: "#555",
-			transform: "r270",
-			'font-size': '15px'
-		};
 		var remove = r.circle(650, 25, 20).attr({
 			fill: '#555',
 			"fill-opacity": .3,
@@ -583,16 +571,6 @@ function Graph(semesters) {
 		r.path('M,0,137.5,L,700,137.5').attr(lineattr);		
 		r.path('M,0,287.5,L,700,287.5').attr(lineattr);
 		r.path('M,0,437.5,L,700,437.5').attr(lineattr);
-
-		ri.text(20, 62.5, 'senior').attr(labeattr);
-		ri.text(20, 212.5, 'junior').attr(labeattr);
-		ri.text(20, 362.5, 'sophomore').attr(labeattr);
-		ri.text(20, 512.5, 'freshman').attr(labeattr);
-
-		le.text(10, 62.5, 'senior').attr(labeattl);
-		le.text(10, 212.5, 'junior').attr(labeattl);
-		le.text(10, 362.5, 'sophomore').attr(labeattl);
-		le.text(10, 512.5, 'freshman').attr(labeattl);
 
 		semesters.forEach(function (semester, i) {
 			var y = ((7 - i) * 75) + 25;
@@ -635,8 +613,6 @@ function Graph(semesters) {
 		}
 	});
 	var r = Raphael("holder", 720, 580),
-		ri = Raphael("right", 30, 580),
-		le = Raphael("left",  30, 580),
 		cours = [],
 		shapes = [],
 		labels = [],
