@@ -633,6 +633,21 @@ function Graph(semesters) {
 		connections = [];
 	initGraph(semesters);
 	updateCounters();
+
+	// Populate course detail
+	$('#number').html(shapes[0].id);
+	$('#title').html(shapes[0].title);
+	$('#description').html(shapes[0].description);
+	$('#units').html('<b>Units:</b> ' + shapes[0].units);
+	if (shapes[0].website) {
+		$("#link").show();
+		$('#link').unbind("click").click(function () {
+			window.open(shapes[0].website, '_blank');
+		});
+	}
+	$('article').mCustomScrollbar({
+		theme: "rounded-dots-dark"
+	});
 }
 
 Raphael.fn.connect = function (obj1, obj2, line) {
