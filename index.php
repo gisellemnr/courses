@@ -1,3 +1,3 @@
 <?php 
-include('private/content.html');
+include('private/index.html');
 ?>

@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
 function course(id, title, units, dependencies, link, description, color, area) {
 	this.id = id;
 	this.title = title;
-	this.units = units;
+	this.units = parseInt(units);
 	this.dependencies = dependencies;
 	this.link = link;
 	this.description = description;
@@ -59,7 +59,7 @@ function init(result) {
 		}
 	});
 	result.placeholders.elements.forEach(function (row) {
-		var c = new course(row.number, row.title, null, [], row.URL, row.description, colors[row.category], 'placeholder');
+		var c = new course(row.number, row.title, 0, [], row.URL, row.description, colors[row.category], 'placeholder');
 		semesters[parseInt(row.semester) - 1].push(c);
 	});
 
@@ -78,7 +78,7 @@ function init(result) {
 				if (c in electives) {
 					graph.addCourse(electives[c], true);
 				} else {
-					var g = new course(c, null, 'undefined', [], null, null, colors['General'], 'general');
+					var g = new course(c, null, 0, [], null, null, colors['General'], 'general');
 					graph.addCourse(g, true);
 				}
 			}

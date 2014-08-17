@@ -5,6 +5,7 @@ $.dbGET = function(action, data, callback) {
 function Graph(semesters) {
 	var graph = this;
 	var hidden = false;
+	var counter = new Counter();
 
 	// y is the cy value of the semester
 	// shape is the shape newly moved that must be repositioned
@@ -194,6 +195,7 @@ function Graph(semesters) {
 		} else {
 			alert(id + ' is already in your course planner.');
 		}
+		updateCounters();
 	}
 
 	this.getContent = function () {
@@ -375,168 +377,180 @@ function Graph(semesters) {
 	}
 
 	var dragger = function () {
-			var shape = this;
-			if (this.type == 'text') {
-				shape = this.pair;
-			}
-			shape.toFront();
-			shape.pair.toFront();
-			selectCourse([shape]);
-			shape.ox = shape.attrs.cx;
-			shape.oy = shape.attrs.cy;
-			if (shape.area != 'core' && shape.area != "placeholder") {
-				r.getById('del').animate({
-					opacity: 1
-				}, 100);
-				r.getById('del').label.animate({
-					opacity: 1
-				}, 100);
-				r.getById('del').tooltip.show().toFront();
-				r.getById('del').text.show().toFront();
-			}
-			shape.clicked = true;
-			if (shape.title) {
-				shape.tooltitle.hide();
-				shape.tooltip.hide();
-			}
-			if (shape.holder) {
-				shape.holder.hidden = false;
-				shape.holder = null;
-			}
-		},
-		move = function (dx, dy) {
-			var shape = this;
-			if (this.type == 'text') {
-				shape = this.pair;
-			}
-			var ylimit = shape.oy + dy;
-			var xlimit = shape.ox + dx;
-			var rcon = 0;
-			var lcon = 1000;
-			for (var i = connections.length; i--;) {
-				if (connections[i].to.id == shape.id) {
-					if (ylimit - connections[i].from.attrs.cy < 75) {
-						if (connections[i].from.attrs.cy > rcon) {
-							rcon = connections[i].from.attrs.cy;
-						}
-					}
-				}
-				if (connections[i].from.id == shape.id) {
-					if (connections[i].to.attrs.cy - ylimit < 75) {
-						if (connections[i].to.attrs.cy < lcon) {
-							lcon = connections[i].to.attrs.cy;
-						}
-					}
-				}
-			}
-			if (rcon > 0) {
-				dy = rcon - shape.oy + 75;
-			}
-			if (lcon < 1000) {
-				dy = lcon - shape.oy - 75;
-			}
-			if (ylimit > 550 && lcon == 1000) {
-				dy = 550 - shape.oy;
-			}
-			if (ylimit < 25 && rcon == 0) {
-				dy = 25 - shape.oy;
-			}
-			if (xlimit > 680) {
-				dx = 680 - shape.ox;
-			}
-			if (xlimit < 20) {
-				dx = 20 - shape.ox;
-			}
-			var att = {
-				cx: shape.ox + dx,
-				cy: shape.oy + dy
-			};
-			shape.attr(att);
-			shape.pair.attr({
-				x: shape.attrs.cx,
-				y: shape.attrs.cy
-			});
-			for (var i = connections.length; i--;) {
-				if (connections[i].from.id == shape.id || connections[i].to.id == shape.id) {
-					r.connect(connections[i]);
-				}
-			}
-			r.safari();
-			var inter = Raphael.pathIntersection(getCircletoPath(650, 25, 20), getCircletoPath(shape.attrs.cx, shape.attrs.cy, 20))[0];
-			if (inter) {
-				r.getById('del').animate({
-					r: 25
-				}, 200);
-			} else {
-				r.getById('del').animate({
-					r: 20
-				}, 200);
-			}
-			if (shape.area != 'core' && shape.area != "placeholder") {
-				for (var i = shapes.length; i--;) {
-					if (shapes[i].area == "placeholder" && !shapes[i].hidden) {
-						shapes[i].pair.show();
-						var inters = Raphael.pathIntersection(getCircletoPath(shapes[i].attrs.cx, shapes[i].attrs.cy, 20), getCircletoPath(shape.attrs.cx, shape.attrs.cy, 20))[0];
-						if (inters) {
-							shapes[i].animate({
-								r: 25
-							}, 200);
-						} else {
-							shapes[i].animate({
-								r: 20
-							}, 200);
-						}
-					}
-				}
-
-			}
-		},
-		up = function () {
-			var shape = this;
-			if (this.type == 'text') {
-				shape = this.pair;
-			}
+		var shape = this;
+		if (this.type == 'text') {
+			shape = this.pair;
+		}
+		shape.toFront();
+		shape.pair.toFront();
+		selectCourse([shape]);
+		shape.ox = shape.attrs.cx;
+		shape.oy = shape.attrs.cy;
+		if (shape.area != 'core' && shape.area != "placeholder") {
 			r.getById('del').animate({
-				opacity: 0
+				opacity: 1
 			}, 100);
 			r.getById('del').label.animate({
-				opacity: 0
+				opacity: 1
 			}, 100);
-			r.getById('del').text.hide();
-			r.getById('del').tooltip.hide();
-			for (var i = shapes.length; i--;) {
-				if (shapes[i].area == "placeholder" && shapes[i].attrs.r > 24.9) {
-					hide(shapes[i]);
-					shape.holder = shapes[i];
+			r.getById('del').tooltip.show().toFront();
+			r.getById('del').text.show().toFront();
+		}
+		shape.clicked = true;
+		if (shape.title) {
+			shape.tooltitle.hide();
+			shape.tooltip.hide();
+		}
+		if (shape.holder) {
+			shape.holder.hidden = false;
+			shape.holder = null;
+		}
+	},
+	move = function (dx, dy) {
+		var shape = this;
+		if (this.type == 'text') {
+			shape = this.pair;
+		}
+		var ylimit = shape.oy + dy;
+		var xlimit = shape.ox + dx;
+		var rcon = 0;
+		var lcon = 1000;
+		for (var i = connections.length; i--;) {
+			if (connections[i].to.id == shape.id) {
+				if (ylimit - connections[i].from.attrs.cy < 75) {
+					if (connections[i].from.attrs.cy > rcon) {
+						rcon = connections[i].from.attrs.cy;
+					}
 				}
 			}
-			if (r.getById('del').attrs.r == 25 && shape.area != 'core' && shape.area != 'placeholder') {
-				removeCourse(shape);
-			} else if (shape.attrs.cy <= 62.5) {
-				position(25, shape);
-			} else if (shape.attrs.cy <= 137.5) {
-				position(100, shape);
-			} else if (shape.attrs.cy <= 212.5) {
-				position(175, shape);
-			} else if (shape.attrs.cy <= 287.5) {
-				position(250, shape);
-			} else if (shape.attrs.cy <= 362.5) {
-				position(325, shape);
-			} else if (shape.attrs.cy <= 437.5) {
-				position(400, shape);
-			} else if (shape.attrs.cy <= 512.5) {
-				position(475, shape);
-			} else {
-				position(550, shape);
+			if (connections[i].from.id == shape.id) {
+				if (connections[i].to.attrs.cy - ylimit < 75) {
+					if (connections[i].to.attrs.cy < lcon) {
+						lcon = connections[i].to.attrs.cy;
+					}
+				}
 			}
+		}
+		if (rcon > 0) {
+			dy = rcon - shape.oy + 75;
+		}
+		if (lcon < 1000) {
+			dy = lcon - shape.oy - 75;
+		}
+		if (ylimit > 550 && lcon == 1000) {
+			dy = 550 - shape.oy;
+		}
+		if (ylimit < 25 && rcon == 0) {
+			dy = 25 - shape.oy;
+		}
+		if (xlimit > 680) {
+			dx = 680 - shape.ox;
+		}
+		if (xlimit < 20) {
+			dx = 20 - shape.ox;
+		}
+		var att = {
+			cx: shape.ox + dx,
+			cy: shape.oy + dy
+		};
+		shape.attr(att);
+		shape.pair.attr({
+			x: shape.attrs.cx,
+			y: shape.attrs.cy
+		});
+		for (var i = connections.length; i--;) {
+			if (connections[i].from.id == shape.id || connections[i].to.id == shape.id) {
+				r.connect(connections[i]);
+			}
+		}
+		r.safari();
+		var inter = Raphael.pathIntersection(getCircletoPath(650, 25, 20), getCircletoPath(shape.attrs.cx, shape.attrs.cy, 20))[0];
+		if (inter) {
+			r.getById('del').animate({
+				r: 25
+			}, 200);
+		} else {
 			r.getById('del').animate({
 				r: 20
-			});
-			unselectCourse();
-			setTimeout(function(){
-				$.dbGET('setUser', { json: JSON.stringify(graph.getContent()) });
-			}, 200);			
+			}, 200);
 		}
+		if (shape.area != 'core' && shape.area != "placeholder") {
+			for (var i = shapes.length; i--;) {
+				if (shapes[i].area == "placeholder" && !shapes[i].hidden) {
+					shapes[i].pair.show();
+					var inters = Raphael.pathIntersection(getCircletoPath(shapes[i].attrs.cx, shapes[i].attrs.cy, 20), getCircletoPath(shape.attrs.cx, shape.attrs.cy, 20))[0];
+					if (inters) {
+						shapes[i].animate({
+							r: 25
+						}, 200);
+					} else {
+						shapes[i].animate({
+							r: 20
+						}, 200);
+					}
+				}
+			}
+
+		}
+	},
+	up = function () {
+		var shape = this;
+		if (this.type == 'text') {
+			shape = this.pair;
+		}
+		r.getById('del').animate({
+			opacity: 0
+		}, 100);
+		r.getById('del').label.animate({
+			opacity: 0
+		}, 100);
+		r.getById('del').text.hide();
+		r.getById('del').tooltip.hide();
+		for (var i = shapes.length; i--;) {
+			if (shapes[i].area == "placeholder" && shapes[i].attrs.r > 24.9) {
+				hide(shapes[i]);
+				shape.holder = shapes[i];
+			}
+		}
+		if (r.getById('del').attrs.r == 25 && shape.area != 'core' && shape.area != 'placeholder') {
+			removeCourse(shape);
+		} else if (shape.attrs.cy <= 62.5) {
+			position(25, shape);
+		} else if (shape.attrs.cy <= 137.5) {
+			position(100, shape);
+		} else if (shape.attrs.cy <= 212.5) {
+			position(175, shape);
+		} else if (shape.attrs.cy <= 287.5) {
+			position(250, shape);
+		} else if (shape.attrs.cy <= 362.5) {
+			position(325, shape);
+		} else if (shape.attrs.cy <= 437.5) {
+			position(400, shape);
+		} else if (shape.attrs.cy <= 512.5) {
+			position(475, shape);
+		} else {
+			position(550, shape);
+		}
+		r.getById('del').animate({
+			r: 20
+		});
+		unselectCourse();
+		setTimeout(function(){
+			updateCounters();
+			$.dbGET('setUser', { json: JSON.stringify(graph.getContent()) });
+		}, 200);			
+	}
+
+	function updateCounters(){
+		var counters = [0,0,0,0,0,0,0,0];
+		for (s in shapes) {
+			var i = 7 - (shapes[s].attrs.cy - 25) / 75;
+			counters[i] += shapes[s].units;
+		}
+		for (var i = 0; i < 8; i++) {
+			counter.updateVal(i, counters[i]);
+		}
+	}
 
 	function initGraph(semesters) {
 		var lineattr = {
@@ -584,7 +598,7 @@ function Graph(semesters) {
 			});
 		});
 
-		// to position courses evenly
+		// position courses evenly
 		for (var i = 8; i--;) {
 			var y = ((7 - i) * 75) + 25;
 			position(y);
@@ -618,6 +632,7 @@ function Graph(semesters) {
 		labels = [],
 		connections = [];
 	initGraph(semesters);
+	updateCounters();
 }
 
 Raphael.fn.connect = function (obj1, obj2, line) {
