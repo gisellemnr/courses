@@ -1,0 +1,224 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
+@import url(https://fonts.googleapis.com/css?family=Vidaloka:300,400,700);
+
+body, html {
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    line-height: 25px;
+}
+
+a {
+    cursor: pointer;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+b {
+    font-weight: 700;
+}
+
+#holder, #counter {
+    float: left;
+}
+
+.btn-group, .btn-info, #add, #colors, #coursenum, #general {
+    clear: both;
+    float: left;
+    width: 250px;
+    height: 35px;
+    margin-bottom: 10px;
+    display: inline;
+    vertical-align: top;
+    text-align: left;
+}
+
+a#log {
+    width: 40px;
+    display: block;
+}
+
+#colors {
+    margin-top: 10px;
+}
+
+.color {
+    width: 30px;
+    height: 30px;
+    clear: both;
+    float: left;
+    border-radius: 50%;
+    margin: 0 5px 5px 0;
+}
+
+label {
+    clear: right;
+    height: 30px;
+    width: 85%;
+    font-size: 10px;
+    line-height: 30px;
+}
+
+.tt-dropdown-menu, .dropdown-menu {
+    width: 250px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.dropdown-menu li:hover a {
+    cursor: pointer;
+    color: #0097cf;
+    background-color: #ccc;
+}
+
+#general, #add > .twitter-typeahead > .tt-hint,  
+#add > .twitter-typeahead > .tt-dropdown-menu {
+    width: 206px;
+}
+
+.tt-hint {
+    width: 250px;
+    color: #999;
+    padding: 6px 11px;
+    height: 35px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    line-height: 25px;
+}
+
+.tt-dropdown-menu {
+    margin-top: -8px;
+}
+
+.tt-suggestion {
+    padding: 6px 10px;
+}
+
+.tt-suggestion.tt-is-under-cursor {
+    color: #0097cf;
+    background-color: #ccc;
+}
+
+.tt-suggestion p {
+    margin: 0;
+}
+
+article {
+    color: #333;
+    background: #ddd;
+    height: calc(100% - 120px);
+    padding: 20px 15px 20px 20px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px;
+    overflow: hidden;
+    min-width: 250px;
+}
+
+hr {
+    border-bottom: 1px solid rgba(255,255,255,0.6);
+    border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+#number {
+    font-weight: 700;
+    font: 30px 'Vidaloka', serif;
+    color: #0097cf;
+    font-style: italic;
+    width: 120px;
+    float: left;
+}
+
+#title {
+    font-weight: 700;
+    font-size: 18px;
+}
+
+#clear {
+    clear: both;
+}
+
+/*ICONS*/
+
+.icon {
+    cursor: pointer;
+    opacity: .8;
+    width: 35px;
+    height: 35px;
+    float: left;
+    clear: none;
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 15px 15px;
+    -webkit-transition: background-color 0.4s;
+    -moz-transition: background-color 0.4s;
+    -ms-transition: background-color 0.4s;
+    -o-transition: background-color 0.4s;
+    transition: background-color 0.4s;
+}
+
+.icon.menu, #more {
+    background-color: #fff;
+}
+
+.icon:hover, .menu.checked, #more:hover {
+    background-color: #5bc0de;
+}
+
+#settings {
+    background-image: url(../img/settings.png);
+}
+
+#details {
+    background-image: url(../img/details.png);
+}
+
+#more {
+    background-image: url(../img/more.png);
+}
+
+#color {
+    background-image: url(../img/color.png);
+}
+
+#settings, #details, #color, #more {
+    margin-right: 5px;
+}
+
+#link {
+    background-image: url(../img/link.png);
+}
+
+#plus {
+    float: right;
+    background-image: url(../img/plus.png);
+    background-color: #5bc0de;
+}
+
+#remove {
+    position: absolute;
+    display: block;
+    top: 36px;
+    left: 225px;
+    cursor: pointer;
+    opacity: .8;
+    width: 35px;
+    height: 35px;
+    background: url(../img/remove.png) no-repeat center center;
+    background-size: 15px 15px;
+}
