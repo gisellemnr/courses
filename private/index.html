@@ -14,13 +14,17 @@
 	<script type="text/javascript" src="https://samakanbour.github.io/lib/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="https://samakanbour.github.io/lib/js/typeahead.min.js"></script>
 	<script type="text/javascript" src="https://samakanbour.github.io/lib/js/raphael.min.js"></script>
-
-	<link rel="shortcut icon" href="../static/img/scs.gif">
-	<link rel="stylesheet" type="text/css" href="../static/css/style.css">
-	<link rel="stylesheet" type="text/css" href="../static/css/aside.css">
-	<script type="text/javascript" src="../static/js/graph.js"></script>
-	<script type="text/javascript" src="../static/js/counter.js"></script>
-	<script type="text/javascript" src="../static/js/script.js"></script>
+	<link rel="shortcut icon" 			   href="https://samakanbour.github.io/lib/static/img/scs.gif">
+	<link rel="stylesheet" type="text/css" href="https://samakanbour.github.io/lib/static/css/style.css">
+	<link rel="stylesheet" type="text/css" href="https://samakanbour.github.io/lib/static/css/aside.css">
+	<script>
+		$.dbGET = function(action, data, callback) {
+			$.get('data.php?action='+action,data,callback,'json');
+		}
+	</script>
+	<script type="text/javascript" 			src="https://samakanbour.github.io/lib/static/js/graph.js"></script>
+	<script type="text/javascript" 			src="https://samakanbour.github.io/lib/static/js/counter.js"></script>
+	<script type="text/javascript" 			src="https://samakanbour.github.io/lib/static/js/script.js"></script>
 
 </head>
 <body>
@@ -69,7 +73,7 @@
 				<span class="bar"></span>
 				<span class="bar"></span>
 			</a>
-			<div class="content">				
+			<div class="content">
 				<div id="holder"></div>
 				<div id="counter"></div>
 			</div>
