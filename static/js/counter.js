@@ -27,23 +27,11 @@ function Counter() {
 	}
 
 	function addObj(){
-		var xl = 35;
-		var m = 0;
-
-		// r.text(xl, 25 - m,  '4F').attr(labelAttr);
-		// r.text(xl, 100 - m, '4S').attr(labelAttr);
-		// r.text(xl, 175 - m, '3F').attr(labelAttr);
-		// r.text(xl, 250 - m, '3S').attr(labelAttr);
-		// r.text(xl, 325 - m, '2F').attr(labelAttr);
-		// r.text(xl, 400 - m, '2S').attr(labelAttr);
-		// r.text(xl, 475 - m, '1F').attr(labelAttr);
-		// r.text(xl, 550 - m, '1S').attr(labelAttr);
-
 		for (var i = 1; i <= 8; i++) {
 			var y = i * 75 - 50;
 			r.circle(xi, y, R).attr(marksAttr);
 			COUNTERS.push(r.path().attr({arc: [0, y]}));
-			TEXTS.push(r.text(xl, y + m, '00').attr(labelAttr));
+			TEXTS.push(r.text(35, y, '00').attr(labelAttr));
 		}
 	}
 
@@ -51,18 +39,16 @@ function Counter() {
 		var value;
 		if (v < 1) {
 			value = 0;
-		} else if (v < 11) {
-			value = 1;
 		} else if (v < 21) {
-			value = 2;
+			value = 1;
 		} else if (v < 42) {
-			value = 3;
+			value = 2;
 		} else if (v < 52) {
-			value = 4;
+			value = 3;
 		} else if (v < 62) {
-			value = 5;
+			value = 4;
 		} else {
-			value = 6;
+			value = 5;
 		}
 		var id = 7 - i;
 		var y = (id + 1) * 75 - 50;
