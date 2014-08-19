@@ -27,7 +27,7 @@ function Counter() {
 			var y = i * 75 - 50;
 			var a = (-90) * Math.PI / 180;
 			path = [["M", xi, y - R], ["A", R, R, 0, 0, 1, xi + R * Math.cos(a), y - R * Math.sin(a)]];
-			r.path().attr({path: path, stroke: "lightgrey", fill: "none", "stroke-width": sw });
+			r.path().attr({path: path, stroke: "#ECECEC", fill: "none", "stroke-width": sw });
 			COUNTERS.push(r.path());
 			TEXTS.push(r.text(15, y, 0).attr(labelAttr));
 		}
