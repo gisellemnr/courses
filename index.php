@@ -1,3 +1,1 @@
-<?php 
-include('private/index.html');
-?>
+<?php include('private/index.html'); ?>

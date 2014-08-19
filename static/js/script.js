@@ -29,6 +29,7 @@ function init(result) {
 	var colors = {};
 	var areas = {};
 	var electives = {};
+	var labels = ['F1', 'S1', 'F2', 'S2', 'F3', 'S3', 'F4', 'S4'];
 	var semesters = [
 		[],
 		[],
@@ -47,7 +48,7 @@ function init(result) {
 		if (row.number.length < 2) return;
 		if (row.visible == "TRUE") {
 			var c = new course(row.number, row.title, row.units, row.dependencies.split(','), row.URL, row.description, colors[row.category], 'core');
-			semesters[parseInt(row.semester) - 1].push(c);
+			semesters[labels.indexOf(row.semester)].push(c);
 		} else {
 			var e = new course(row.number, row.title, row.units, row.dependencies.split(','), row.URL, row.description, colors[row.category], row.category);
 			electives[row.number] = e;
@@ -60,7 +61,7 @@ function init(result) {
 	});
 	result.placeholders.elements.forEach(function (row) {
 		var c = new course(row.number, row.title, 0, [], row.URL, row.description, colors[row.category], 'placeholder');
-		semesters[parseInt(row.semester) - 1].push(c);
+		semesters[labels.indexOf(row.semester)].push(c);
 	});
 
 	var graph = new Graph(semesters);
