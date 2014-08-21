@@ -217,6 +217,7 @@ function destroyTooltip(){
 
 function showHideMenus(){
 	$(".menu").removeClass('checked');
+	$("#counter-legend").hide();
 	if ($(this.name).is(":visible")) {
 		$(".target").hide();
 		$(this).removeClass('checked');
