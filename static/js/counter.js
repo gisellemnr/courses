@@ -49,12 +49,16 @@ function Counter() {
                 "stroke-width": sw * 4
             });
         }
-
         leg.text(xi + 100, 20, "UNIT COUNTER").attr(labelAttr);
- 
-        leg.circle(xi + 40, 140, 5).attr(circleAttr);
+
+        leg.text(xi + 100, 30, "36").attr(labelAttr).attr({transform: "r" + [-270 / p, xi + 100, yi] });
+        leg.text(xi + 100, 30, "46").attr(labelAttr).attr({transform: "r" + [-90 / p, xi + 100, yi] });
+        leg.text(xi + 100, 30, "52").attr(labelAttr).attr({transform: "r" + [90 / p, xi + 100, yi] });
+        leg.text(xi + 100, 30, "64").attr(labelAttr).attr({transform: "r" + [270 / p, xi + 100, yi] });
+
+        leg.circle(xi + 40, 130, 5).attr(circleAttr);
         leg.text(xi + 40 + 2, 130, "underload").attr(labelAttr).attr({"text-anchor": "start"});
-        leg.path([["M", xi + 40, 140], ["L", xi + 40, 260]]).attr({ stroke: "#333" });
+        leg.path([["M", xi + 40, 130], ["L", xi + 40, 260]]).attr({ stroke: "#333" });
 
         leg.circle(xi + 70, 100, 5).attr(circleAttr);
         leg.text(xi + 70 + 2, 120, "risky").attr(labelAttr).attr({"text-anchor": "start"});
@@ -68,13 +72,17 @@ function Counter() {
         leg.text(xi + 130 + 2, 100, "overload").attr(labelAttr).attr({"text-anchor": "start"});
         leg.path([["M", xi + 130, 100], ["L", xi + 130, 200]]).attr({ stroke: "#333" });
 
-        leg.circle(xi + 160, 140, 5).attr(circleAttr);
+        leg.circle(xi + 160, 130, 5).attr(circleAttr);
         leg.text(xi + 160 + 2, 90, "permissions").attr(labelAttr).attr({"text-anchor": "start"});
-        leg.path([["M", xi + 160, 140], ["L", xi + 160, 180]]).attr({ stroke: "#333" });
+        leg.path([["M", xi + 160, 130], ["L", xi + 160, 180]]).attr({ stroke: "#333" });
 
 		$("#counter").click(function () {
 			$(".target").hide();
-			$("#counter-legend").fadeIn();
+			if ($("#counter-legend").is(":visible")) {
+				$("#counter-legend").fadeOut();
+			} else {
+				$("#counter-legend").fadeIn();
+			}
 		});
 	}
 
@@ -95,7 +103,11 @@ function Counter() {
 		}
 		var id = 7 - i;
 		var y = (id + 1) * 75 - 50;
-		NEEDLES[id].animate({transform: "r" + [value/parts * 180 + (90/parts), xi, y]}, 1000);
+		if (value == 0) {
+			NEEDLES[id].animate({transform: "r" + [value/parts * 180, xi, y]}, 1000);
+		} else {
+			NEEDLES[id].animate({transform: "r" + [value/parts * 180 - (90/parts), xi, y]}, 1000);
+		}		
 		TEXTS[id].attr({text: v});
 	}
 }
