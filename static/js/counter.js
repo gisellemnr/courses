@@ -7,7 +7,7 @@ function Counter() {
 		xi = 20, 	// x position
 		sw = 12, 	// stroke-width
 		parts = 5, 	// number of stats
-		hues = [0, .18, .35, .18, 0],
+		hues = [0, .16, .35, .16, 0],
 		bris = [.9, .9, .85, .9, .75],
 		labelAttr = { stroke: "none", fill: "grey", "font-size": "12px" },
 		circleAttr = { fill: "#333", stroke: "none" };
