@@ -7,7 +7,8 @@ function Counter() {
 		xi = 20, 	// x position
 		sw = 12, 	// stroke-width
 		parts = 5, 	// number of stats
-		colors = [0, .18, .35, .18, 0]
+		hues = [0, .18, .35, .18, 0],
+		bris = [.9, .85, .85, .85, .75],
 		labelAttr = { stroke: "none", fill: "grey", "font-size": "12px" },
 		circleAttr = { fill: "#333", stroke: "none" };
 	addObj();
@@ -24,7 +25,7 @@ function Counter() {
 				path = [["M", xi, yi - R], ["A", R, R, 0, + (alpha > 180), 1, x, y]];
 	        for (var j = 0; j < p; j++) {
 	            r.path(path).attr({
-	                stroke: Raphael.hsb(colors[j], 1, 0.85),
+	                stroke: Raphael.hsb(hues[j], 1, bris[j]),
 	                transform: "r" + [alpha * j, xi, yi],
 	                "stroke-width": sw,
 	                cursor: "pointer"
@@ -44,7 +45,7 @@ function Counter() {
 
 		for (var j = 0; j < p; j++) {
             leg.path([["M", xi + 100, yi - R * 4], ["A", R * 4, R * 4, 0, + (alpha > 180), 1, x, y]]).attr({
-                stroke: Raphael.hsb(colors[j], 1, 0.85),
+                stroke: Raphael.hsb(hues[j], 1, bris[j]),
                 transform: "r" + [180 / p * j - 90, xi + 100, yi],
                 "stroke-width": sw * 4
             });
