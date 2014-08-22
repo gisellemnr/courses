@@ -56,6 +56,12 @@ function Counter() {
                 "stroke-width": sw * 4
             });
         }
+        leg.text(xi + 100, 100, "UNIT COUNTERL").attr(labelAttr);
+        var ln = leg.path(["M", xi + 100, yi - 5 * 4, "L", xi + 100 + 4 * 4, yi - 10 * 4, "L", xi + 100, yi - 20 * 4, "L", xi + 100 - 4 * 4, yi - 10 * 4]).attr({
+            fill: "#333",
+            stroke: "none",
+            cursor: "move"
+        });
 
 		$("#counter").click(function () {
 			$(".target").hide();
