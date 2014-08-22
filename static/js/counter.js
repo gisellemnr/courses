@@ -7,27 +7,24 @@ function Counter() {
 		xi = 20, 	// x position
 		sw = 12, 	// stroke-width
 		parts = 5, 	// number of stats
-		colors = [0, .15, .35, .15, 0]
+		colors = [0, .18, .35, .18, 0]
 		labelAttr = { stroke: "none", fill: "grey", "font-size": "12px" },
 		circleAttr = { fill: "#333", stroke: "none" };
 	addObj();
 
 	function addObj(){
+		var p = parts,
+			alpha = 180 / p,
+			a = (90 - alpha) * Math.PI / 180;
+		
 		for (var i = 1; i <= 8; i++) {
-			var yi = i * 75 - 50;
-			var p = parts * 12,
-				alpha = 180 / p,
-				a = (90 - alpha) * Math.PI / 180,
+			var yi = i * 75 - 50,
 				x = xi + R * Math.cos(a),
 				y = yi - R * Math.sin(a),
 				path = [["M", xi, yi - R], ["A", R, R, 0, + (alpha > 180), 1, x, y]];
 	        for (var j = 0; j < p; j++) {
-	        	var hex = 0.5 - j/p * 0.5;
-	        	if (j < p/2) {
-	        		hex = 0.5 - (p-j)/p * 0.5;
-	        	}
 	            r.path(path).attr({
-	                stroke: Raphael.hsb(hex, 1, 0.85),
+	                stroke: Raphael.hsb(colors[j], 1, 0.85),
 	                transform: "r" + [alpha * j, xi, yi],
 	                "stroke-width": sw,
 	                cursor: "pointer"
@@ -40,19 +37,14 @@ function Counter() {
             });
             NEEDLES.push(needle);
 		}
+		
 		var yi = 150,
-			p = parts * 12 * 2,
-			alpha = 180 / p,
-			a = (90 - alpha) * Math.PI / 180,
 			x = xi + 100 + R * 4 * Math.cos(a),
 			y = yi - R * 4 * Math.sin(a);
+
 		for (var j = 0; j < p; j++) {
-        	var hex = 0.5 - j/p * 0.5;
-        	if (j < p/2) {
-        		hex = 0.5 - (p-j)/p * 0.5;
-        	}
             leg.path([["M", xi + 100, yi - R * 4], ["A", R * 4, R * 4, 0, + (alpha > 180), 1, x, y]]).attr({
-                stroke: Raphael.hsb(hex, 1, 0.85),
+                stroke: Raphael.hsb(colors[j], 1, 0.85),
                 transform: "r" + [180 / p * j - 90, xi + 100, yi],
                 "stroke-width": sw * 4
             });
@@ -103,7 +95,7 @@ function Counter() {
 		}
 		var id = 7 - i;
 		var y = (id + 1) * 75 - 50;
-		NEEDLES[id].animate({transform: "r" + [value/parts * 180, xi, y]}, 1000);
+		NEEDLES[id].animate({transform: "r" + [value/parts * 180 + (90/parts), xi, y]}, 1000);
 		TEXTS[id].attr({text: v});
 	}
 }
