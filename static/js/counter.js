@@ -2,13 +2,14 @@ function Counter() {
 	var NEEDLES = [];
 	var TEXTS = [];
 	var r = Raphael("counter", 45, 580),
-		leg = Raphael("counter-legend", 250, 250),
+		leg = Raphael("counter-legend", 255, 300),
 		R = 15, 	// radius of circle 
 		xi = 20, 	// x position
 		sw = 12, 	// stroke-width
 		parts = 5, 	// number of stats
 		colors = [0, .15, .35, .15, 0]
-		labelAttr = { stroke: "none", fill: "grey", "font-size": "12px" };
+		labelAttr = { stroke: "none", fill: "grey", "font-size": "12px" },
+		circleAttr = { fill: "#333", stroke: "none" };
 	addObj();
 
 	function addObj(){
@@ -56,12 +57,28 @@ function Counter() {
                 "stroke-width": sw * 4
             });
         }
-        leg.text(xi + 100, 100, "UNIT COUNTERL").attr(labelAttr);
-        var ln = leg.path(["M", xi + 100, yi - 5 * 4, "L", xi + 100 + 4 * 4, yi - 10 * 4, "L", xi + 100, yi - 20 * 4, "L", xi + 100 - 4 * 4, yi - 10 * 4]).attr({
-            fill: "#333",
-            stroke: "none",
-            cursor: "move"
-        });
+
+        leg.text(xi + 100, 20, "UNIT COUNTER").attr(labelAttr);
+ 
+        leg.circle(xi + 40, 140, 5).attr(circleAttr);
+        leg.text(xi + 40 + 2, 130, "underload").attr(labelAttr).attr({"text-anchor": "start"});
+        leg.path([["M", xi + 40, 140], ["L", xi + 40, 260]]).attr({ stroke: "#333" });
+
+        leg.circle(xi + 70, 100, 5).attr(circleAttr);
+        leg.text(xi + 70 + 2, 120, "risky").attr(labelAttr).attr({"text-anchor": "start"});
+        leg.path([["M", xi + 70, 100], ["L", xi + 70, 240]]).attr({ stroke: "#333" });
+
+        leg.circle(xi + 100, 90, 5).attr(circleAttr);
+        leg.text(xi + 100 + 2, 110, "healthy").attr(labelAttr).attr({"text-anchor": "start"});
+        leg.path([["M", xi + 100, 90], ["L", xi + 100, 220]]).attr({ stroke: "#333" });
+
+        leg.circle(xi + 130, 100, 5).attr(circleAttr);
+        leg.text(xi + 130 + 2, 100, "overload").attr(labelAttr).attr({"text-anchor": "start"});
+        leg.path([["M", xi + 130, 100], ["L", xi + 130, 200]]).attr({ stroke: "#333" });
+
+        leg.circle(xi + 160, 140, 5).attr(circleAttr);
+        leg.text(xi + 160 + 2, 90, "permissions").attr(labelAttr).attr({"text-anchor": "start"});
+        leg.path([["M", xi + 160, 140], ["L", xi + 160, 180]]).attr({ stroke: "#333" });
 
 		$("#counter").click(function () {
 			$(".target").hide();
