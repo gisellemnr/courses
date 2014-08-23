@@ -1,13 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
 	setUp();
 
-	$.get('data.php')
-    .done(function() { 
-        console.log(true)
-    }).fail(function() { 
-        console.log(false);
-    });
-
 	$.dbGET('getUsername', {}, function(r) {
 		if (r) {
 			$('#log div').html("LOGOUT " + r.toUpperCase());
