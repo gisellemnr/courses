@@ -1,82 +1,70 @@
 function Counter() {
 	var NEEDLES = [];
 	var TEXTS = [];
-	var r = Raphael("counter", 45, 580),
-		leg = Raphael("counter-legend", 255, 300),
+	var r = Raphael("counter", 130, 580),
 		R = 15, 	// radius of circle 
-		xi = 20, 	// x position
+		xi = 105, 	// x position
 		sw = 12, 	// stroke-width
 		parts = 5, 	// number of stats
-		hues = [0, .16, .35, .16, 0],
-		bris = [.9, .9, .85, .9, .75],
 		labelAttr = { stroke: "none", fill: "grey", "font-size": "12px" },
 		circleAttr = { fill: "#555", stroke: "none" };
 	addObj();
+	
+	Raphael.colorwheel("counter-legend", 250);
 
-	function addObj(){
-		var p = parts,
+	function addObj() {
+		var p = 80,
 			alpha = 180 / p,
 			a = (90 - alpha) * Math.PI / 180;
-		
 		for (var i = 1; i <= 8; i++) {
 			var yi = i * 75 - 50,
 				x = xi + R * Math.cos(a),
 				y = yi - R * Math.sin(a),
 				path = [["M", xi, yi - R], ["A", R, R, 0, + (alpha > 180), 1, x, y]];
-	        for (var j = 0; j < p; j++) {
-	            r.path(path).attr({
-	                stroke: Raphael.hsb(hues[j], 1, bris[j]),
+	        var txt = r.text(xi - 5, yi, 0).attr(labelAttr);
+	        txt.tooltitle = r.text(41, yi, "Unit counter\nClick for details").attr({
+				stroke: "none",
+				fill: "#fff"
+			});
+			txt.tooltip = r.path(getTooltipPath(txt.tooltitle, 'left', 1)).attr({
+				fill: '#000'
+			});
+			txt.tooltitle.toFront();
+			txt.tooltitle.hide();
+			txt.tooltip.hide();
+			TEXTS.push(txt);
+			for (var j = 0; j < p; j++) {
+	        	var fill = j * (150 / p) / 255;
+                if (j > p / 2) {
+                    fill = (p - j) * (150 / p) / 255;
+                }
+	            var rainbow = r.path(path).attr({
+	            	stroke: Raphael.hsb(fill, 1, .78),
 	                transform: "r" + [alpha * j, xi, yi],
 	                "stroke-width": sw,
 	                cursor: "pointer"
 	            });
+	            rainbow.hover(function (e) {
+	            	for (var k = 0; k < 8; k++) {
+	            		TEXTS[k].tooltitle.hide();
+						TEXTS[k].tooltip.hide();
+	            	}
+	            	var t = Math.round((e.y + 50) / 75) - 1;
+	            	TEXTS[t].tooltitle.show();
+					TEXTS[t].tooltip.show();
+	            }, function (e) {
+	            	var t = Math.round((e.y + 50) / 75) - 1;
+	            	TEXTS[t].tooltitle.hide();
+					TEXTS[t].tooltip.hide();
+				});
 	        }
-			TEXTS.push(r.text(15, yi, 0).attr(labelAttr));
 			var needle = r.path(["M", xi, yi - 5, "L", xi + 4, yi - 10, "L", xi, yi - 20, "L", xi - 4, yi - 10]).attr({
                 fill: "#333",
                 stroke: "none"
             });
             NEEDLES.push(needle);
+
 		}
-		
-		var yi = 150,
-			x = xi + 100 + R * 4 * Math.cos(a),
-			y = yi - R * 4 * Math.sin(a);
-
-		for (var j = 0; j < p; j++) {
-            leg.path([["M", xi + 100, yi - R * 4], ["A", R * 4, R * 4, 0, + (alpha > 180), 1, x, y]]).attr({
-                stroke: Raphael.hsb(hues[j], 1, bris[j]),
-                transform: "r" + [180 / p * j - 90, xi + 100, yi],
-                "stroke-width": sw * 4
-            });
-        }
-        leg.text(xi + 100, 20, "UNIT COUNTER").attr(labelAttr);
-
-        leg.text(xi + 100, 30, "36").attr(labelAttr).attr({transform: "r" + [-270 / p, xi + 100, yi] });
-        leg.text(xi + 100, 30, "46").attr(labelAttr).attr({transform: "r" + [-90 / p, xi + 100, yi] });
-        leg.text(xi + 100, 30, "52").attr(labelAttr).attr({transform: "r" + [90 / p, xi + 100, yi] });
-        leg.text(xi + 100, 30, "64").attr(labelAttr).attr({transform: "r" + [270 / p, xi + 100, yi] });
-
-        leg.circle(xi + 40, 130, 3).attr(circleAttr);
-        leg.text(xi + 40 + 2, 130, "underload").attr(labelAttr).attr({"text-anchor": "start"});
-        leg.path([["M", xi + 40, 130], ["L", xi + 40, 260]]).attr({ stroke: "#555" });
-
-        leg.circle(xi + 70, 100, 3).attr(circleAttr);
-        leg.text(xi + 70 + 2, 120, "risky").attr(labelAttr).attr({"text-anchor": "start"});
-        leg.path([["M", xi + 70, 100], ["L", xi + 70, 240]]).attr({ stroke: "#555" });
-
-        leg.circle(xi + 100, 90, 3).attr(circleAttr);
-        leg.text(xi + 100 + 2, 110, "healthy").attr(labelAttr).attr({"text-anchor": "start"});
-        leg.path([["M", xi + 100, 90], ["L", xi + 100, 220]]).attr({ stroke: "#555" });
-
-        leg.circle(xi + 130, 100, 3).attr(circleAttr);
-        leg.text(xi + 130 + 2, 100, "overload").attr(labelAttr).attr({"text-anchor": "start"});
-        leg.path([["M", xi + 130, 100], ["L", xi + 130, 200]]).attr({ stroke: "#555" });
-
-        leg.circle(xi + 160, 130, 3).attr(circleAttr);
-        leg.text(xi + 160 + 2, 90, "permissions").attr(labelAttr).attr({"text-anchor": "start"});
-        leg.path([["M", xi + 160, 130], ["L", xi + 160, 180]]).attr({ stroke: "#555" });
-
 		$("#counter").click(function () {
 			$(".target").hide();
 			if ($("#counter-legend").is(":visible")) {

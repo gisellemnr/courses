@@ -21,7 +21,7 @@ aside {
     padding: 10px;
     z-index: 100;
     width: calc(100% - 1000px);
-    min-width: 270px;
+    min-width: 280px;
     max-width: 340px;
     background: #f3f3f3;
     float: left;
@@ -45,6 +45,10 @@ aside {
 
 #holder, #counter {
     float: left;
+}
+
+#counter {
+    margin-left: -85px;
 }
 
 .swipe-area {
@@ -82,7 +86,7 @@ aside {
     margin-bottom: 0;
 }
 
-@media screen and (min-width: 0px) and (max-width: 1080px) {
+@media screen and (min-width: 0px) and (max-width: 1085px) {
     .content {
         margin-top: -30px;
         margin-left: 60px;

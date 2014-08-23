@@ -486,7 +486,13 @@ function Graph(semesters) {
 					}
 				}
 			}
-
+		}
+		if (shape.attrs.cy > 135 && shape.attrs.cy < 140 ||
+			shape.attrs.cy > 285 && shape.attrs.cy < 290 ||
+			shape.attrs.cy > 435 && shape.attrs.cy < 440) {
+			summers.attr({"stroke-dasharray": "- "});
+		} else {
+			summers.attr({"stroke-dasharray": ". "});
 		}
 	},
 	up = function () {
@@ -510,6 +516,13 @@ function Graph(semesters) {
 		}
 		if (r.getById('del').attrs.r == 25 && shape.area != 'core' && shape.area != 'placeholder') {
 			removeCourse(shape);
+		} else if (shape.attrs.cy > 135 && shape.attrs.cy < 140 ||
+			shape.attrs.cy > 285 && shape.attrs.cy < 290 ||
+			shape.attrs.cy > 435 && shape.attrs.cy < 440) {
+			summers.attr({"stroke-dasharray": ". "});
+			if (shape.attrs.cy < 140) { position(137.5, shape) }
+				else if (shape.attrs.cy < 290) { position(287.5, shape) }
+					else { position(437.5, shape) }
 		} else if (shape.attrs.cy <= 62.5) {
 			position(25, shape);
 		} else if (shape.attrs.cy <= 137.5) {
@@ -583,10 +596,10 @@ function Graph(semesters) {
 		remove.label = removelab;
 		remove.text = removetxt;
 		remove.tooltip = removetoo;
-		
-		r.path('M,' + marginLeft + ',137.5,L,' + 700 + marginLeft + ',137.5').attr(lineattr);		
-		r.path('M,' + marginLeft + ',287.5,L,' + 700 + marginLeft + ',287.5').attr(lineattr);
-		r.path('M,' + marginLeft + ',437.5,L,' + 700 + marginLeft + ',437.5').attr(lineattr);
+
+		summers.push(r.path('M,' + marginLeft + ',137.5,L,' + 700 + marginLeft + ',137.5').attr(lineattr));				
+		summers.push(r.path('M,' + marginLeft + ',287.5,L,' + 700 + marginLeft + ',287.5').attr(lineattr));
+		summers.push(r.path('M,' + marginLeft + ',437.5,L,' + 700 + marginLeft + ',437.5').attr(lineattr));
 
 		r.text(10, 62.5, 'senior').attr(labelattr);
 		r.text(10, 212.5, 'junior').attr(labelattr);
@@ -638,6 +651,7 @@ function Graph(semesters) {
 		cours = [],
 		shapes = [],
 		labels = [],
+		summers = r.set(),
 		connections = [];
 	initGraph(semesters);
 	updateCounters();
