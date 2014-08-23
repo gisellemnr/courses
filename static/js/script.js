@@ -1,18 +1,13 @@
 document.addEventListener('DOMContentLoaded', function () {
 	setUp();
 
-	try {
-		$.get('data.php');
-	} catch (e) {
-		console.log('404');		
-	}
-
-	// $.dbGET('getUsername', {}, function(r) {
-	// 	if (r) {
-	// 		$('#log div').html("LOGOUT " + r.toUpperCase());
-	// 		$('a#log').css('width', '200px');
-	// 	}
-	// });
+	$.dbGET('getUsername', {}, function(r) {
+		if (r) {
+			$('#log div').html("LOGOUT " + r.toUpperCase());
+			$('a#log').css('width', '200px');
+			user = true;
+		}
+	});
 
 	Tabletop.init({
 		key: "0AhtG6Yl2-hiRdE9KVHEtSkxscnoxTExua3dyNXJZUXc",
@@ -73,7 +68,7 @@ function init(result) {
 	var graph = new Graph(semesters);
 
 	// USER DATA
-	// if (UrlExists('data.php')) {
+	if (user) {
 		$.dbGET('getUser', {}, function(r) {
 			if (r.length == 0) {
 				$.dbGET('addUser');
@@ -93,7 +88,7 @@ function init(result) {
 				graph.reposition(c, content[c].cx, content[c].cy);
 			}
 		});
-	// }
+	}
 
 	for (a in areas) {
 		addElective(a, areas[a], colors[a]);
