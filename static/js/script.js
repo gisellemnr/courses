@@ -1,14 +1,14 @@
 document.addEventListener('DOMContentLoaded', function () {
 	setUp();
 
-	console.log(UrlExists('data.php'));
-
-	$.dbGET('getUsername', {}, function(r) {
-		if (r) {
-			$('#log div').html("LOGOUT " + r.toUpperCase());
-			$('a#log').css('width', '200px');
-		}
-	});
+	if (UrlExists('data.php')) {
+		$.dbGET('getUsername', {}, function(r) {
+			if (r) {
+				$('#log div').html("LOGOUT " + r.toUpperCase());
+				$('a#log').css('width', '200px');
+			}
+		});
+	}
 
 	Tabletop.init({
 		key: "0AhtG6Yl2-hiRdE9KVHEtSkxscnoxTExua3dyNXJZUXc",
@@ -69,25 +69,27 @@ function init(result) {
 	var graph = new Graph(semesters);
 
 	// USER DATA
-	$.dbGET('getUser', {}, function(r) {
-		if (r.length == 0) {
-			$.dbGET('addUser');
-			return;
-		}
-		var content = JSON.parse(r[0].json);
-		for (c in content){
-			// adding non-core courses
-			if (content[c].area != 'core' && content[c].area != 'placeholder'){
-				if (c in electives) {
-					graph.addCourse(electives[c], true);
-				} else {
-					var g = new course(c, null, 0, [], null, null, colors['General'], 'general');
-					graph.addCourse(g, true);
-				}
+	if (UrlExists('data.php')) {
+		$.dbGET('getUser', {}, function(r) {
+			if (r.length == 0) {
+				$.dbGET('addUser');
+				return;
 			}
-			graph.reposition(c, content[c].cx, content[c].cy);
-		}
-	});
+			var content = JSON.parse(r[0].json);
+			for (c in content){
+				// adding non-core courses
+				if (content[c].area != 'core' && content[c].area != 'placeholder'){
+					if (c in electives) {
+						graph.addCourse(electives[c], true);
+					} else {
+						var g = new course(c, null, 0, [], null, null, colors['General'], 'general');
+						graph.addCourse(g, true);
+					}
+				}
+				graph.reposition(c, content[c].cx, content[c].cy);
+			}
+		});
+	}
 
 	for (a in areas) {
 		addElective(a, areas[a], colors[a]);
