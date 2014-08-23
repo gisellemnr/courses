@@ -1,17 +1,14 @@
 document.addEventListener('DOMContentLoaded', function () {
 	setUp();
 
-	try {
-		$.dbGET('getUsername', {}, function(r) {
-			if (r) {
-				$('#log div').html("LOGOUT " + r.toUpperCase());
-				$('a#log').css('width', '200px');
-			}
-		});
-	} catch(err) {
-		// console.log(err.message);
-		console.log('HI');
-	}
+	console.log(UrlExists('data.php'));
+
+	$.dbGET('getUsername', {}, function(r) {
+		if (r) {
+			$('#log div').html("LOGOUT " + r.toUpperCase());
+			$('a#log').css('width', '200px');
+		}
+	});
 
 	Tabletop.init({
 		key: "0AhtG6Yl2-hiRdE9KVHEtSkxscnoxTExua3dyNXJZUXc",
@@ -231,4 +228,11 @@ function showHideMenus(){
 		$(this).addClass('checked');
 		$(this.name).fadeIn();
 	}
+}
+
+function UrlExists(url) {
+    var http = new XMLHttpRequest();
+    http.open('HEAD', url, false);
+    http.send();
+    return http.status!=404;
 }
