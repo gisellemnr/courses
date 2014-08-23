@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', function () {
 		if (r) {
 			$('#log div').html("LOGOUT " + r.toUpperCase());
 			$('a#log').css('width', '200px');
-			console.log(USER);
 			USER = true;
 		}
 	});
