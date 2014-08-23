@@ -9,7 +9,8 @@ document.addEventListener('DOMContentLoaded', function () {
 			}
 		});
 	} catch(err) {
-		console.log(err.message);
+		// console.log(err.message);
+		console.log('HI');
 	}
 
 	Tabletop.init({
