@@ -1,12 +1,18 @@
 document.addEventListener('DOMContentLoaded', function () {
 	setUp();
 
-	$.dbGET('getUsername', {}, function(r) {
-		if (r) {
-			$('#log div').html("LOGOUT " + r.toUpperCase());
-			$('a#log').css('width', '200px');
-		}
-	});
+	console.log('hi');
+
+	$.get('data.php').done(function() { 
+        $.dbGET('getUsername', {}, function(r) {
+			if (r) {
+				$('#log div').html("LOGOUT " + r.toUpperCase());
+				$('a#log').css('width', '200px');
+			}
+		});
+    }).fail(function() { 
+        console.log(false);
+    });
 
 	Tabletop.init({
 		key: "0AhtG6Yl2-hiRdE9KVHEtSkxscnoxTExua3dyNXJZUXc",
