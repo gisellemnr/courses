@@ -546,7 +546,7 @@ function Graph(semesters) {
 		unselectCourse();
 		setTimeout(function(){
 			updateCounters();
-			if (user) {
+			if (USER) {
 				console.log("YES");
 				$.dbGET('setUser', { json: JSON.stringify(graph.getContent()) });
 			}			

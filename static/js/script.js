@@ -1,3 +1,5 @@
+var USER = false;
+
 document.addEventListener('DOMContentLoaded', function () {
 	setUp();
 
@@ -5,7 +7,8 @@ document.addEventListener('DOMContentLoaded', function () {
 		if (r) {
 			$('#log div').html("LOGOUT " + r.toUpperCase());
 			$('a#log').css('width', '200px');
-			user = true;
+			console.log(USER);
+			USER = true;
 		}
 	});
 
@@ -68,7 +71,7 @@ function init(result) {
 	var graph = new Graph(semesters);
 
 	// USER DATA
-	if (user) {
+	if (USER) {
 		$.dbGET('getUser', {}, function(r) {
 			if (r.length == 0) {
 				$.dbGET('addUser');
