@@ -546,9 +546,9 @@ function Graph(semesters) {
 		unselectCourse();
 		setTimeout(function(){
 			updateCounters();
-			if (UrlExists('data.php')) {
+			
 				$.dbGET('setUser', { json: JSON.stringify(graph.getContent()) });
-			}
+			
 		}, 200);			
 	}
 
