@@ -110,7 +110,9 @@ function init(result) {
 	$("li > a").click(function () {
 		var c = $(this)[0].text;
 		graph.addCourse(electives[c]);
-		$.dbGET('setUser', { json: JSON.stringify(graph.getContent()) });
+		if (USER) {
+			$.dbGET('setUser', { json: JSON.stringify(graph.getContent()) });
+		}
 	});
 	if ($(window).width() > 1050) {
 		addTooltip();
@@ -157,7 +159,9 @@ function addGeneralCourse(graph, colors, electives) {
 		}
 		$('#general').val('');
 		$('#general').typeahead('setQuery', '');
-		$.dbGET('setUser', { json: JSON.stringify(graph.getContent()) });
+		if (USER) {
+			$.dbGET('setUser', { json: JSON.stringify(graph.getContent()) });
+		}
 	}
 }
 
