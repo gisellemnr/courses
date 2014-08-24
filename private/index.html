@@ -18,6 +18,9 @@
 	<script type="text/javascript" src="https://samakanbour.github.io/courses/static/lib/js/typeahead.min.js"></script>
 	<script type="text/javascript" src="https://samakanbour.github.io/courses/static/lib/js/raphael.min.js"></script>
 	<script>
+		$.usrGET = function(action, data, callback) {
+			$.get('user.php?action='+action,data,callback,'json');
+		}
 		$.dbGET = function(action, data, callback) {
 			$.get('data.php?action='+action,data,callback,'json');
 		}

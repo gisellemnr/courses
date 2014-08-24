@@ -3,13 +3,24 @@ var USER = false;
 document.addEventListener('DOMContentLoaded', function () {
 	setUp();
 
-	$.dbGET('getUsername', {}, function(r) {
+	console.log('HEY');
+
+	$.usrGET('getUsername', {}, function(r) {
 		if (r) {
-			$('#log div').html("LOGOUT " + r.toUpperCase());
-			$('a#log').css('width', '200px');
+			// $('#log div').html("LOGOUT " + r.toUpperCase());
+			// $('a#log').css('width', '200px');
 			USER = true;
+			console.log("YES");
 		}
 	});
+
+	// $.dbGET('getUsername', {}, function(r) {
+	// 	if (r) {
+	// 		$('#log div').html("LOGOUT " + r.toUpperCase());
+	// 		$('a#log').css('width', '200px');
+	// 		USER = true;
+	// 	}
+	// });
 
 	Tabletop.init({
 		key: "0AhtG6Yl2-hiRdE9KVHEtSkxscnoxTExua3dyNXJZUXc",
