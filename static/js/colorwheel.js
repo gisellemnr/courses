@@ -16,7 +16,7 @@
                 segments = parts * 15,
                 padding = size1 * 1.8;
 
-            var r = Raphael(0, 0, size, size);
+            var r = Raphael(0, 0, size + 10, size);
             t.center = center;
             var a = pi / 2 - pi * 2 / segments * 1.3 / 2,
                 R1 = center - padding,

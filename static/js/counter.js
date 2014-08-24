@@ -66,10 +66,10 @@ function Counter() {
 		}
 		$("#counter").click(function () {
 			$(".target").hide();
-			if ($("#counter-legend").is(":visible")) {
-				$("#counter-legend").fadeOut();
+			if ($("iframe").is(":visible")) {
+				$("iframe").fadeOut();
 			} else {
-				$("#counter-legend").fadeIn();
+				$("iframe").fadeIn();
 			}
 		});
 	}

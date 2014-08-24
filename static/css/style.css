@@ -219,7 +219,8 @@ hr {
     background-size: 15px 15px;
 }
 
-#counter-legend {
+iframe {
     margin-top: 30px;
+    margin-left: -20px;
     display: none;
 }
