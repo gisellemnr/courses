@@ -53,7 +53,7 @@ function Counter() {
 	            	TEXTS[t].tooltitle.show();
 					TEXTS[t].tooltip.show();
 	            }, function (e) {
-	            	var t = Math.round((e.y + 50) / 75) - 1;
+	            	var t = Math.round((e.pageY + 50) / 75) - 1;
 	            	TEXTS[t].tooltitle.hide();
 					TEXTS[t].tooltip.hide();
 				});
