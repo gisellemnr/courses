@@ -49,9 +49,7 @@ function Counter() {
 	            		TEXTS[k].tooltitle.hide();
 						TEXTS[k].tooltip.hide();
 	            	}
-	            	var t = Math.round((e.y + 50) / 75) - 1;
-	            	console.log(e);
-	            	console.log(t);
+	            	var t = Math.round((e.pageY + 50) / 75) - 1;
 	            	TEXTS[t].tooltitle.show();
 					TEXTS[t].tooltip.show();
 	            }, function (e) {
