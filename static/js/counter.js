@@ -107,15 +107,15 @@ function Counter() {
 		t.cur.drag(function (dx, dy, x, y) {
 		    setH(x - t.size2 - 10, y - t.size2 - 150, t);
 		});
-		console.log(window.screenY);
-		r.text(size2, 5, "UNIT COUNTER").attr(labelAttr).attr({"font-size": "14px", "font-weight": "bold"});
-		r.text(size2, size20 - 5, "0").attr(labelAttr).attr({transform: "r" + [-90 * 5 / parts,   size2, size2] });
-		r.text(size2, size20 - 5, "36").attr(labelAttr).attr({transform: "r" + [-90 * 3 / parts,   size2, size2] });
-		r.text(size2, size20 - 5, "41").attr(labelAttr).attr({transform: "r" + [-90 / parts,    size2, size2] });
-		r.text(size2, size20 - 5, "49").attr(labelAttr).attr({transform: "r" + [90 / parts,     size2, size2] });
-		r.text(size2, size20 - 5, "51").attr(labelAttr).attr({transform: "r" + [90 * 3 / parts,    size2, size2] });
-		r.text(size2, size20 - 5, "63").attr(labelAttr).attr({transform: "r" + [90 * 5 / parts,   size2, size2] });
-		t.leg = r.text(size2, 80, "Drag the needle").attr(labelAttr);
+		var pad = window.screenY;
+		r.text(size2, 5 - pad, "UNIT COUNTER").attr(labelAttr).attr({"font-size": "14px", "font-weight": "bold"});
+		r.text(size2, size20 - 5 - pad, "0").attr(labelAttr).attr({transform: "r" + [-90 * 5 / parts,   size2, size2] });
+		r.text(size2, size20 - 5 - pad, "36").attr(labelAttr).attr({transform: "r" + [-90 * 3 / parts,   size2, size2] });
+		r.text(size2, size20 - 5 - pad, "41").attr(labelAttr).attr({transform: "r" + [-90 / parts,    size2, size2] });
+		r.text(size2, size20 - 5 - pad, "49").attr(labelAttr).attr({transform: "r" + [90 / parts,     size2, size2] });
+		r.text(size2, size20 - 5 - pad, "51").attr(labelAttr).attr({transform: "r" + [90 * 3 / parts,    size2, size2] });
+		r.text(size2, size20 - 5 - pad, "63").attr(labelAttr).attr({transform: "r" + [90 * 5 / parts,   size2, size2] });
+		t.leg = r.text(size2, 80 - pad, "Drag the needle").attr(labelAttr);
 		r.text(10, 100, " 0-35: You need at least 36 units\n36-40: You may not be able to drop a course\n41-48: Healthy load\n49-50: You are piling too much on your plate\n51-63: requires permission if QPA < 3.0").attr(labelAttr).attr({"text-anchor": "start"});
 	}
 
