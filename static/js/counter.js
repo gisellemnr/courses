@@ -50,6 +50,7 @@ function Counter() {
 						TEXTS[k].tooltip.hide();
 	            	}
 	            	var t = Math.round((e.y + 50) / 75) - 1;
+	            	console.log(e);
 	            	console.log(t);
 	            	TEXTS[t].tooltitle.show();
 					TEXTS[t].tooltip.show();
