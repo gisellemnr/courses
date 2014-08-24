@@ -10,13 +10,13 @@
             var t = this,
                 parts = 5,
                 w3 = 3.5 * size / 200,
-                size1 = size / 10,
+                size1 = size / 9,
                 size2 = size / 2.4,
                 center = size / 2,
                 segments = parts * 15,
-                padding = size1 * 1.8;
+                padding = size1 * 1.3;
 
-            var r = Raphael(0, 0, size + 10, size);
+            var r = Raphael(0, 0, size, size * 2);
             t.center = center;
             var a = pi / 2 - pi * 2 / segments * 1.3 / 2,
                 R1 = center - padding,
@@ -38,15 +38,15 @@
             t.cur.drag(function (dx, dy, x, y) {
                 t.setH(x - center, y - center);
             });
-            r.text(center, 20, "UNIT COUNTER").attr(labelAttr).attr({"font-size": "14px", "font-weight": "bold"});
-            r.text(center, 40,  "0").attr(labelAttr).attr({transform: "r" + [-90 * 5 / parts,   center, center] });
-            r.text(center, 40, "36").attr(labelAttr).attr({transform: "r" + [-90 * 3 / parts,   center, center] });
-            r.text(center, 40, "41").attr(labelAttr).attr({transform: "r" + [-90 * 1 / parts,   center, center] });
-            r.text(center, 40, "49").attr(labelAttr).attr({transform: "r" + [ 90 * 1 / parts,   center, center] });
-            r.text(center, 40, "51").attr(labelAttr).attr({transform: "r" + [ 90 * 3 / parts,   center, center] }); 
-            r.text(center, 40, "63").attr(labelAttr).attr({transform: "r" + [ 90 * 5 / parts,   center, center] });
-            t.lab = r.text(center, 180, "Drag the needle").attr(labelAttr);
-            r.text(20, 260, " 0-35: You need at least 36 units\n36-40: You may not be able to drop a course\n41-48: Healthy load\n49-50: You are piling too much on your plate\n51-63: requires permission if QPA < 3.0").attr(labelAttr).attr({"text-anchor": "start"});
+            r.text(center, 5, "UNIT COUNTER").attr(labelAttr).attr({"font-size": "13px", "font-weight": "bold"});
+            r.text(center, 28,  "0").attr(labelAttr).attr({transform: "r" + [-90 * 5 / parts,   center, center] });
+            r.text(center, 28, "36").attr(labelAttr).attr({transform: "r" + [-90 * 3 / parts,   center, center] });
+            r.text(center, 28, "41").attr(labelAttr).attr({transform: "r" + [-90 * 1 / parts,   center, center] });
+            r.text(center, 28, "49").attr(labelAttr).attr({transform: "r" + [ 90 * 1 / parts,   center, center] });
+            r.text(center, 28, "51").attr(labelAttr).attr({transform: "r" + [ 90 * 3 / parts,   center, center] }); 
+            r.text(center, 28, "63").attr(labelAttr).attr({transform: "r" + [ 90 * 5 / parts,   center, center] });
+            t.lab = r.text(center, 150, "Drag the needle").attr(labelAttr);
+            r.text(6, 230, "0-35: You need at least 36 units\n36-40: You may not be able to drop a course\n41-48: Healthy load\n49-50: You are piling too much on your plate\n51-63: requires permission if QPA < 3.0").attr(labelAttr).attr({"text-anchor": "start"});
         },
         proto = ColorWheel.prototype;
     proto.setH = function (x, y) {
