@@ -109,10 +109,12 @@ function Counter() {
 		    setH(x - t.size2 - 10, y - t.size2 - 150, t);
 		});
 		r.text(size2, 5, "UNIT COUNTER").attr(labelAttr).attr({"font-size": "14px", "font-weight": "bold"});
-		r.text(size2, size20 - 5, "36").attr(labelAttr).attr({transform: "r" + [-270 / parts,   size2, size2] });
-		r.text(size2, size20 - 5, "46").attr(labelAttr).attr({transform: "r" + [-90 / parts,    size2, size2] });
-		r.text(size2, size20 - 5, "52").attr(labelAttr).attr({transform: "r" + [90 / parts,     size2, size2] });
-		r.text(size2, size20 - 5, "64").attr(labelAttr).attr({transform: "r" + [270 / parts,    size2, size2] });
+		r.text(size2, size20 - 5, "0").attr(labelAttr).attr({transform: "r" + [-90 * 5 / parts,   size2, size2] });
+		r.text(size2, size20 - 5, "36").attr(labelAttr).attr({transform: "r" + [-90 * 3 / parts,   size2, size2] });
+		r.text(size2, size20 - 5, "41").attr(labelAttr).attr({transform: "r" + [-90 / parts,    size2, size2] });
+		r.text(size2, size20 - 5, "49").attr(labelAttr).attr({transform: "r" + [90 / parts,     size2, size2] });
+		r.text(size2, size20 - 5, "51").attr(labelAttr).attr({transform: "r" + [90 * 3 / parts,    size2, size2] });
+		r.text(size2, size20 - 5, "63").attr(labelAttr).attr({transform: "r" + [90 * 5 / parts,   size2, size2] });
 		t.leg = r.text(size2, 80, "Drag the needle").attr(labelAttr);
 		r.text(10, 100, " 0-35: You need at least 36 units\n36-40: You may not be able to drop a course\n41-48: Healthy load\n49-50: You are piling too much on your plate\n51-63: requires permission if QPA < 3.0").attr(labelAttr).attr({"text-anchor": "start"});
 	}
@@ -134,11 +136,11 @@ function Counter() {
 			value = 0;
 		} else if (v < 36) {
 			value = 1;
-		} else if (v < 46) {
+		} else if (v < 41) {
 			value = 2;
-		} else if (v < 52) {
+		} else if (v < 49) {
 			value = 3;
-		} else if (v < 64) {
+		} else if (v < 51) {
 			value = 4;
 		} else {
 			value = 5;
