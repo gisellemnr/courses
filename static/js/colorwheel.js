@@ -46,7 +46,7 @@
             r.text(center, 28, "51").attr(labelAttr).attr({transform: "r" + [ 90 * 3 / parts,   center, center] }); 
             r.text(center, 28, "63").attr(labelAttr).attr({transform: "r" + [ 90 * 5 / parts,   center, center] });
             t.lab = r.text(center, 150, "Drag the needle").attr(labelAttr);
-            r.text(6, 230, "0-35: You need at least 36 units\n36-40: You may not be able to drop a course\n41-48: Healthy load\n49-50: You are piling too much on your plate\n51-63: requires permission if QPA < 3.0").attr(labelAttr).attr({"text-anchor": "start"});
+            r.text(6, 230, "0-35: You need at least 36 units\n36-40: You may not be able to drop a course\n41-48: Your course load is healthy\n49-50: You are piling too much on your plate\n51-63: You need permissions if QPA < 3.0").attr(labelAttr).attr({"text-anchor": "start"});
         },
         proto = ColorWheel.prototype;
     proto.setH = function (x, y) {
