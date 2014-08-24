@@ -107,6 +107,7 @@ function Counter() {
 		t.cur.drag(function (dx, dy, x, y) {
 		    setH(x - t.size2 - 10, y - t.size2 - 150, t);
 		});
+		console.log(window.screenY);
 		r.text(size2, 5, "UNIT COUNTER").attr(labelAttr).attr({"font-size": "14px", "font-weight": "bold"});
 		r.text(size2, size20 - 5, "0").attr(labelAttr).attr({transform: "r" + [-90 * 5 / parts,   size2, size2] });
 		r.text(size2, size20 - 5, "36").attr(labelAttr).attr({transform: "r" + [-90 * 3 / parts,   size2, size2] });
