@@ -56,6 +56,6 @@
         var i = Math.floor((d - 180) / 36);
         if (i > 4) { i = 4 };
         this.cur.attr({transform: "r" + [d + 90, this.center, this.center]});
-        this.lab.attr({text: labels[i]});
+        // this.lab.attr({text: labels[i]});
     };
 })(window.Raphael);
