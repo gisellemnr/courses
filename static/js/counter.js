@@ -64,14 +64,6 @@ function Counter() {
             });
             NEEDLES.push(needle);
 		}
-		$("#counter").click(function () {
-			$(".target").hide();
-			if ($("iframe").is(":visible")) {
-				$("iframe").fadeOut();
-			} else {
-				$("iframe").fadeIn();
-			}
-		});
 	}
 
 	this.updateVal = function (i, v) {

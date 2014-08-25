@@ -176,6 +176,7 @@ function setUp(){
 	$("#remove").hide();
 	$("#link").hide();
 	$(".target").hide();
+	// $("iframe").hide();
 	$(".menu").click(showHideMenus);
 	$("[data-toggle]").click(function () {
 		var toggle_el = $(this).data("toggle");
@@ -198,6 +199,14 @@ function setUp(){
 			destroyTooltip();
 		} else {
 			addTooltip();
+		}
+	});
+	$("#counter").click(function () {
+		$(".target").hide();
+		if ($("iframe").css('visibility') === 'visible') {
+			$("iframe").css('visibility', 'hidden');
+		} else {
+			$("iframe").css('visibility', 'visible');
 		}
 	});
 }

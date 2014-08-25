@@ -221,5 +221,5 @@ hr {
 
 iframe {
     margin-top: 30px;
-    display: none;
+    visibility: hidden;
 }

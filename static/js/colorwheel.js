@@ -52,10 +52,14 @@
     proto.setH = function (x, y) {
         var labels = ["Underload", "Risky", "Healthy", "Overload", "Permissions"];
         var d = Raphael.angle(x, y, 0, 0);
+        var fill = "#222";
         if (d < 90) { d = 360 } else if (d < 180) { d = 180 };
         var i = Math.floor((d - 180) / 36);
         if (i > 4) { i = 4 };
-        this.cur.attr({transform: "r" + [d + 90, this.center, this.center]});
-        // this.lab.attr({text: labels[i]});
+        if (i == 0) {
+            fill = "#555";
+        }
+        this.cur.attr({transform: "r" + [d + 90, this.center, this.center], fill: fill});
+        this.lab.attr({text: labels[i]});
     };
 })(window.Raphael);
