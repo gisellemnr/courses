@@ -57,7 +57,7 @@
         var i = Math.floor((d - 180) / 36);
         if (i > 4) { i = 4 };
         if (i == 0) {
-            fill = "#555";
+            fill = "#990000";
         }
         this.cur.attr({transform: "r" + [d + 90, this.center, this.center], fill: fill});
         this.lab.attr({text: labels[i]});
