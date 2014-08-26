@@ -201,14 +201,6 @@ function setUp(){
 			addTooltip();
 		}
 	});
-	$("#counter").click(function () {
-		$(".target").hide();
-		if ($("iframe").css('visibility') === 'visible') {
-			$("iframe").css('visibility', 'hidden');
-		} else {
-			$("iframe").css('visibility', 'visible');
-		}
-	});
 }
 
 function addTooltip(){

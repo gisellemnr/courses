@@ -2,7 +2,8 @@ function Graph(semesters) {
 	var graph = this;
 	var hidden = false;
 	var marginLeft = 25;
-	var counter = new Counter();
+	var WIDTH = 772;
+	var HEIGHT = 580;
 
 	// y is the cy value of the semester
 	// shape is the shape newly moved that must be repositioned
@@ -439,8 +440,8 @@ function Graph(semesters) {
 		if (ylimit < 25 && rcon == 0) {
 			dy = 25 - shape.oy;
 		}
-		if (xlimit > 680) {
-			dx = 680 - shape.ox;
+		if (xlimit > (700 - 20 + marginLeft)) {
+			dx = (700 - 20 + marginLeft) - shape.ox;
 		}
 		if (xlimit < (20 + marginLeft)) {
 			dx = (20 + marginLeft) - shape.ox;
@@ -599,9 +600,9 @@ function Graph(semesters) {
 		remove.text = removetxt;
 		remove.tooltip = removetoo;
 
-		summers.push(r.path('M,' + marginLeft + ',137.5,L,' + 700 + marginLeft + ',137.5').attr(lineattr));				
-		summers.push(r.path('M,' + marginLeft + ',287.5,L,' + 700 + marginLeft + ',287.5').attr(lineattr));
-		summers.push(r.path('M,' + marginLeft + ',437.5,L,' + 700 + marginLeft + ',437.5').attr(lineattr));
+		summers.push(r.path('M,' + marginLeft + ',137.5,L,' + (700 + marginLeft) + ',137.5').attr(lineattr));				
+		summers.push(r.path('M,' + marginLeft + ',287.5,L,' + (700 + marginLeft) + ',287.5').attr(lineattr));
+		summers.push(r.path('M,' + marginLeft + ',437.5,L,' + (700 + marginLeft) + ',437.5').attr(lineattr));
 
 		r.text(10, 62.5, 'senior').attr(labelattr);
 		r.text(10, 212.5, 'junior').attr(labelattr);
@@ -649,12 +650,13 @@ function Graph(semesters) {
 		}
 	});
 	$('#title').html("Click on a course to show its details.");
-	var r = Raphael("holder", 730, 580),
+	var r = Raphael("holder", WIDTH, HEIGHT),
 		cours = [],
 		shapes = [],
 		labels = [],
 		summers = r.set(),
-		connections = [];
+		connections = [],
+		counter = new Counter(r);
 	initGraph(semesters);
 	updateCounters();
 }

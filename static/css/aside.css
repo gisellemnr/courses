@@ -43,12 +43,8 @@ aside {
     width: 100%;
 }
 
-#holder, #counter {
+#holder {
     float: left;
-}
-
-#counter {
-    margin-left: -85px;
 }
 
 .swipe-area {

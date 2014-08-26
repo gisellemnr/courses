@@ -1,9 +1,8 @@
-function Counter() {
+function Counter(r) {
 	var NEEDLES = [];
 	var TEXTS = [];
-	var r = Raphael("counter", 130, 580),
-		R = 15, 	// radius of circle 
-		xi = 105, 	// x position
+	var R = 15, 	// radius of circle 
+		xi = 750, 	// x position
 		sw = 12, 	// stroke-width
 		parts = 5, 	// number of stats
 		labelAttr = { stroke: "none", fill: "grey", "font-size": "12px" },
@@ -22,14 +21,13 @@ function Counter() {
 				y = yi - R * Math.sin(a),
 				path = [["M", xi, yi - R], ["A", R, R, 0, + (alpha > 180), 1, x, y]];
 	        var txt = r.text(xi - 5, yi, 0).attr(labelAttr);
-	        txt.tooltitle = r.text(41, yi, "Unit counter\nClick for details").attr({
+	        txt.tooltitle = r.text(xi - 62, yi, "Unit counter\nClick for details").attr({
 				stroke: "none",
 				fill: "#fff"
 			});
 			txt.tooltip = r.path(getTooltipPath(txt.tooltitle, 'left', 1)).attr({
 				fill: '#000'
 			});
-			txt.tooltitle.toFront();
 			txt.tooltitle.hide();
 			txt.tooltip.hide();
 			TEXTS.push(txt);
@@ -50,19 +48,29 @@ function Counter() {
 						TEXTS[k].tooltip.hide();
 	            	}
 	            	var t = Math.round((e.pageY + 50) / 75) - 1;
-	            	TEXTS[t].tooltitle.show();
-					TEXTS[t].tooltip.show();
+					TEXTS[t].tooltip.show().toFront();
+					TEXTS[t].tooltitle.show().toFront();
 	            }, function (e) {
 	            	var t = Math.round((e.pageY + 50) / 75) - 1;
 	            	TEXTS[t].tooltitle.hide();
 					TEXTS[t].tooltip.hide();
 				});
+				rainbow.click(showHideLegend);
 	        }
 			var needle = r.path(["M", xi, yi - 5, "L", xi + 4, yi - 10, "L", xi, yi - 20, "L", xi - 4, yi - 10]).attr({
                 fill: "#333",
                 stroke: "none"
             });
             NEEDLES.push(needle);
+		}
+	}
+
+	function showHideLegend(){
+		$(".target").hide();
+		if ($("iframe").css('visibility') === 'visible') {
+			$("iframe").css('visibility', 'hidden');
+		} else {
+			$("iframe").css('visibility', 'visible');
 		}
 	}
 
