@@ -176,7 +176,6 @@ function setUp(){
 	$("#remove").hide();
 	$("#link").hide();
 	$(".target").hide();
-	// $("iframe").hide();
 	$(".menu").click(showHideMenus);
 	$("[data-toggle]").click(function () {
 		var toggle_el = $(this).data("toggle");
@@ -233,6 +232,7 @@ function showHideMenus(){
 		$(this).removeClass('checked');
 	} else {
 		$(".target").hide();
+		$("#iframe").css('visibility', 'hidden');
 		$(this).addClass('checked');
 		$(this.name).fadeIn();
 	}

@@ -7,8 +7,9 @@ function Counter(r) {
 		parts = 5, 	// number of stats
 		labelAttr = { stroke: "none", fill: "grey", "font-size": "12px" },
 		circleAttr = { fill: "#555", stroke: "none" },
-		cursorAttr = { fill: "#222", stroke: "none", cursor: "move" };
-	
+		cursorAttr = { fill: "#222", stroke: "none", cursor: "move" },
+		cw = Raphael.colorwheel(250),
+		ct = -1;	
 	addObj();
 
 	function addObj() {
@@ -55,7 +56,10 @@ function Counter(r) {
 	            	TEXTS[t].tooltitle.hide();
 					TEXTS[t].tooltip.hide();
 				});
-				rainbow.click(showHideLegend);
+				rainbow.click(function(e) {
+					var t = Math.round((e.pageY + 50) / 75) - 1;
+					showHideLegend(t);
+				});
 	        }
 			var needle = r.path(["M", xi, yi - 5, "L", xi + 4, yi - 10, "L", xi, yi - 20, "L", xi - 4, yi - 10]).attr({
                 fill: "#333",
@@ -65,12 +69,18 @@ function Counter(r) {
 		}
 	}
 
-	function showHideLegend(){
+	function showHideLegend(t){
 		$(".target").hide();
-		if ($("iframe").css('visibility') === 'visible') {
-			$("iframe").css('visibility', 'hidden');
+		if (t == ct) {
+			if ($("#iframe").css('visibility') === 'visible') {
+				$("#iframe").css('visibility', 'hidden');
+			} else {
+				$("#iframe").css('visibility', 'visible');
+			}
 		} else {
-			$("iframe").css('visibility', 'visible');
+			$("#iframe").css('visibility', 'visible');
+			ct = t;
+			Raphael.setWheel(cw, TEXTS[t].attrs.text, TEXTS[t].value);
 		}
 	}
 
@@ -92,10 +102,11 @@ function Counter(r) {
 		var id = 7 - i;
 		var y = (id + 1) * 75 - 50;
 		if (value == 0) {
-			NEEDLES[id].animate({transform: "r" + [value/parts * 180, xi, y]}, 1000);
+			NEEDLES[id].animate({transform: "r" + [0, xi, y]}, 1000);
 		} else {
 			NEEDLES[id].animate({transform: "r" + [value/parts * 180 - (90/parts), xi, y]}, 1000);
 		}		
 		TEXTS[id].attr({text: v});
+		TEXTS[id].value = value;
 	}
 }
