@@ -7,7 +7,7 @@
         var parts = 5;
         var fill = "#222";
         if (i == 0 || i == 1) {
-            fill = "#cc0000";
+            fill = "#669999";
         }
         cw.lab.attr({text: labels[i]});
         cw.num.attr({text: num});
@@ -39,23 +39,23 @@
                 path = ["M", center, padding, "A", R1, R1, 0, 0, 1, R1 * Math.cos(a) + R1 + padding, R1 - R1 * Math.sin(a) + padding, "L", R2 * Math.cos(a) + R1 + padding, R1 - R2 * Math.sin(a) + padding, "A", R2, R2, 0, 0, 0, center, padding + size1 * 2, "z"].join();
             
             for (var i = 0; i < segments; i++) {
-                var fill = i * (150 / segments) / 255;
-                var bri = .78;
-                if (i > segments / 2) {
-                    fill = (segments - i) * (150 / segments) / 255;
-                } 
-                if (i < segments / 4) {
-                    bri = (i / segments / 4) * 4.5 + .5;
+                var fill;
+                if (i < segments / 5) {
+                	fill = (150 / segments) / 255;
+                } else if (i < segments / 2) {
+                	fill = i * (150 / segments) / 255;
+                } else {
+                	fill = (segments - i) * (150 / segments) / 255;
                 }
                 r.path(path).attr({
                     stroke: "none",
-                    fill: Raphael.hsb(fill, .9, bri),
+                    fill: Raphael.hsb(fill, .9, .78),
                     transform: "r" + [(180 / segments) * i - 90, center, center]
                 });
             }
             t.cur = r.path(["M", center, size2, "L", center + w3 * 3, size2 - w3 * 4, "L", center, size2 - w3 * 12, "L", center - w3 * 3, size2 - w3 * 4]).attr(cursorAttr);
-            t.num = r.text(center, 150, "").attr(labelAttr);
-            t.lab = r.text(center, 170, "").attr(labelAttr);
+            t.num = r.text(center, 120, "").attr(labelAttr).attr({"font-size": "18px", "font-weight": "bold"});
+            t.lab = r.text(center, 160, "").attr(labelAttr);
             
             r.text(center, 5, "UNIT COUNTER").attr(labelAttr).attr({"font-size": "13px", "font-weight": "bold"});
             r.text(center, 28,  "0").attr(labelAttr).attr({transform: "r" + [-90 * 5 / parts,   center, center] });
