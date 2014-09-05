@@ -33,10 +33,14 @@ function Counter(r) {
 			txt.tooltip.hide();
 			TEXTS.push(txt);
 			for (var j = 0; j < p; j++) {
-	        	var fill = j * (150 / p) / 255;
-                if (j > p / 2) {
-                    fill = (p - j) * (150 / p) / 255;
-                }
+	        	var fill;
+				if (j < p / 5) {
+					fill = (150 / p) / 255;
+				} else if (j < p / 2) {
+					fill = j * (150 / p) / 255;
+				} else {
+					fill = (p - j) * (150 / p) / 255;
+				}
 	            var rainbow = r.path(path).attr({
 	            	stroke: Raphael.hsb(fill, 1, .78),
 	                transform: "r" + [alpha * j, xi, yi],
@@ -101,10 +105,14 @@ function Counter(r) {
 		}
 		var id = 7 - i;
 		var y = (id + 1) * 75 - 50;
+		var fill = "#222";
+		if (value == 0 || value == 1) {
+		    fill = "#669999";
+		}
 		if (value == 0) {
-			NEEDLES[id].animate({transform: "r" + [0, xi, y]}, 1000);
+			NEEDLES[id].animate({transform: "r" + [0, xi, y], fill:fill}, 1000);
 		} else {
-			NEEDLES[id].animate({transform: "r" + [value/parts * 180 - (90/parts), xi, y]}, 1000);
+			NEEDLES[id].animate({transform: "r" + [value/parts * 180 - (90/parts), xi, y], fill:fill}, 1000);
 		}		
 		TEXTS[id].attr({text: v});
 		TEXTS[id].value = value;

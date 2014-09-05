@@ -5,18 +5,17 @@
     Raphael.setWheel = function (cw, num, i) {
         var labels = ["Underload", "Underload", "Risky", "Healthy", "Overload", "Permissions"];
         var parts = 5;
-        var fill = "#222";
-        if (i == 0 || i == 1) {
-            fill = "#669999";
-        }
+		var fill = "#222";
+		if (i == 0 || i == 1) {
+			fill = "#669999";
+		}
         cw.lab.attr({text: labels[i]});
         cw.num.attr({text: num});
         if (i == 0) {
             cw.cur.animate({transform: "r" + [- 90, cw.center, cw.center], fill: fill}, 900);
         } else {
             cw.cur.animate({transform: "r" + [i/parts * 180 - (90/parts) - 90, cw.center, cw.center], fill: fill}, 900);
-        }
-        
+        }  
     };
     var pi = Math.PI,
         labelAttr = { stroke: "none", fill: "grey", "font-size": "12px" },
@@ -39,14 +38,14 @@
                 path = ["M", center, padding, "A", R1, R1, 0, 0, 1, R1 * Math.cos(a) + R1 + padding, R1 - R1 * Math.sin(a) + padding, "L", R2 * Math.cos(a) + R1 + padding, R1 - R2 * Math.sin(a) + padding, "A", R2, R2, 0, 0, 0, center, padding + size1 * 2, "z"].join();
             
             for (var i = 0; i < segments; i++) {
-                var fill;
-                if (i < segments / 5) {
-                	fill = (150 / segments) / 255;
-                } else if (i < segments / 2) {
-                	fill = i * (150 / segments) / 255;
-                } else {
-                	fill = (segments - i) * (150 / segments) / 255;
-                }
+				var fill;
+				if (i < segments / 5) {
+					fill = (150 / segments) / 255;
+				} else if (i < segments / 2) {
+					fill = i * (150 / segments) / 255;
+				} else {
+					fill = (segments - i) * (150 / segments) / 255;
+				}
                 r.path(path).attr({
                     stroke: "none",
                     fill: Raphael.hsb(fill, .9, .78),
