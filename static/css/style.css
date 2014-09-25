@@ -172,7 +172,7 @@ hr {
     background-color: #fff;
 }
 
-.icon:hover, .menu.checked, #more:hover {
+.icon:hover, .menu.checked, #more:hover, #more.checked {
     background-color: #5bc0de;
 }
 

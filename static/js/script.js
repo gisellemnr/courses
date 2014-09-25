@@ -67,7 +67,7 @@ function init(result) {
 		semesters[labels.indexOf(row.semester)].push(c);
 	});
 
-	var graph = new Graph(semesters);
+	var graph = new Graph(semesters, parseInt(result.parameters.elements[0].value));
 
 	// USER DATA
 	if (USER) {
@@ -83,7 +83,7 @@ function init(result) {
 					if (c in electives) {
 						graph.addCourse(electives[c], true);
 					} else {
-						var g = new course(c, null, 0, [], null, null, colors['General'], 'general');
+						var g = new course(c, 'not found', 0, [], null, null, colors['General'], 'general');
 						graph.addCourse(g, true);
 					}
 				}
@@ -148,13 +148,16 @@ function addColorBtn(name, label, color){
 
 function addGeneralCourse(graph, colors, electives) {
 	var number = $('#general').val();
+	if (number.length == 5) {
+		number = number.slice(0,2) + "-" + number.slice(2,5);
+	}
 	var re = /([0-9][0-9]-[0-9][0-9][0-9])/;
 	var match = number.match(re);
 	if (match && match[0] == number) {
 		if (number in electives) {
 			graph.addCourse(electives[number]);
 		} else {
-			var g = new course(number, null, 'undefined', [], null, null, colors['General'], 'general');
+			var g = new course(number, 'not found', 0, [], null, null, colors['General'], 'general');
 			graph.addCourse(g);
 		}
 		$('#general').val('');

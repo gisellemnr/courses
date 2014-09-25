@@ -1,9 +1,13 @@
-function Graph(semesters) {
+var ARROW_DIRECTION = 0; //if 0 then arrow points to prerequisite; otherwise 1.
+var GRAGH_DIRECTION = 0; //if 0 then freshman is at the bottom; otherwise 1.
+
+function Graph(semesters, ar) {
 	var graph = this;
 	var hidden = false;
 	var marginLeft = 25;
 	var WIDTH = 772;
 	var HEIGHT = 580;
+	ARROW_DIRECTION = ar;
 
 	// y is the cy value of the semester
 	// shape is the shape newly moved that must be repositioned
@@ -352,9 +356,11 @@ function Graph(semesters) {
 				if (hidden) {
 					shapes[i].show();
 					shapes[i].pair.show();
+					$('#more').removeClass('checked');
 				} else {
 					shapes[i].hide();
 					shapes[i].pair.hide();
+					$('#more').addClass('checked');
 				}
 			}
 		}
@@ -401,6 +407,9 @@ function Graph(semesters) {
 		if (shape.holder) {
 			shape.holder.hidden = false;
 			shape.holder = null;
+		}
+		if (!$('.target').is(":visible")) {
+			$('#details').click();
 		}
 	},
 	move = function (dx, dy) {
@@ -666,6 +675,10 @@ Raphael.fn.connect = function (obj1, obj2, line) {
 		line = obj1;
 		obj1 = line.from;
 		obj2 = line.to;
+		if (ARROW_DIRECTION == 1){
+			var obj1 = line.to;
+			var obj2 = line.from;
+		}
 	}
 	var x1 = obj1.attrs.cx,
 		y1 = obj1.attrs.cy,
@@ -707,17 +720,24 @@ Raphael.fn.connect = function (obj1, obj2, line) {
 }
 
 Raphael.fn.reconnect = function (line, object, x, y) {
-	var from = line.from.id == object.id;
-	var to = line.to.id == object.id;
-	if (from || to) {
-		if (from) {
+	var from = line.from;
+	var to = line.to;
+	if (ARROW_DIRECTION == 1) {
+		var to = line.from;
+		var from = line.to;
+	}
+	var fromObj = from.id == object.id;
+	var toObj = to.id == object.id;
+
+	if (fromObj || toObj) {
+		if (fromObj) {
 			var x1 = x,
 				y1 = y,
-				x2 = line.to.attrs.cx,
-				y2 = line.to.attrs.cy;
+				x2 = to.attrs.cx,
+				y2 = to.attrs.cy;
 		} else {
-			var x1 = line.from.attrs.cx,
-				y1 = line.from.attrs.cy,
+			var x1 = from.attrs.cx,
+				y1 = from.attrs.cy,
 				x2 = x,
 				y2 = y;
 		}
