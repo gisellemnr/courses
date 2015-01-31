@@ -67,7 +67,7 @@ label {
     -ms-border-radius: 5px;
     -o-border-radius: 5px;
     border-radius: 5px;
-    max-height:200px;/* you can change as you need it */
+    max-height:200px;
     overflow:auto;
 }
 
