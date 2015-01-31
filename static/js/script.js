@@ -121,15 +121,8 @@ function init(result) {
 	}
 }
 
-var tools = {
-	"Algorithms": 	"Add an Algorithm and Complexity constrained elective",
-	"Applications": "Add an Applications constrained elective",
-	"Logics": 		"Add a Logics and Languages constrained elective",
-	"Systems": 		"Add a Software Systems constrained elective"
-}
-
 function addElective(name, list, color) {
-	var content = '<div class="btn-group" id="' + name + '" title="' + tools[name] + '">\
+	var content = '<div class="btn-group" id="' + name + '" title="Add a' + (name[0] == 'A'? 'n ' : ' ') + name.toLowerCase() + ' constrained elective">\
 			<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" style="background-color:' + color + '; border: 1px solid ' + color + ';">\
 			<span class="caret"></span>&nbsp;&nbsp;' + name + '</button><ul class="dropdown-menu">';
 	for (i in list) {
