@@ -43,8 +43,10 @@ function init(result) {
 		[],
 		[]
 	];
+	var legends = {};
 	result.colors.elements.forEach(function (row) {
 		colors[row.category] = row.color;
+		legends[row.category] = row.legend;
 		addColorBtn(row.category, row.legend, row.color);
 	});
 	result.courses.elements.forEach(function (row) {
@@ -93,7 +95,7 @@ function init(result) {
 	}
 
 	for (a in areas) {
-		addElective(a, areas[a], colors[a]);
+		addElective(a, areas[a], colors[a], legends[a]);
 	}
 
 	$('#general').typeahead({
@@ -121,8 +123,8 @@ function init(result) {
 	}
 }
 
-function addElective(name, list, color) {
-	var content = '<div class="btn-group" id="' + name + '" title="Add a' + (name[0] == 'A'? 'n ' : ' ') + name.toLowerCase() + ' constrained elective">\
+function addElective(name, list, color, label) {
+	var content = '<div class="btn-group" id="' + name + '" title="' + label + '">\
 			<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" style="background-color:' + color + '; border: 1px solid ' + color + ';">\
 			<span class="caret"></span>&nbsp;&nbsp;' + name + '</button><ul class="dropdown-menu">';
 	for (i in list) {
