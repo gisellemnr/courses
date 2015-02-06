@@ -35,6 +35,7 @@ aside {
     -moz-box-sizing: border-box;
     position: relative;
     float: left;
+    background: url(../img/shadow.png) repeat-y;
 }
 
 .content {

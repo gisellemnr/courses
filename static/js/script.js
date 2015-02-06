@@ -68,6 +68,9 @@ function init(result) {
 		var c = new course(row.number, row.title, 0, [], row.URL, row.description, colors[row.category], 'placeholder');
 		semesters[labels.indexOf(row.semester)].push(c);
 	});
+	result.advisors.elements.forEach(function (row) {
+		addAdvisor(row.andrewid, row.name);
+	});
 
 	var graph = new Graph(semesters, parseInt(result.parameters.elements[0].value));
 
@@ -121,6 +124,16 @@ function init(result) {
 	} else {
 		destroyTooltip();
 	}
+	$('.advisor').click(function () {
+		var andrew = $(this)[0].id;
+		if ($(this).hasClass('checked')) {
+			// remove student id from advisor's list
+			$(this).removeClass('checked');
+		} else {
+			// add student id to advisor's list
+			$(this).addClass('checked');
+		}		
+	});
 }
 
 function addElective(name, list, color, label) {
@@ -161,6 +174,11 @@ function addGeneralCourse(graph, colors, electives) {
 			$.dbGET('setUser', { json: JSON.stringify(graph.getContent()) });
 		}
 	}
+}
+
+function addAdvisor(id, name){
+	var content = '<div class="advisor" id="' + id + '"><span class="icon"></span>' + name + '</div>';
+	$('#advisors').append(content);
 }
 
 function setUp(){
