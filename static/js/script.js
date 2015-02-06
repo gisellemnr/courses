@@ -130,12 +130,13 @@ function init(result) {
 	$('.advisor').click(function () {
 		var andrew = $(this)[0].id;
 		if ($(this).hasClass('checked')) {
-			// remove student id from advisor's list
+			// remove advisor
 			$(this).removeClass('checked');
 		} else {
-			// add student id to advisor's list
+			// add advisor
+			$(".advisor").removeClass('checked');
 			$(this).addClass('checked');
-		}		
+		}
 	});
 }
 
