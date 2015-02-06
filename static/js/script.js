@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', function () {
 	$.dbGET('getAdvisees', { advisor: 'tsans' }, function(r) {
 		console.log(r);
 		// var content = JSON.parse(r[0].json);
-		// var content = JSON.parse(r[0].json);
 	});
 
 	Tabletop.init({
@@ -101,6 +100,8 @@ function init(result) {
 				}
 				graph.reposition(c, content[c].cx, content[c].cy);
 			}
+			var advisor = r[0].advisor;
+			$("#" + advisor).click();
 		});
 	}
 
