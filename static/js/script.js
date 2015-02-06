@@ -3,6 +3,8 @@ var USER = false;
 document.addEventListener('DOMContentLoaded', function () {
 	setUp();
 
+	$.dbGET('createTable', {});
+
 	$.usrGET('getUsername', {}, function(r) {
 		if (r) {
 			USER = true;
