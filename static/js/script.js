@@ -1,20 +1,15 @@
-var USER = false;
+var USER = null;
 
 document.addEventListener('DOMContentLoaded', function () {
 	setUp();
 
 	$.usrGET('getUsername', {}, function(r) {
 		if (r) {
-			USER = true;
-			$('#log div').html("LOGOUT " + r.toUpperCase());
+			USER = r;
+			$('#log div').html("LOGOUT " + USER.toUpperCase());
 			$('a#log').css('width', '200px');
 			// $.dbGET('initDatabase');
-
 			$("#share").show();
-			$.dbGET('getAdvisees', { advisor: 'tsans' }, function(r) {
-				console.log(r);
-				// var content = JSON.parse(r[0].json);
-			});
 		}
 	});
 
@@ -40,6 +35,7 @@ function init(result) {
 	var areas = {};
 	var electives = {};
 	var labels = ['F1', 'S1', 'F2', 'S2', 'F3', 'S3', 'F4', 'S4'];
+	var advisors = [];
 	var semesters = [
 		[],
 		[],
@@ -77,6 +73,7 @@ function init(result) {
 	});
 	result.advisors.elements.forEach(function (row) {
 		addAdvisor(row.andrewid, row.name);
+		advisors.push(row.andrewid);
 	});
 
 	var graph = new Graph(semesters, parseInt(result.parameters.elements[0].value));
@@ -104,6 +101,12 @@ function init(result) {
 			var advisor = r[0].advisor;
 			$("#" + advisor).click();
 		});
+		if (advisors.indexOf(USER) > -1) {
+			$.dbGET('getAdvisees', { advisor: USER }, function(r) {
+				console.log(r);
+				// var content = JSON.parse(r[0].json);
+			});
+		}
 	}
 
 	for (a in areas) {
