@@ -3,7 +3,7 @@
   	try {
 		$response = array();
 		switch($_GET['action']) {
-			case 'createTable':
+			case 'createDB':
 				$db = new SQLite3("courses.db");
 				$sql = $db->prepare("CREATE TABLE Courses (user VARCHAR PRIMARY KEY NOT NULL UNIQUE, json TEXT, advisor TEXT)");
 				$sql->execute();

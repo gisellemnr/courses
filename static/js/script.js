@@ -9,8 +9,8 @@ document.addEventListener('DOMContentLoaded', function () {
 			$('#log div').html("LOGOUT " + r.toUpperCase());
 			$('a#log').css('width', '200px');
 
-			// createTable
-			$.dbGET('createTable');
+			// create DB
+			$.dbGET('createDB');
 		}
 	});
 
