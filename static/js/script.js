@@ -3,13 +3,14 @@ var USER = false;
 document.addEventListener('DOMContentLoaded', function () {
 	setUp();
 
-	$.dbGET('createTable', {});
-
 	$.usrGET('getUsername', {}, function(r) {
 		if (r) {
 			USER = true;
 			$('#log div').html("LOGOUT " + r.toUpperCase());
 			$('a#log').css('width', '200px');
+
+			// createTable
+			$.dbGET('createTable');
 		}
 	});
 
