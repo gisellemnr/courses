@@ -27,6 +27,15 @@
 				$db->close();
 				unset($db);
 			break;
+			case 'setAdvisor':
+				$db = new SQLite3("courses.db");
+				$sql = $db->prepare("UPDATE Courses SET advisor=:advisor WHERE user=:user");
+				$sql->bindValue(':user', $user);
+				$sql->bindValue(':advisor', $_GET['advisor']);
+				$sql->execute();
+				$db->close();
+				unset($db);
+			break;
 			case 'getUser':
 				$db = new SQLite3("courses.db");
 				$sql = $db->prepare("SELECT * FROM Courses WHERE user=:user");

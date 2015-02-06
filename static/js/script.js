@@ -8,10 +8,14 @@ document.addEventListener('DOMContentLoaded', function () {
 			USER = true;
 			$('#log div').html("LOGOUT " + r.toUpperCase());
 			$('a#log').css('width', '200px');
-
-			// create DB
 			// $.dbGET('initDatabase');
 		}
+	});
+
+	$.dbGET('getAdvisees', { advisor: 'tsans' }, function(r) {
+		console.log(r);
+		// var content = JSON.parse(r[0].json);
+		// var content = JSON.parse(r[0].json);
 	});
 
 	Tabletop.init({
@@ -130,12 +134,12 @@ function init(result) {
 	$('.advisor').click(function () {
 		var andrew = $(this)[0].id;
 		if ($(this).hasClass('checked')) {
-			// remove advisor
 			$(this).removeClass('checked');
+			$.dbGET('setAdvisor', { advisor: '' });
 		} else {
-			// add advisor
 			$(".advisor").removeClass('checked');
 			$(this).addClass('checked');
+			$.dbGET('setAdvisor', { advisor: andrew });
 		}
 	});
 }
