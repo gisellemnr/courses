@@ -9,12 +9,13 @@ document.addEventListener('DOMContentLoaded', function () {
 			$('#log div').html("LOGOUT " + r.toUpperCase());
 			$('a#log').css('width', '200px');
 			// $.dbGET('initDatabase');
-		}
-	});
 
-	$.dbGET('getAdvisees', { advisor: 'tsans' }, function(r) {
-		console.log(r);
-		// var content = JSON.parse(r[0].json);
+			$("#share").show();
+			$.dbGET('getAdvisees', { advisor: 'tsans' }, function(r) {
+				console.log(r);
+				// var content = JSON.parse(r[0].json);
+			});
+		}
 	});
 
 	Tabletop.init({
@@ -201,6 +202,7 @@ function setUp(){
 	$("#remove").hide();
 	$("#link").hide();
 	$(".target").hide();
+	$("#share").hide();
 	$(".menu").click(showHideMenus);
 	$("[data-toggle]").click(function () {
 		var toggle_el = $(this).data("toggle");
