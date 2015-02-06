@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			$('a#log').css('width', '200px');
 
 			// create DB
-			$.dbGET('initDatabase');
+			// $.dbGET('initDatabase');
 		}
 	});
 
