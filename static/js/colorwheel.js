@@ -7,7 +7,7 @@
         var parts = 5;
 		var fill = "#222";
 		if (i == 0 || i == 1) {
-			fill = "#669999";
+			fill = "#5bc0de";
 		}
         cw.lab.attr({text: labels[i]});
         cw.num.attr({text: num});
