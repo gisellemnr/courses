@@ -104,8 +104,9 @@ function init(result) {
 		if (advisors.indexOf(USER) > -1) {
 			$('#students').show();
 			$.dbGET('getAdvisees', { advisor: USER }, function(r) {
+				console.log(r);
 				for (i in r) {
-					console.log(r[i].id);
+					console.log(r[i]);
 					$('#students dropdown-menu').append('<li><a>' + r[i].id + '</a></li>');
 				}
 			});
