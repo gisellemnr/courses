@@ -532,7 +532,6 @@ function Graph(semesters, ar) {
 		}
 		if (r.getById('del').attrs.r == 25 && shape.area != 'core' && shape.area != 'placeholder') {
 			removeCourse(shape);
-
 		} else if (shape.attrs.cy > 135 && shape.attrs.cy < 140 ||
 			shape.attrs.cy > 285 && shape.attrs.cy < 290 ||
 			shape.attrs.cy > 435 && shape.attrs.cy < 440) {

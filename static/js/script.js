@@ -102,12 +102,12 @@ function init(result) {
 			$("#" + advisor).click();
 		});
 		if (advisors.indexOf(USER) > -1) {
-			$('#students').show();
 			$.dbGET('getAdvisees', { advisor: USER }, function(r) {
 				for (i in r) {
 					$('#students .dropdown-menu').append('<li><a>' + r[i].user + '</a></li>');
 				}
 			});
+			$('#students').show();
 		}
 	}
 
