@@ -269,12 +269,14 @@ function Graph(semesters, ar) {
 			}, 300);
 		}
 		if (list.length == 1 && list[0].replaced == false) {
+			var updated = [];
 			for (var i = shapes.length; i--;) {
 				if (shapes[i].area == "placeholder") {
-					list.push(shapes[i]);
+					updated.push(shapes[i]);
 				}
 			}
-			list.push(list[0]);
+			updated.push(list[0]);
+			list = updated;
 		}
 		$.each(list, function (i, shape) {
 			shape.animate({
