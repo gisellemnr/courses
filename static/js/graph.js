@@ -274,6 +274,7 @@ function Graph(semesters, ar) {
 					list.push(shapes[i]);
 				}
 			}
+			list.push(list[0]);
 		}
 		$.each(list, function (i, shape) {
 			shape.animate({
@@ -386,7 +387,6 @@ function Graph(semesters, ar) {
 		}
 		shape.toFront();
 		shape.pair.toFront();
-		selectCourse([shape]);
 		shape.ox = shape.attrs.cx;
 		shape.oy = shape.attrs.cy;
 		if (shape.area != 'core' && shape.area != "placeholder") {
@@ -411,6 +411,7 @@ function Graph(semesters, ar) {
 		if (!$('.target').is(":visible")) {
 			$('#details').click();
 		}
+		selectCourse([shape], false);
 	},
 	move = function (dx, dy) {
 		var shape = this;
@@ -480,7 +481,7 @@ function Graph(semesters, ar) {
 				r: 20
 			}, 200);
 		}
-		if (shape.area != 'core' && shape.area != "placeholder") {
+		if (shape.area != "core" && shape.area != "placeholder") {
 			for (var i = shapes.length; i--;) {
 				if (shapes[i].area == "placeholder" && !shapes[i].hidden) {
 					shapes[i].pair.show();
