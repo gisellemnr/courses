@@ -107,7 +107,7 @@ function Counter(r) {
 		var y = (id + 1) * 75 - 50;
 		var fill = "#222";
 		if (value == 0 || value == 1) {
-		    fill = "#669999";
+		    fill = "#5bc0de";
 		}
 		if (value == 0) {
 			NEEDLES[id].animate({transform: "r" + [0, xi, y], fill:fill}, 1000);
