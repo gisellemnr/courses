@@ -105,10 +105,7 @@ function init(result) {
 			$('#students').show();
 			$.dbGET('getAdvisees', { advisor: USER }, function(r) {
 				for (i in r) {
-					console.log(r[i].user);
 					$('#students .dropdown-menu').append('<li><a>' + r[i].user + '</a></li>');
-					$('#students > .dropdown-menu').append('<li><a>' + r[i].user + '</a></li>');
-					$('#students .dropdown-menu').append('<li><a>HELLO</a></li>');
 				}
 			});
 		}
