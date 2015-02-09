@@ -328,6 +328,7 @@ function Graph(semesters, ar) {
 			shapes[i].animate({
 				"fill-opacity": 0.7,
 				"stroke-width": shapes[i].area == "placeholder"? 0 : 2,
+				r: 20
 			}, 500);
 		}
 		for (var i = connections.length; i--;) {
@@ -521,14 +522,17 @@ function Graph(semesters, ar) {
 		}, 100);
 		r.getById('del').text.hide();
 		r.getById('del').tooltip.hide();
-		for (var i = shapes.length; i--;) {
-			if (shapes[i].area == "placeholder" && shapes[i].attrs.r > 24.9) {
-				hide(shapes[i]);
-				shape.holder = shapes[i];
+		if (r.getById('del').attrs.r == 20) {
+			for (var i = shapes.length; i--;) {
+				if (shapes[i].area == "placeholder" && shapes[i].attrs.r > 24.9) {
+					hide(shapes[i]);
+					shape.holder = shapes[i];
+				}
 			}
 		}
 		if (r.getById('del').attrs.r == 25 && shape.area != 'core' && shape.area != 'placeholder') {
 			removeCourse(shape);
+
 		} else if (shape.attrs.cy > 135 && shape.attrs.cy < 140 ||
 			shape.attrs.cy > 285 && shape.attrs.cy < 290 ||
 			shape.attrs.cy > 435 && shape.attrs.cy < 440) {
