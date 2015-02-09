@@ -21,6 +21,11 @@ b {
     font-weight: 700;
 }
 
+#students {
+    display: none;
+    margin-bottom: 10px;
+}
+
 .btn-group, .btn-info, #add, #colors, #coursenum, #general {
     clear: both;
     float: left;

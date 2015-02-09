@@ -102,9 +102,12 @@ function init(result) {
 			$("#" + advisor).click();
 		});
 		if (advisors.indexOf(USER) > -1) {
+			$('#students').show();
 			$.dbGET('getAdvisees', { advisor: USER }, function(r) {
-				console.log(r);
-				// var content = JSON.parse(r[0].json);
+				for (i in r) {
+					console.log(r[i].id);
+					$('#students dropdown-menu').append('<li><a>' + r[i].id + '</a></li>');
+				}
 			});
 		}
 	}
