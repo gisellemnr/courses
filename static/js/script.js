@@ -4,31 +4,28 @@ document.addEventListener('DOMContentLoaded', function () {
 	setUp();
 
 	$.usrGET('getUsername', {}, function(r) {
-		if (r) {
-			USER = r;
-			$('#log div').html("LOGOUT " + USER.toUpperCase());
-			$('a#log').css('width', '200px');
-			// $.dbGET('initDatabase');
-			$("#share").show();
-		}
-	});
-
-	Tabletop.init({
-		key: "0AhtG6Yl2-hiRdE9KVHEtSkxscnoxTExua3dyNXJZUXc",
-		callback: function(result) {
-			if (USER) {
-				$.dbGET('getUser', {}, function(r) {
-					if (r.length == 0) {
-						$.dbGET('addUser');
-						return init(result, null, null, true);
-					} else {
-						return init(result, JSON.parse(r[0].json), r[0].advisor, true);
-					}					
-				});
-			} else {
-				return init(result, null, null, true);
+		Tabletop.init({
+			key: "0AhtG6Yl2-hiRdE9KVHEtSkxscnoxTExua3dyNXJZUXc",
+			callback: function(result) {
+				if (r) {
+					USER = r;
+					$('#log div').html("LOGOUT " + USER.toUpperCase());
+					$('a#log').css('width', '200px');
+					// $.dbGET('initDatabase');
+					$("#share").show();
+					$.dbGET('getUser', {}, function(r) {
+						if (r.length == 0) {
+							$.dbGET('addUser');
+							return init(result, null, null, true);
+						} else {
+							return init(result, JSON.parse(r[0].json), r[0].advisor, true);
+						}					
+					});
+				} else {
+					return init(result, null, null, true);
+				}
 			}
-		}
+		});
 	});
 });
 
