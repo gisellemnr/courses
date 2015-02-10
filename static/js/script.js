@@ -1,4 +1,5 @@
 var USER = null;
+var VIEWER = false;
 
 document.addEventListener('DOMContentLoaded', function () {
 	setUp();
@@ -16,13 +17,13 @@ document.addEventListener('DOMContentLoaded', function () {
 					$.dbGET('getUser', {}, function(r) {
 						if (r.length == 0) {
 							$.dbGET('addUser');
-							return init(result, null, null, true);
+							return init(result, null, null);
 						} else {
-							return init(result, JSON.parse(r[0].json), r[0].advisor, true);
-						}					
+							return init(result, JSON.parse(r[0].json), r[0].advisor);
+						}	
 					});
 				} else {
-					return init(result, null, null, true);
+					return init(result, null, null);
 				}
 			}
 		});
@@ -40,7 +41,7 @@ function course(id, title, units, dependencies, link, description, color, area) 
 	this.area = area;
 }
 
-function init(result, content, advisor, owner) {
+function init(result, content, advisor) {
 	var colors = {};
 	var areas = {};
 	var electives = {};
@@ -60,7 +61,7 @@ function init(result, content, advisor, owner) {
 	result.colors.elements.forEach(function (row) {
 		colors[row.category] = row.color;
 		legends[row.category] = row.legend;
-		if (owner) {
+		if (!VIEWER) {
 			addColorBtn(row.category, row.legend, row.color);
 		}
 	});
@@ -103,7 +104,7 @@ function init(result, content, advisor, owner) {
 		graph.reposition(c, content[c].cx, content[c].cy);
 	}
 
-	if (owner) {
+	if (!VIEWER) {
 		if (USER && advisors.indexOf(USER) > -1) {
 			$.dbGET('getAdvisees', {}, function(r) {
 				r.sort(function(a, b){
@@ -115,16 +116,17 @@ function init(result, content, advisor, owner) {
 				$("#students .dropdown-menu li > a").click(function () {
 					var name = $(this)[0].text;
 					if (name == 'None') {
+						VIEWER = false;
 						$('#settings').show();
 						$('#share').show();
 						$('#studentname').html('Select student');
 					} else {
+						VIEWER = true;
 						$('#settings').hide();
 						$('#share').hide();
 						$('#studentname').html(name);
 						$.dbGET('getAdvisee', { advisee: name }, function(r) {
-							console.log(r[0]);
-							// return init(result, JSON.parse(r[0].json), r[0].advisor, true);
+							init(result, JSON.parse(r[0].json), null);
 						});
 					}	
 				});

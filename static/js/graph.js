@@ -562,7 +562,7 @@ function Graph(semesters, ar) {
 		unselectCourse();
 		setTimeout(function(){
 			updateCounters();
-			if (USER) {
+			if (USER && !VIEWER) {
 				$.dbGET('setUser', { json: JSON.stringify(graph.getContent()) });
 			}			
 		}, 200);			
