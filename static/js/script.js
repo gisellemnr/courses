@@ -121,12 +121,15 @@ function init(result, content, advisor, initial) {
 						$('#settings').show();
 						$('#share').show();
 						$('#studentname').html('Select student');
+						$.dbGET('getJSON', { user: USER }, function(r) {
+							init(result, JSON.parse(r[0].json), r[0].advisor);
+						});
 					} else {
 						VIEWER = true;
 						$('#settings').hide();
 						$('#share').hide();
 						$('#studentname').html(name);
-						$.dbGET('getAdvisee', { advisee: name }, function(r) {
+						$.dbGET('getJSON', { user: name }, function(r) {
 							init(result, JSON.parse(r[0].json), null);
 						});
 					}	

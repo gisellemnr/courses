@@ -67,10 +67,10 @@
 				$db->close();
 				unset($db);
 			break;
-			case 'getAdvisee':
+			case 'getJSON':
 				$db = new SQLite3("courses.db");
 				$sql = $db->prepare("SELECT * FROM Courses WHERE user=:user");
-				$sql->bindValue(':user', $_GET['advisee']);
+				$sql->bindValue(':user', $_GET['user']);
 				$re = $sql->execute();
 				while ($row = $re->fetchArray()) {
 					array_push($response, $row);
