@@ -20,15 +20,12 @@ document.addEventListener('DOMContentLoaded', function () {
 				$.dbGET('getUser', {}, function(r) {
 					if (r.length == 0) {
 						$.dbGET('addUser');
-						console.log("1")
 						return init(result, null, null, true);
 					} else {
-						console.log("2")
 						return init(result, JSON.parse(r[0].json), r[0].advisor, true);
 					}					
 				});
 			} else {
-				console.log("3")
 				return init(result, null, null, true);
 			}
 		}
@@ -124,13 +121,13 @@ function init(result, content, advisor, owner) {
 				$("#students .dropdown-menu li > a").click(function () {
 					var name = $(this)[0].text;
 					if (name == 'None') {
-						$('#settings').hide();
-						$('#share').hide();
-						$('#studentname').html('Select student');
-					} else {
-						$('#studentname').html(name);
 						$('#settings').show();
 						$('#share').show();
+						$('#studentname').html('Select student');
+					} else {
+						$('#settings').hide();
+						$('#share').hide();
+						$('#studentname').html(name);
 						console.log(name);
 					}	
 				});
