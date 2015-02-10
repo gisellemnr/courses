@@ -85,10 +85,12 @@ function init(result, content, advisor, initial) {
 		var c = new course(row.number, row.title, 0, [], row.URL, row.description, colors[row.category], 'placeholder');
 		semesters[labels.indexOf(row.semester)].push(c);
 	});
-	result.advisors.elements.forEach(function (row) {
-		addAdvisor(row.andrewid, row.name);
-		advisors.push(row.andrewid);
-	});
+	if (initial) {
+		result.advisors.elements.forEach(function (row) {
+			addAdvisor(row.andrewid, row.name);
+			advisors.push(row.andrewid);
+		});
+	}
 
 	var graph = new Graph(semesters, parseInt(result.parameters.elements[0].value));
 
