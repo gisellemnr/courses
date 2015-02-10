@@ -20,10 +20,8 @@ document.addEventListener('DOMContentLoaded', function () {
 				$.dbGET('getUser', {}, function(r) {
 					if (r.length == 0) {
 						$.dbGET('addUser');
-						console.log('NEW');
 						return init(result, null, null, null);
 					}
-					console.log('OLD');
 					return init(result, JSON.parse(r[0].json), r[0].advisor, USER);
 				});
 			}
@@ -63,9 +61,7 @@ function init(result, content, advisor, current) {
 	result.colors.elements.forEach(function (row) {
 		colors[row.category] = row.color;
 		legends[row.category] = row.legend;
-		if (USER == current) {
-			addColorBtn(row.category, row.legend, row.color);
-		}
+		addColorBtn(row.category, row.legend, row.color);
 	});
 	result.courses.elements.forEach(function (row) {
 		if (row.number.length < 2) return;
@@ -93,6 +89,7 @@ function init(result, content, advisor, current) {
 
 	var graph = new Graph(semesters, parseInt(result.parameters.elements[0].value));
 
+	console.log(content);
 	for (c in content){
 		// adding non-core courses
 		if (content[c].area != 'core' && content[c].area != 'placeholder'){
