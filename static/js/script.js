@@ -132,7 +132,7 @@ function init(result) {
 	$("#students li > a").click(function () {
 		var name = $(this)[0].text;
 		$('#studentname').html(name);
-		
+		console.log(name);		
 	});
 	$("#select li > a").click(function () {
 		var c = $(this)[0].text;
