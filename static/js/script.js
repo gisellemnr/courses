@@ -103,6 +103,9 @@ function init(result) {
 		});
 		if (advisors.indexOf(USER) > -1) {
 			$.dbGET('getAdvisees', { advisor: USER }, function(r) {
+				r.sort(function(a, b){
+					return a.user > b.user;
+				});
 				for (i in r) {
 					$('#students .dropdown-menu').append('<li><a>' + r[i].user + '</a></li>');
 				}
@@ -126,7 +129,12 @@ function init(result) {
 			addGeneralCourse(graph, colors, electives);
 		}
 	});
-	$("li > a").click(function () {
+	$("#students li > a").click(function () {
+		var name = $(this)[0].text;
+		$('#studentname').html(name);
+		
+	});
+	$("#select li > a").click(function () {
 		var c = $(this)[0].text;
 		graph.addCourse(electives[c]);
 		if (USER) {
