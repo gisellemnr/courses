@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				$.dbGET('getUser', {}, function(r) {
 					if (r.length == 0) {
 						$.dbGET('addUser');
-						return;
+						return init(result, null, null, null);
 					}
 				});
 				return init(result, JSON.parse(r[0].json), r[0].advisor, USER);
