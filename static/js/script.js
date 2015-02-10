@@ -105,7 +105,7 @@ function init(result, content, advisor, owner) {
 
 	if (owner) {
 		if (USER && advisors.indexOf(USER) > -1) {
-			$.dbGET('getAdvisees', { advisor: USER }, function(r) {
+			$.dbGET('getAdvisees', {}, function(r) {
 				r.sort(function(a, b){
 					return a.user > b.user;
 				});
@@ -122,7 +122,10 @@ function init(result, content, advisor, owner) {
 						$('#settings').hide();
 						$('#share').hide();
 						$('#studentname').html(name);
-						console.log(name);
+						$.dbGET('getAdvisee', { advisee: name }, function(r) {
+							console.log(r[0]);
+							// return init(result, JSON.parse(r[0].json), r[0].advisor, true);
+						});
 					}	
 				});
 				$('#students').show();
