@@ -26,9 +26,10 @@ document.addEventListener('DOMContentLoaded', function () {
 					console.log("2")
 					return init(result, JSON.parse(r[0].json), r[0].advisor, true);
 				});
+			} else {
+				console.log("3")
+				return init(result, null, null, true);
 			}
-			console.log("3")
-			return init(result, null, null, true);
 		}
 	});
 });
