@@ -109,8 +109,13 @@ function init(result) {
 				for (i in r) {
 					$('#students .dropdown-menu').append('<li><a>' + r[i].user + '</a></li>');
 				}
+				$("#students .dropdown-menu li > a").click(function () {
+					var name = $(this)[0].text;
+					$('#studentname').html(name);
+					console.log(name);		
+				});
+				$('#students').show();
 			});
-			$('#students').show();
 		}
 	}
 
@@ -128,11 +133,6 @@ function init(result) {
 		if (e.which == 13) {
 			addGeneralCourse(graph, colors, electives);
 		}
-	});
-	$("#students li > a").click(function () {
-		var name = $(this)[0].text;
-		$('#studentname').html(name);
-		console.log(name);		
 	});
 	$("#select li > a").click(function () {
 		var c = $(this)[0].text;
