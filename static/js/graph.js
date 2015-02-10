@@ -271,7 +271,7 @@ function Graph(semesters, ar) {
 		if (list.length == 1 && list[0].replaced == false) {
 			var updated = [];
 			for (var i = shapes.length; i--;) {
-				if (shapes[i].area == "placeholder") {
+				if (shapes[i].area == "placeholder" && !shapes[i].hidden) {
 					updated.push(shapes[i]);
 				}
 			}
