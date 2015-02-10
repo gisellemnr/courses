@@ -111,8 +111,12 @@ function init(result) {
 				}
 				$("#students .dropdown-menu li > a").click(function () {
 					var name = $(this)[0].text;
-					$('#studentname').html(name);
-					console.log(name);		
+					if (name == 'None') {
+						$('#studentname').html('Select student');
+					} else {
+						$('#studentname').html(name);
+						console.log(name);
+					}	
 				});
 				$('#students').show();
 			});
