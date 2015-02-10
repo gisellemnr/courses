@@ -15,7 +15,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	Tabletop.init({
 		key: "0AhtG6Yl2-hiRdE9KVHEtSkxscnoxTExua3dyNXJZUXc",
-		callback: init
+		callback: function(result) {
+			if (USER) {
+				$.dbGET('getUser', {}, function(r) {
+					if (r.length == 0) {
+						$.dbGET('addUser');
+						return;
+					}
+				});
+				return init(result, JSON.parse(r[0].json), r[0].advisor, USER);
+			}
+			return init(result, null, null, null);
+		}
 	});
 });
 
@@ -30,7 +41,7 @@ function course(id, title, units, dependencies, link, description, color, area) 
 	this.area = area;
 }
 
-function init(result) {
+function init(result, content, advisor, current) {
 	var colors = {};
 	var areas = {};
 	var electives = {};
@@ -50,7 +61,9 @@ function init(result) {
 	result.colors.elements.forEach(function (row) {
 		colors[row.category] = row.color;
 		legends[row.category] = row.legend;
-		addColorBtn(row.category, row.legend, row.color);
+		if (USER == current) {
+			addColorBtn(row.category, row.legend, row.color);
+		}
 	});
 	result.courses.elements.forEach(function (row) {
 		if (row.number.length < 2) return;
@@ -78,58 +91,59 @@ function init(result) {
 
 	var graph = new Graph(semesters, parseInt(result.parameters.elements[0].value));
 
-	// USER DATA
-	if (USER) {
-		$.dbGET('getUser', {}, function(r) {
-			if (r.length == 0) {
-				$.dbGET('addUser');
-				return;
+	for (c in content){
+		// adding non-core courses
+		if (content[c].area != 'core' && content[c].area != 'placeholder'){
+			if (c in electives) {
+				graph.addCourse(electives[c], true);
+			} else {
+				var g = new course(c, 'not found', 0, [], null, null, colors['General'], 'general');
+				graph.addCourse(g, true);
 			}
-			var content = JSON.parse(r[0].json);
-			for (c in content){
-				// adding non-core courses
-				if (content[c].area != 'core' && content[c].area != 'placeholder'){
-					if (c in electives) {
-						graph.addCourse(electives[c], true);
-					} else {
-						var g = new course(c, 'not found', 0, [], null, null, colors['General'], 'general');
-						graph.addCourse(g, true);
-					}
-				}
-				graph.reposition(c, content[c].cx, content[c].cy);
-			}
-			var advisor = r[0].advisor;
-			$("#" + advisor).click();
-		});
-		if (advisors.indexOf(USER) > -1) {
-			$.dbGET('getAdvisees', { advisor: USER }, function(r) {
-				r.sort(function(a, b){
-					return a.user > b.user;
-				});
-				for (i in r) {
-					$('#students .dropdown-menu').append('<li><a>' + r[i].user + '</a></li>');
-				}
-				$("#students .dropdown-menu li > a").click(function () {
-					var name = $(this)[0].text;
-					if (name == 'None') {
-						$('#studentname').html('Select student');
-					} else {
-						$('#studentname').html(name);
-						console.log(name);
-					}	
-				});
-				$('#students').show();
+		}
+		graph.reposition(c, content[c].cx, content[c].cy);
+	}
+	
+	if (advisors.indexOf(USER) > -1 && USER == current) {
+		$.dbGET('getAdvisees', { advisor: USER }, function(r) {
+			r.sort(function(a, b){
+				return a.user > b.user;
 			});
+			for (i in r) {
+				$('#students .dropdown-menu').append('<li><a>' + r[i].user + '</a></li>');
+			}
+			$("#students .dropdown-menu li > a").click(function () {
+				var name = $(this)[0].text;
+				if (name == 'None') {
+					$('#settings').hide();
+					$('#share').hide();
+					$('#studentname').html('Select student');
+				} else {
+					$('#studentname').html(name);
+					$('#settings').show();
+					$('#share').show();
+					console.log(name);
+				}	
+			});
+			$('#students').show();
+		});
+	}
+
+	if (USER == current) {
+		for (a in areas) {
+			addElective(a, areas[a], colors[a], legends[a]);
+		}
+		$('#general').typeahead({
+			local: Object.keys(electives).sort()
+		});
+		if ($(window).width() > 1050) {
+			addTooltip();
+		} else {
+			destroyTooltip();
 		}
 	}
 
-	for (a in areas) {
-		addElective(a, areas[a], colors[a], legends[a]);
-	}
-
-	$('#general').typeahead({
-		local: Object.keys(electives).sort()
-	});
+	// adding courses to planner
 	$('#plus').click(function () {
 		addGeneralCourse(graph, colors, electives);
 	});
@@ -145,11 +159,8 @@ function init(result) {
 			$.dbGET('setUser', { json: JSON.stringify(graph.getContent()) });
 		}
 	});
-	if ($(window).width() > 1050) {
-		addTooltip();
-	} else {
-		destroyTooltip();
-	}
+
+	// sharing course planner with advisor
 	$('.advisor').click(function () {
 		var andrew = $(this)[0].id;
 		if ($(this).hasClass('checked')) {
@@ -161,6 +172,7 @@ function init(result) {
 			$.dbGET('setAdvisor', { advisor: andrew });
 		}
 	});
+	$("#" + advisor).click();
 }
 
 function addElective(name, list, color, label) {
