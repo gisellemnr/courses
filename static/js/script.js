@@ -90,9 +90,6 @@ function init(result, content, advisor, owner) {
 
 	var graph = new Graph(semesters, parseInt(result.parameters.elements[0].value));
 
-	console.log(content);
-	console.log(advisor);
-
 	// adding non-core courses
 	for (c in content){
 		if (content[c].area != 'core' && content[c].area != 'placeholder'){

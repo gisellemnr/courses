@@ -325,6 +325,7 @@ function Graph(semesters, ar) {
 
 	function unselectCourse() {
 		for (var i = shapes.length; i--;) {
+			console.log(shapes[i].hidden);
 			shapes[i].animate({
 				"fill-opacity": 0.7,
 				"stroke-width": shapes[i].area == "placeholder"? 0 : 2,
