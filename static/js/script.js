@@ -20,8 +20,10 @@ document.addEventListener('DOMContentLoaded', function () {
 				$.dbGET('getUser', {}, function(r) {
 					if (r.length == 0) {
 						$.dbGET('addUser');
+						console.log('NEW');
 						return init(result, null, null, null);
 					}
+					console.log('OLD');
 					return init(result, JSON.parse(r[0].json), r[0].advisor, USER);
 				});
 			}
