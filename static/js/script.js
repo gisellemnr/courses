@@ -17,13 +17,13 @@ document.addEventListener('DOMContentLoaded', function () {
 					$.dbGET('getUser', {}, function(r) {
 						if (r.length == 0) {
 							$.dbGET('addUser');
-							return init(result, null, null);
+							return init(result, null, null, true);
 						} else {
-							return init(result, JSON.parse(r[0].json), r[0].advisor);
+							return init(result, JSON.parse(r[0].json), r[0].advisor, true);
 						}	
 					});
 				} else {
-					return init(result, null, null);
+					return init(result, null, null, true);
 				}
 			}
 		});
@@ -41,7 +41,8 @@ function course(id, title, units, dependencies, link, description, color, area) 
 	this.area = area;
 }
 
-function init(result, content, advisor) {
+function init(result, content, advisor, initial) {
+	$('#holder').html('');
 	var colors = {};
 	var areas = {};
 	var electives = {};
@@ -61,7 +62,7 @@ function init(result, content, advisor) {
 	result.colors.elements.forEach(function (row) {
 		colors[row.category] = row.color;
 		legends[row.category] = row.legend;
-		if (!VIEWER) {
+		if (initial) {
 			addColorBtn(row.category, row.legend, row.color);
 		}
 	});
@@ -104,7 +105,7 @@ function init(result, content, advisor) {
 		graph.reposition(c, content[c].cx, content[c].cy);
 	}
 
-	if (!VIEWER) {
+	if (initial) {
 		if (USER && advisors.indexOf(USER) > -1) {
 			$.dbGET('getAdvisees', {}, function(r) {
 				r.sort(function(a, b){
