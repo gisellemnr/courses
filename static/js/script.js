@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	$.usrGET('getUsername', {}, function(r) {
 		Tabletop.init({
-			key: "0AhtG6Yl2-hiRdE9KVHEtSkxscnoxTExua3dyNXJZUXc",
+			key: "0AhtG6Yl2-hiRdHpibzdfMWd0TkRMYUE4VWxJY2JEYkE",
 			callback: function(result) {
 				if (r) {
 					USER = r;
