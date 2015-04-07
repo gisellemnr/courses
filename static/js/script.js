@@ -122,17 +122,21 @@ function init(result, content, advisor, initial) {
 						VIEWER = false;
 						$('#settings').show();
 						$('#share').show();
-						$('#studentname').html('Select student');
+						$('#holder').hide();
+						$('#studentname').html("View student's planner");
 						$.dbGET('getJSON', { user: USER }, function(r) {
 							init(result, JSON.parse(r[0].json), r[0].advisor);
+							$('#holder').show();
 						});
 					} else {
 						VIEWER = true;
 						$('#settings').hide();
 						$('#share').hide();
+						$('#holder').hide();
 						$('#studentname').html(name);
 						$.dbGET('getJSON', { user: name }, function(r) {
 							init(result, JSON.parse(r[0].json), null);
+							$('#holder').show();
 						});
 					}	
 				});
