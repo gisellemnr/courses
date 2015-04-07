@@ -17,6 +17,7 @@
 	<script type="text/javascript" src="https://samakanbour.github.io/courses/static/lib/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="https://samakanbour.github.io/courses/static/lib/js/typeahead.min.js"></script>
 	<script type="text/javascript" src="https://samakanbour.github.io/courses/static/lib/js/raphael.min.js"></script>
+	<script type="text/javascript" src="https://samakanbour.github.io/courses/static/lib/js/spin.min.js"></script>
 	<script>
 		$.usrGET = function(action, data, callback) {
 			$.get('user.php?action='+action,data,callback,'json');
@@ -95,6 +96,7 @@
 			<div class="content">
 				<div id="holder"></div>
 			</div>
+			<div id="spinner"></div>
 		</div>
 	</div>
 </body>
