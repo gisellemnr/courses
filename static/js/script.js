@@ -230,9 +230,9 @@ function addAdvisor(id, name){
 function setUp(){
 	var opts = {
 		lines: 13, // The number of lines to draw
-		length: 20, // The length of each line
+		length: 10, // The length of each line
 		width: 10, // The line thickness
-		radius: 30, // The radius of the inner circle
+		radius: 20, // The radius of the inner circle
 		corners: 1, // Corner roundness (0..1)
 		rotate: 0, // The rotation offset
 		direction: 1, // 1: clockwise, -1: counterclockwise

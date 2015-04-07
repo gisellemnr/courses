@@ -21,13 +21,6 @@ b {
     font-weight: 700;
 }
 
-#spinner {
-    width: 100px;
-    height: 100px;
-    display: block;
-    border: 1px solid red;
-}
-
 #students {
     display: none;
     margin-bottom: 10px;
