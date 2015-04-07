@@ -118,6 +118,7 @@ function init(result, content, advisor, initial) {
 				}
 				$("#students .dropdown-menu li > a").click(function () {
 					var name = $(this)[0].text;
+					$("#spinner").show();
 					if (name == 'None') {
 						VIEWER = false;
 						$('#settings').show();
@@ -125,6 +126,7 @@ function init(result, content, advisor, initial) {
 						$('#studentname').html("View student's planner");
 						$.dbGET('getJSON', { user: USER }, function(r) {
 							init(result, JSON.parse(r[0].json), r[0].advisor);
+							$("#spinner").hide();
 						});
 					} else {
 						VIEWER = true;
@@ -133,6 +135,7 @@ function init(result, content, advisor, initial) {
 						$('#studentname').html(name);
 						$.dbGET('getJSON', { user: name }, function(r) {
 							init(result, JSON.parse(r[0].json), null);
+							$("#spinner").hide();
 						});
 					}	
 				});
@@ -248,6 +251,7 @@ function setUp(){
 	};
 	var target = document.getElementById('spinner');
 	var spinner = new Spinner(opts).spin(target);
+	$("#spinner").hide();
 	$("#log div").click(function () {
 		if (this.innerHTML == "LOGIN") {
 			window.location.href = 'private';
