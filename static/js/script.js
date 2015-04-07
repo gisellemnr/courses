@@ -234,7 +234,7 @@ function setUp(){
 	var opts = {
 		lines: 13, // The number of lines to draw
 		length: 10, // The length of each line
-		width: 10, // The line thickness
+		width: 8, // The line thickness
 		radius: 20, // The radius of the inner circle
 		corners: 1, // Corner roundness (0..1)
 		rotate: 0, // The rotation offset
