@@ -54,34 +54,31 @@ function getGoogleSpreadsheet() {
 									url:val.gsx$url.$t, semester:val.gsx$semester.$t, description:val.gsx$description.$t });
 			});
 		}).done(function(){
-			console.log("YES");
+			$.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[2]+'/public/values?alt=json',
+				function(data){
+				$.each(data.feed.entry,function(i,val){
+					result.colors.push({ category:val.gsx$category.$t, color:val.gsx$color.$t, legend:val.gsx$legend.$t });
+				});
+			}).done(function(){
+				$.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[3]+'/public/values?alt=json',
+					function(data){
+					$.each(data.feed.entry,function(i,val){
+						result.advisors.push({ andrewid:val.gsx$andrewid.$t, name:val.gsx$name.$t });
+					});
+				}).done(function(){
+					$.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[4]+'/public/values?alt=json',
+						function(data){
+						$.each(data.feed.entry,function(i,val){
+							result.parameters.push({ property:val.gsx$property.$t, value:val.gsx$value.$t, description:val.gsx$description.$t });
+						});
+					}).done(function(){
+						console.log("RES")
+						return result;
+					});
+				});
+			});
 		});
-	});
-
-
-
-	$.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[2]+'/public/values?alt=json',
-		function(data){
-		$.each(data.feed.entry,function(i,val){
-			result.colors.push({ category:val.gsx$category.$t, color:val.gsx$color.$t, legend:val.gsx$legend.$t });
-		});
-	});
-
-	$.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[3]+'/public/values?alt=json',
-		function(data){
-		$.each(data.feed.entry,function(i,val){
-			result.advisors.push({ andrewid:val.gsx$andrewid.$t, name:val.gsx$name.$t });
-		});
-	});
-
-	$.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[4]+'/public/values?alt=json',
-		function(data){
-		$.each(data.feed.entry,function(i,val){
-			result.parameters.push({ property:val.gsx$property.$t, value:val.gsx$value.$t, description:val.gsx$description.$t });
-		});
-	});
-
-	return result;
+	});	
 }
 
 function course(id, title, units, dependencies, link, description, color, area) {
