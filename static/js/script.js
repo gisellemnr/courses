@@ -56,29 +56,29 @@ function getGoogleSpreadsheet() {
 		});
 	});
 
-	return start(result);
-}
+	function start(res) {
+		$.usrGET('getUsername', {}, function(r) {
+			if (r) {
+				USER = r;
+				$('#log div').html("LOGOUT " + USER.toUpperCase());
+				$('a#log').css('width', '200px');
+				// $.dbGET('initDatabase');
+				$("#share").show();
+				$.dbGET('getUser', {}, function(r) {
+					if (r.length == 0) {
+						$.dbGET('addUser');
+						return init(res, null, null, true);
+					} else {
+						return init(res, JSON.parse(r[0].json), r[0].advisor, true);
+					}	
+				});
+			} else {
+				return init(res, null, null, true);
+			}
+		});
+	}
 
-function start(res) {
-	$.usrGET('getUsername', {}, function(r) {
-		if (r) {
-			USER = r;
-			$('#log div').html("LOGOUT " + USER.toUpperCase());
-			$('a#log').css('width', '200px');
-			// $.dbGET('initDatabase');
-			$("#share").show();
-			$.dbGET('getUser', {}, function(r) {
-				if (r.length == 0) {
-					$.dbGET('addUser');
-					return init(res, null, null, true);
-				} else {
-					return init(res, JSON.parse(r[0].json), r[0].advisor, true);
-				}	
-			});
-		} else {
-			return init(res, null, null, true);
-		}
-	});
+	return start(result);
 }
 
 function course(id, title, units, dependencies, link, description, color, area) {
