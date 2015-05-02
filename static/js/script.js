@@ -3,20 +3,40 @@ var VIEWER = false;
 
 document.addEventListener('DOMContentLoaded', function () {
 	setUp();
-	getData();
+	$.usrGET('getUsername', {}, function(r) {
+		var result = getData();
+		if (r) {
+			USER = r;
+			$('#log div').html("LOGOUT " + USER.toUpperCase());
+			$('a#log').css('width', '200px');
+			// $.dbGET('initDatabase');
+			$("#share").show();
+			$.dbGET('getUser', {}, function(r) {
+				if (r.length == 0) {
+					$.dbGET('addUser');
+					return init(result, null, null, true);
+				} else {
+					return init(result, JSON.parse(r[0].json), r[0].advisor, true);
+				}	
+			});
+		} else {
+			return init(result, null, null, true);
+		}
+	});
+
 });
 
 function getData() {
+	var spreadsheet = '1ShWLPVNENsUixC5qzAHseZOB9wFDAc_CAW1SrnNftEY';
+	var worksheet = ['ocz', 'ocy', 'odb', 'ocx', 'ocw'];
 	var result = { courses:[], placeholders:[], colors:[], advisors:[], parameters:[] };
+
 	// This is to find the ids of the sheets    
 	// $.ajax({
-	//     url:"https://spreadsheets.google.com/feeds/worksheets/1ShWLPVNENsUixC5qzAHseZOB9wFDAc_CAW1SrnNftEY/public/basic?alt=json",
+	//     url:"https://spreadsheets.google.com/feeds/worksheets/"+spreadsheet+"/public/basic?alt=json",
 	//     dataType:"jsonp",
 	//     success:function(data) {	console.log(data.feed.entry); },
 	// });
-
-	var spreadsheet = '1ShWLPVNENsUixC5qzAHseZOB9wFDAc_CAW1SrnNftEY';
-	var worksheet = ['ocz', 'ocy', 'odb', 'ocx', 'ocw'];
 	
 	$.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[0]+'/public/values?alt=json',
 		function(data){
@@ -57,26 +77,7 @@ function getData() {
 		});
 	});
 
-
-	$.usrGET('getUsername', {}, function(r) {
-		if (r) {
-			USER = r;
-			$('#log div').html("LOGOUT " + USER.toUpperCase());
-			$('a#log').css('width', '200px');
-			// $.dbGET('initDatabase');
-			$("#share").show();
-			$.dbGET('getUser', {}, function(r) {
-				if (r.length == 0) {
-					$.dbGET('addUser');
-					return init(result, null, null, true);
-				} else {
-					return init(result, JSON.parse(r[0].json), r[0].advisor, true);
-				}	
-			});
-		} else {
-			return init(result, null, null, true);
-		}
-	});
+	return result;
 }
 
 function course(id, title, units, dependencies, link, description, color, area) {
