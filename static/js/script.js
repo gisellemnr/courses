@@ -46,9 +46,7 @@ function getGoogleSpreadsheet() {
 								dependencies:val.gsx$dependencies.$t, category:val.gsx$category.$t, url:val.gsx$url.$t, 
 								visible:val.gsx$visible.$t, semester:val.gsx$semester.$t, description:val.gsx$description.$t });
 		});
-	}).done(function(){
-		console.log('hi');
-	});
+	}).done(
 
 	$.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[1]+'/public/values?alt=json',
 		function(data){
@@ -56,7 +54,10 @@ function getGoogleSpreadsheet() {
 			result.placeholders.push({ number:val.gsx$number.$t, title:val.gsx$title.$t, category:val.gsx$category.$t,
 								url:val.gsx$url.$t, semester:val.gsx$semester.$t, description:val.gsx$description.$t });
 		});
-	});
+	}).done( function (){
+		console.log('YES');
+
+	}););
 
 	$.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[2]+'/public/values?alt=json',
 		function(data){
