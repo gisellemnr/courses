@@ -26,7 +26,7 @@ function getGoogleSpreadsheet() {
 								dependencies:val.gsx$dependencies.$t, category:val.gsx$category.$t, url:val.gsx$url.$t, 
 								visible:val.gsx$visible.$t, semester:val.gsx$semester.$t, description:val.gsx$description.$t });
 		});
-		count ++;
+		count += 1;
 	});
 
 	$.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[1]+'/public/values?alt=json',
@@ -35,7 +35,7 @@ function getGoogleSpreadsheet() {
 			result.placeholders.push({ number:val.gsx$number.$t, title:val.gsx$title.$t, category:val.gsx$category.$t,
 								url:val.gsx$url.$t, semester:val.gsx$semester.$t, description:val.gsx$description.$t });
 		});
-		count ++;
+		count += 1;
 	});
 
 	$.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[2]+'/public/values?alt=json',
@@ -43,7 +43,6 @@ function getGoogleSpreadsheet() {
 		$.each(data.feed.entry,function(i,val){
 			result.colors.push({ category:val.gsx$category.$t, color:val.gsx$color.$t, legend:val.gsx$legend.$t });
 		});
-		count ++;
 	});
 
 	$.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[3]+'/public/values?alt=json',
@@ -51,7 +50,6 @@ function getGoogleSpreadsheet() {
 		$.each(data.feed.entry,function(i,val){
 			result.advisors.push({ andrewid:val.gsx$andrewid.$t, name:val.gsx$name.$t });
 		});
-		count ++;
 	});
 
 	$.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[4]+'/public/values?alt=json',
@@ -59,15 +57,10 @@ function getGoogleSpreadsheet() {
 		$.each(data.feed.entry,function(i,val){
 			result.parameters.push({ property:val.gsx$property.$t, value:val.gsx$value.$t, description:val.gsx$description.$t });
 		});
-		count ++;
 	});
 
-	// while (true) {
-	// 	console.log(count);
-	// 	if (count == 5) {
-	// 		return start(result);
-	// 	}
-	// }
+	console.log(count)
+	return start(result);
 }
 
 function start(res) {
