@@ -4,9 +4,15 @@ var VIEWER = false;
 $(document).ready(function(){
 	setUp();
 	// getGoogleSpreadsheet();	
-	getGoogleSpreadsheet().done(function(){
-		console.log('HELLO');
-	});
+	var res = getGoogleSpreadsheet();
+	res.promise.progress(function(counter) {
+		console.log(counter)
+        // $("#message").text("Counter = " + counter);
+    }).done(function() {
+    	console.log("DONE");
+        // clearInterval(timerObj.timer);
+        // $("#message").text('Complete');
+    });
 });
 
 function getGoogleSpreadsheet() {
