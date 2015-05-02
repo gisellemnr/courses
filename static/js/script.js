@@ -15,15 +15,22 @@ function getData() {
 	//     success:function(data) {	console.log(data.feed.entry); },
 	// });
 
-	var spreadsheetID = '1ShWLPVNENsUixC5qzAHseZOB9wFDAc_CAW1SrnNftEY';
-	var worksheetID = ['ocz', 'ocy', 'odb', 'ocx', 'ocw'];
-	var url = 'https://spreadsheets.google.com/feeds/list/'+spreadsheetID+'/'+worksheetID[0]+'/public/values?alt=json';
- 
-	$.getJSON(url,function(data){
+	var spreadsheet = '1ShWLPVNENsUixC5qzAHseZOB9wFDAc_CAW1SrnNftEY';
+	var worksheet = ['ocz', 'ocy', 'odb', 'ocx', 'ocw'];
+	
+	$.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[0]+'/public/values?alt=json',
+		function(data){
 		$.each(data.feed.entry,function(i,val){
 			result.courses.push({number:val.gsx$number.$t, title:val.gsx$title.$t, units:val.gsx$units.$t,
 								dependencies:val.gsx$dependencies.$t, category:val.gsx$category.$t, url:val.gsx$url.$t, 
 								visible:val.gsx$visible.$t, semester:val.gsx$semester.$t, description:val.gsx$description.$t });
+		});
+	});
+
+	$.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[1]+'/public/values?alt=json',
+		function(data){
+		$.each(data.feed.entry,function(i,val){
+			result.colors.push({category:val.gsx$category.$t, color:val.gsx$color.$t, legend:val.gsx$legend.$t});
 		});
 	});
 
@@ -78,14 +85,14 @@ function init(result, content, advisor, initial) {
 		[]
 	];
 	var legends = {};
-	result.colors.elements.forEach(function (row) {
+	result.colors.forEach(function (row) {
 		colors[row.category] = row.color;
 		legends[row.category] = row.legend;
 		if (initial) {
 			addColorBtn(row.category, row.legend, row.color);
 		}
 	});
-	result.courses.elements.forEach(function (row) {
+	result.courses.forEach(function (row) {
 		if (row.number.length < 2) return;
 		if (row.visible == "TRUE") {
 			var c = new course(row.number, row.title, row.units, row.dependencies.split(','), row.URL, row.description, colors[row.category], 'core');
@@ -100,18 +107,18 @@ function init(result, content, advisor, initial) {
 			}
 		}
 	});
-	result.placeholders.elements.forEach(function (row) {
+	result.placeholders.forEach(function (row) {
 		var c = new course(row.number, row.title, 0, [], row.URL, row.description, colors[row.category], 'placeholder');
 		semesters[labels.indexOf(row.semester)].push(c);
 	});
 	if (initial) {
-		result.advisors.elements.forEach(function (row) {
+		result.advisors.forEach(function (row) {
 			addAdvisor(row.andrewid, row.name);
 			advisors.push(row.andrewid);
 		});
 	}
 
-	var graph = new Graph(semesters, parseInt(result.parameters.elements[0].value));
+	var graph = new Graph(semesters, parseInt(result.parameters[0].value));
 
 	// adding non-core courses
 	for (c in content){
