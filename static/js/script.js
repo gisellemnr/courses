@@ -52,7 +52,6 @@ function getGoogleSpreadsheet() {
 	$.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[4]+'/public/values?alt=json',
 		function(data){
 		$.each(data.feed.entry,function(i,val){
-			console.log(val)
 			result.parameters.push({ property:val.gsx$property.$t, value:val.gsx$value.$t, description:val.gsx$description.$t });
 		});
 	});
@@ -61,6 +60,7 @@ function getGoogleSpreadsheet() {
 }
 
 function start(result) {
+	console.log(result);
 	$.usrGET('getUsername', {}, function(r) {
 		if (r) {
 			USER = r;
