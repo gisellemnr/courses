@@ -1,8 +1,9 @@
 var USER = null;
 var VIEWER = false;
 
-document.addEventListener('DOMContentLoaded', function () {
+$(document).ready(function(){
 	setUp();
+	
 	$.usrGET('getUsername', {}, function(r) {
 		var result = getData();
 		if (r) {
