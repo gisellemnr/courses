@@ -10,7 +10,6 @@ function getGoogleSpreadsheet() {
 	var spreadsheet = '1ShWLPVNENsUixC5qzAHseZOB9wFDAc_CAW1SrnNftEY';
 	var worksheet = ['ocz', 'ocy', 'odb', 'ocx', 'ocw'];
 	var result = { courses:[], placeholders:[], colors:[], advisors:[], parameters:[] };
-	var count = 0;
 
 	// This is to find the ids of the sheets    
 	// $.ajax({
@@ -26,7 +25,6 @@ function getGoogleSpreadsheet() {
 								dependencies:val.gsx$dependencies.$t, category:val.gsx$category.$t, url:val.gsx$url.$t, 
 								visible:val.gsx$visible.$t, semester:val.gsx$semester.$t, description:val.gsx$description.$t });
 		});
-		count += 1;
 	});
 
 	$.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[1]+'/public/values?alt=json',
@@ -35,7 +33,6 @@ function getGoogleSpreadsheet() {
 			result.placeholders.push({ number:val.gsx$number.$t, title:val.gsx$title.$t, category:val.gsx$category.$t,
 								url:val.gsx$url.$t, semester:val.gsx$semester.$t, description:val.gsx$description.$t });
 		});
-		count += 1;
 	});
 
 	$.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[2]+'/public/values?alt=json',
@@ -59,7 +56,6 @@ function getGoogleSpreadsheet() {
 		});
 	});
 
-	console.log(count)
 	return start(result);
 }
 
