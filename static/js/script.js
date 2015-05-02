@@ -1,9 +1,30 @@
 var USER = null;
 var VIEWER = false;
+var LOCK = false;
 
 $(document).ready(function(){
 	setUp();
-	getGoogleSpreadsheet();
+	var res = getGoogleSpreadsheet();
+
+	$.usrGET('getUsername', {}, function(r) {
+		if (r) {
+			USER = r;
+			$('#log div').html("LOGOUT " + USER.toUpperCase());
+			$('a#log').css('width', '200px');
+			// $.dbGET('initDatabase');
+			$("#share").show();
+			$.dbGET('getUser', {}, function(r) {
+				if (r.length == 0) {
+					$.dbGET('addUser');
+					return init(res, null, null, true);
+				} else {
+					return init(res, JSON.parse(r[0].json), r[0].advisor, true);
+				}	
+			});
+		} else {
+			return init(res, null, null, true);
+		}
+	});
 });
 
 function getGoogleSpreadsheet() {
@@ -25,6 +46,8 @@ function getGoogleSpreadsheet() {
 								dependencies:val.gsx$dependencies.$t, category:val.gsx$category.$t, url:val.gsx$url.$t, 
 								visible:val.gsx$visible.$t, semester:val.gsx$semester.$t, description:val.gsx$description.$t });
 		});
+	}).done(function(){
+		console.log('hi');
 	});
 
 	$.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[1]+'/public/values?alt=json',
@@ -56,29 +79,7 @@ function getGoogleSpreadsheet() {
 		});
 	});
 
-	function start(res) {
-		$.usrGET('getUsername', {}, function(r) {
-			if (r) {
-				USER = r;
-				$('#log div').html("LOGOUT " + USER.toUpperCase());
-				$('a#log').css('width', '200px');
-				// $.dbGET('initDatabase');
-				$("#share").show();
-				$.dbGET('getUser', {}, function(r) {
-					if (r.length == 0) {
-						$.dbGET('addUser');
-						return init(res, null, null, true);
-					} else {
-						return init(res, JSON.parse(r[0].json), r[0].advisor, true);
-					}	
-				});
-			} else {
-				return init(res, null, null, true);
-			}
-		});
-	}
-
-	return start(result);
+	return result;
 }
 
 function course(id, title, units, dependencies, link, description, color, area) {
