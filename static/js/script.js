@@ -27,7 +27,7 @@ function getData() {
 		});
 	});
 
-	$.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[1]+'/public/values?alt=json',
+	$.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[2]+'/public/values?alt=json',
 		function(data){
 		$.each(data.feed.entry,function(i,val){
 			result.colors.push({category:val.gsx$category.$t, color:val.gsx$color.$t, legend:val.gsx$legend.$t});
@@ -37,7 +37,7 @@ function getData() {
 	$.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[4]+'/public/values?alt=json',
 		function(data){
 		$.each(data.feed.entry,function(i,val){
-			result.colors.push({property:val.gsx$property.$t, value:val.gsx$value.$t, description:val.gsx$description.$t});
+			result.parameters.push({property:val.gsx$property.$t, value:val.gsx$value.$t, description:val.gsx$description.$t});
 		});
 	});
 
