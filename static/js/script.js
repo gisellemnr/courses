@@ -4,27 +4,7 @@ var LOCK = false;
 
 $(document).ready(function(){
 	setUp();
-	var res = getGoogleSpreadsheet();
-
-	$.usrGET('getUsername', {}, function(r) {
-		if (r) {
-			USER = r;
-			$('#log div').html("LOGOUT " + USER.toUpperCase());
-			$('a#log').css('width', '200px');
-			// $.dbGET('initDatabase');
-			$("#share").show();
-			$.dbGET('getUser', {}, function(r) {
-				if (r.length == 0) {
-					$.dbGET('addUser');
-					return init(res, null, null, true);
-				} else {
-					return init(res, JSON.parse(r[0].json), r[0].advisor, true);
-				}	
-			});
-		} else {
-			return init(res, null, null, true);
-		}
-	});
+	getGoogleSpreadsheet();
 });
 
 function getGoogleSpreadsheet() {
@@ -72,8 +52,29 @@ function getGoogleSpreadsheet() {
 							result.parameters.push({ property:val.gsx$property.$t, value:val.gsx$value.$t, description:val.gsx$description.$t });
 						});
 					}).done(function(){
-						console.log("RES")
-						return result;
+
+						console.log("RES");
+						$.usrGET('getUsername', {}, function(r) {
+							if (r) {
+								USER = r;
+								$('#log div').html("LOGOUT " + USER.toUpperCase());
+								$('a#log').css('width', '200px');
+								// $.dbGET('initDatabase');
+								$("#share").show();
+								$.dbGET('getUser', {}, function(r) {
+									if (r.length == 0) {
+										$.dbGET('addUser');
+										return init(result, null, null, true);
+									} else {
+										return init(result, JSON.parse(r[0].json), r[0].advisor, true);
+									}	
+								});
+							} else {
+								return init(result, null, null, true);
+							}
+						});
+						console.log("HI")
+						
 					});
 				});
 			});
