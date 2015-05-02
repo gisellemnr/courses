@@ -3,9 +3,7 @@ var VIEWER = false;
 
 $(document).ready(function(){
 	setUp();
-	getGoogleSpreadsheet(function(result) {
-		console.log(result);
-	});
+	getGoogleSpreadsheet();
 });
 
 function getGoogleSpreadsheet() {
@@ -59,29 +57,29 @@ function getGoogleSpreadsheet() {
 		});
 	});
 
-	return result;
-}
+	function start(res) {
+		$.usrGET('getUsername', {}, function(r) {
+			if (r) {
+				USER = r;
+				$('#log div').html("LOGOUT " + USER.toUpperCase());
+				$('a#log').css('width', '200px');
+				// $.dbGET('initDatabase');
+				$("#share").show();
+				$.dbGET('getUser', {}, function(r) {
+					if (r.length == 0) {
+						$.dbGET('addUser');
+						return init(res, null, null, true);
+					} else {
+						return init(res, JSON.parse(r[0].json), r[0].advisor, true);
+					}	
+				});
+			} else {
+				return init(res, null, null, true);
+			}
+		});
+	}
 
-function start(result) {
-	$.usrGET('getUsername', {}, function(r) {
-		if (r) {
-			USER = r;
-			$('#log div').html("LOGOUT " + USER.toUpperCase());
-			$('a#log').css('width', '200px');
-			// $.dbGET('initDatabase');
-			$("#share").show();
-			$.dbGET('getUser', {}, function(r) {
-				if (r.length == 0) {
-					$.dbGET('addUser');
-					return init(result, null, null, true);
-				} else {
-					return init(result, JSON.parse(r[0].json), r[0].advisor, true);
-				}	
-			});
-		} else {
-			return init(result, null, null, true);
-		}
-	});
+	return start(result);
 }
 
 function course(id, title, units, dependencies, link, description, color, area) {
