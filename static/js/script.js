@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function getData() {
 	var result = { courses:[], placeholders:[], colors:[], advisors:[], parameters:[] };
-	// Find the ids of the sheets    
+	// This is to find the ids of the sheets    
 	// $.ajax({
 	//     url:"https://spreadsheets.google.com/feeds/worksheets/1ShWLPVNENsUixC5qzAHseZOB9wFDAc_CAW1SrnNftEY/public/basic?alt=json",
 	//     dataType:"jsonp",
@@ -21,23 +21,38 @@ function getData() {
 	$.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[0]+'/public/values?alt=json',
 		function(data){
 		$.each(data.feed.entry,function(i,val){
-			result.courses.push({number:val.gsx$number.$t, title:val.gsx$title.$t, units:val.gsx$units.$t,
+			result.courses.push({ number:val.gsx$number.$t, title:val.gsx$title.$t, units:val.gsx$units.$t,
 								dependencies:val.gsx$dependencies.$t, category:val.gsx$category.$t, url:val.gsx$url.$t, 
 								visible:val.gsx$visible.$t, semester:val.gsx$semester.$t, description:val.gsx$description.$t });
+		});
+	});
+
+	$.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[1]+'/public/values?alt=json',
+		function(data){
+		$.each(data.feed.entry,function(i,val){
+			result.placeholders.push({ number:val.gsx$number.$t, title:val.gsx$title.$t, category:val.gsx$category.$t,
+								url:val.gsx$url.$t, semester:val.gsx$semester.$t, description:val.gsx$description.$t });
 		});
 	});
 
 	$.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[2]+'/public/values?alt=json',
 		function(data){
 		$.each(data.feed.entry,function(i,val){
-			result.colors.push({category:val.gsx$category.$t, color:val.gsx$color.$t, legend:val.gsx$legend.$t});
+			result.colors.push({ category:val.gsx$category.$t, color:val.gsx$color.$t, legend:val.gsx$legend.$t });
+		});
+	});
+
+	$.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[3]+'/public/values?alt=json',
+		function(data){
+		$.each(data.feed.entry,function(i,val){
+			result.advisors.push({ andrewid:val.gsx$andrewid.$t, name:val.gsx$name.$t });
 		});
 	});
 
 	$.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[4]+'/public/values?alt=json',
 		function(data){
 		$.each(data.feed.entry,function(i,val){
-			result.parameters.push({property:val.gsx$property.$t, value:val.gsx$value.$t, description:val.gsx$description.$t});
+			result.parameters.push({ property:val.gsx$property.$t, value:val.gsx$value.$t, description:val.gsx$description.$t });
 		});
 	});
 
