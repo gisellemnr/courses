@@ -3,8 +3,7 @@ var VIEWER = false;
 
 $(document).ready(function(){
 	setUp();
-	// getGoogleSpreadsheet();	
-	getGoogleSpreadsheet().done(function(result) {
+	getGoogleSpreadsheet(function(result) {
 		console.log(result);
 	});
 });
