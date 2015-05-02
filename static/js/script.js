@@ -3,32 +3,51 @@ var VIEWER = false;
 
 document.addEventListener('DOMContentLoaded', function () {
 	setUp();
+	getData();
+});
 
-	$.usrGET('getUsername', {}, function(r) {
-		Tabletop.init({
-			key: "0AhtG6Yl2-hiRdHpibzdfMWd0TkRMYUE4VWxJY2JEYkE",
-			callback: function(result) {
-				if (r) {
-					USER = r;
-					$('#log div').html("LOGOUT " + USER.toUpperCase());
-					$('a#log').css('width', '200px');
-					// $.dbGET('initDatabase');
-					$("#share").show();
-					$.dbGET('getUser', {}, function(r) {
-						if (r.length == 0) {
-							$.dbGET('addUser');
-							return init(result, null, null, true);
-						} else {
-							return init(result, JSON.parse(r[0].json), r[0].advisor, true);
-						}	
-					});
-				} else {
-					return init(result, null, null, true);
-				}
-			}
+function getData() {
+	var result = { courses:[], placeholders:[], colors:[], advisors:[], parameters:[] };
+	// Find the ids of the sheets    
+	// $.ajax({
+	//     url:"https://spreadsheets.google.com/feeds/worksheets/1ShWLPVNENsUixC5qzAHseZOB9wFDAc_CAW1SrnNftEY/public/basic?alt=json",
+	//     dataType:"jsonp",
+	//     success:function(data) {	console.log(data.feed.entry); },
+	// });
+
+	var spreadsheetID = '1ShWLPVNENsUixC5qzAHseZOB9wFDAc_CAW1SrnNftEY';
+	var worksheetID = ['ocz', 'ocy', 'odb', 'ocx', 'ocw'];
+	var url = 'https://spreadsheets.google.com/feeds/list/'+spreadsheetID+'/'+worksheetID[0]+'/public/values?alt=json';
+ 
+	$.getJSON(url,function(data){
+		$.each(data.feed.entry,function(i,val){
+			result.courses.push({number:val.gsx$number.$t, title:val.gsx$title.$t, units:val.gsx$units.$t,
+								dependencies:val.gsx$dependencies.$t, category:val.gsx$category.$t, url:val.gsx$url.$t, 
+								visible:val.gsx$visible.$t, semester:val.gsx$semester.$t, description:val.gsx$description.$t });
 		});
 	});
-});
+
+
+	$.usrGET('getUsername', {}, function(r) {
+		if (r) {
+			USER = r;
+			$('#log div').html("LOGOUT " + USER.toUpperCase());
+			$('a#log').css('width', '200px');
+			// $.dbGET('initDatabase');
+			$("#share").show();
+			$.dbGET('getUser', {}, function(r) {
+				if (r.length == 0) {
+					$.dbGET('addUser');
+					return init(result, null, null, true);
+				} else {
+					return init(result, JSON.parse(r[0].json), r[0].advisor, true);
+				}	
+			});
+		} else {
+			return init(result, null, null, true);
+		}
+	});
+}
 
 function course(id, title, units, dependencies, link, description, color, area) {
 	this.id = id;
