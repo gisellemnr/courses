@@ -3,7 +3,7 @@ var VIEWER = false;
 
 $(document).ready(function(){
 	setUp();
-	getGoogleSpreadsheet().done(function(result){
+	getGoogleSpreadsheet(function(result){
 		console.log(result);
 		// 		$.usrGET('getUsername', {}, function(r) {
 		// 	if (r) {
