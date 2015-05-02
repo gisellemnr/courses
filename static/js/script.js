@@ -3,7 +3,10 @@ var VIEWER = false;
 
 $(document).ready(function(){
 	setUp();
-	getGoogleSpreadsheet();	
+	// getGoogleSpreadsheet();	
+	getGoogleSpreadsheet().done(function(){
+		console.log('HELLO');
+	});
 });
 
 function getGoogleSpreadsheet() {
@@ -52,15 +55,17 @@ function getGoogleSpreadsheet() {
 	$.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[4]+'/public/values?alt=json',
 		function(data){
 		$.each(data.feed.entry,function(i,val){
+			console.log(val)
 			result.parameters.push({ property:val.gsx$property.$t, value:val.gsx$value.$t, description:val.gsx$description.$t });
 		});
 	});
 
-	start(result);
+	return result;
+
+	// start(result);
 }
 
 function start(result) {
-	console.log(result);
 	$.usrGET('getUsername', {}, function(r) {
 		if (r) {
 			USER = r;
