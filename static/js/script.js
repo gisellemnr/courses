@@ -46,18 +46,19 @@ function getGoogleSpreadsheet() {
 								dependencies:val.gsx$dependencies.$t, category:val.gsx$category.$t, url:val.gsx$url.$t, 
 								visible:val.gsx$visible.$t, semester:val.gsx$semester.$t, description:val.gsx$description.$t });
 		});
-	}).done(
-
-	$.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[1]+'/public/values?alt=json',
-		function(data){
-		$.each(data.feed.entry,function(i,val){
-			result.placeholders.push({ number:val.gsx$number.$t, title:val.gsx$title.$t, category:val.gsx$category.$t,
-								url:val.gsx$url.$t, semester:val.gsx$semester.$t, description:val.gsx$description.$t });
+	}).done(function(){
+		$.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[1]+'/public/values?alt=json',
+			function(data){
+			$.each(data.feed.entry,function(i,val){
+				result.placeholders.push({ number:val.gsx$number.$t, title:val.gsx$title.$t, category:val.gsx$category.$t,
+									url:val.gsx$url.$t, semester:val.gsx$semester.$t, description:val.gsx$description.$t });
+			});
+		}).done(function(){
+			console.log("YES");
 		});
-	}).done( function (){
-		console.log('YES');
+	});
 
-	}););
+
 
 	$.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[2]+'/public/values?alt=json',
 		function(data){
