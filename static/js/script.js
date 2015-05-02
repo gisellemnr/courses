@@ -3,30 +3,29 @@ var VIEWER = false;
 
 $(document).ready(function(){
 	setUp();
-	try {
-		var result = getGoogleSpreadsheet();
-	} finally {
-		$.usrGET('getUsername', {}, function(r) {
-			if (r) {
-				USER = r;
-				$('#log div').html("LOGOUT " + USER.toUpperCase());
-				$('a#log').css('width', '200px');
-				// $.dbGET('initDatabase');
-				$("#share").show();
-				$.dbGET('getUser', {}, function(r) {
-					if (r.length == 0) {
-						$.dbGET('addUser');
-						return init(result, null, null, true);
-					} else {
-						return init(result, JSON.parse(r[0].json), r[0].advisor, true);
-					}	
-				});
-			} else {
-				return init(result, null, null, true);
-			}
-		});
-	}
-	
+	getGoogleSpreadsheet().done(function(result){
+		console.log(result);
+		// 		$.usrGET('getUsername', {}, function(r) {
+		// 	if (r) {
+		// 		USER = r;
+		// 		$('#log div').html("LOGOUT " + USER.toUpperCase());
+		// 		$('a#log').css('width', '200px');
+		// 		// $.dbGET('initDatabase');
+		// 		$("#share").show();
+		// 		$.dbGET('getUser', {}, function(r) {
+		// 			if (r.length == 0) {
+		// 				$.dbGET('addUser');
+		// 				return init(result, null, null, true);
+		// 			} else {
+		// 				return init(result, JSON.parse(r[0].json), r[0].advisor, true);
+		// 			}	
+		// 		});
+		// 	} else {
+		// 		return init(result, null, null, true);
+		// 	}
+		// });
+
+	});	
 });
 
 function getGoogleSpreadsheet() {
