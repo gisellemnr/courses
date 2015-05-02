@@ -62,12 +62,12 @@ function getGoogleSpreadsheet() {
 		count ++;
 	});
 
-	while (true) {
-		console.log(count);
-		if (count == 5) {
-			return start(result);
-		}
-	}
+	// while (true) {
+	// 	console.log(count);
+	// 	if (count == 5) {
+	// 		return start(result);
+	// 	}
+	// }
 }
 
 function start(res) {
