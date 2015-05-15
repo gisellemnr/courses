@@ -9,7 +9,7 @@ $(document).ready(function(){
 function getGoogleSpreadsheet(spreadsheet) {
 	// This is to find the ids of the Google sheets    
 	// $.ajax({
-	//     url:"https://spreadsheets.google.com/feeds/worksheets/"+spreadsheet+"/public/basic?alt=json",
+	//     url:"https://spreadsheets.google.com/feeds/worksheets/" + spreadsheet + "/public/basic?alt=json",
 	//     dataType:"jsonp",
 	//     success:function(data) {	console.log(data.feed.entry); },
 	// });
@@ -64,6 +64,9 @@ function start(result){
 			$('#log div').html("LOGOUT " + USER.toUpperCase());
 			$('a#log').css('width', '200px');
 			// $.dbGET('initDatabase');
+			$.dbGET('getUsers', {}, function(r) {
+				console.log(r)
+			});
 			$("#share").show();
 			$.dbGET('getUser', {}, function(r) {
 				if (r.length == 0) {
