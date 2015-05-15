@@ -66,7 +66,7 @@ function start(result){
 			// $.dbGET('initDatabase');
 			$.dbGET('getUsers', {}, function(r) {
 				for (ur in r){
-					console.log(r[ur].user)
+					console.log(r[ur].user + "~" + r[ur].advisor)
 				}
 			});
 			$("#share").show();
