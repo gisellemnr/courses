@@ -112,7 +112,7 @@ function Counter(r) {
 		if (value == 0) {
 			NEEDLES[id].animate({transform: "r" + [180, xi, y], fill:fill}, 1000);
 		} else {
-			NEEDLES[id].animate({transform: "r" + [180 - value/parts * 180 - (90/parts), xi, y], fill:fill}, 1000);
+			NEEDLES[id].animate({transform: "r" + [180 - (value + 1)/parts * 180 - (90/parts), xi, y], fill:fill}, 1000);
 		}		
 		TEXTS[id].attr({text: v});
 		TEXTS[id].value = value;
