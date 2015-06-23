@@ -111,6 +111,8 @@ function Counter(r) {
 		}
 		if (value == 0) {
 			NEEDLES[id].animate({transform: "r" + [180, xi, y], fill:fill}, 1000);
+		} else if (value == 5) {
+			NEEDLES[id].animate({transform: "r" + [0, xi, y], fill:fill}, 1000);
 		} else {
 			NEEDLES[id].animate({transform: "r" + [180 - (value - 1)/parts * 180 - (90/parts), xi, y], fill:fill}, 1000);
 		}		
