@@ -179,7 +179,6 @@ function Graph(semesters, ar) {
 					break;
 				}
 			}
-			console.log('DONE!');
 			var c = new createShape(course);
 			c.replaced = false;
 			shapes.push(c);
@@ -331,7 +330,7 @@ function Graph(semesters, ar) {
 				"fill-opacity": 0.7,
 				"stroke-width": shapes[i].area == "placeholder"? 0 : 2,
 				r: shapes[i].hidden? 0 : 20
-			}, 500);
+			}, 1000);
 		}
 		for (var i = connections.length; i--;) {
 			connections[i].line.animate({
