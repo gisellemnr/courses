@@ -176,8 +176,10 @@ function Graph(semesters, ar) {
 					course.y = shapes[i].attrs.cy;
 					course.holder = shapes[i];
 					hide(shapes[i]);
+					break;
 				}
 			}
+			console.log('DONE!');
 			var c = new createShape(course);
 			c.replaced = false;
 			shapes.push(c);
