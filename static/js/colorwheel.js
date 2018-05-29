@@ -3,7 +3,7 @@
         return new ColorWheel(size);
     };
     Raphael.setWheel = function (cw, num, i) {
-        var labels = ["Underload", "Underload", "Risky", "Healthy", "Overload", "Permissions"];
+        var labels = ["Underload", "Underload", "Risky", "Healthy", "Overload", "Permission"];
         var parts = 5;
 		var fill = "#222";
 		if (i == 0 || i == 1) {
@@ -75,7 +75,7 @@
             r.text(45, 290, "Your course load is healthy").attr(labelAttr).attr({"text-anchor": "start" });
             r.text(45, 320, "You may be piling").attr(labelAttr).attr({"text-anchor": "start" });
             r.text(45, 340, "too much on your plate").attr(labelAttr).attr({"text-anchor": "start" });
-            r.text(45, 370, "You need permissions").attr(labelAttr).attr({"text-anchor": "start" });
-            r.text(45, 390, "if your QPA is less than 3.0").attr(labelAttr).attr({"text-anchor": "start" });
+            r.text(45, 370, "You need special permission").attr(labelAttr).attr({"text-anchor": "start" });
+            r.text(45, 390, "from your advisor").attr(labelAttr).attr({"text-anchor": "start" });
         };
 })(window.Raphael);
