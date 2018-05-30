@@ -31,16 +31,16 @@ function getGoogleSpreadsheet(spreadsheet) {
 									url:val.gsx$url.$t, semester:val.gsx$semester.$t, description:val.gsx$description.$t });
 			});
 		}).done(function(){
-			$.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[2]+'/public/values?alt=json',
+			$.getJSON('../static/data/colors.json',
 				function(data){
-				$.each(data.feed.entry,function(i,val){
-					result.colors.push({ category:val.gsx$category.$t, color:val.gsx$color.$t, legend:val.gsx$legend.$t });
+				$.each(data.colors,function(i,val){
+					result.colors.push({ category:val.category, color:val.color, legend:val.legend });
 				});
 			}).done(function(){
 				$.getJSON('../static/data/advisors.json',
 					function(data){
 					$.each(data.advisors,function(i,val){
-						result.advisors.push({ andrewid:val.andrewid.$t, name:val.name.$t });
+						result.advisors.push({ andrewid:val.andrewid, name:val.name });
 					});
 				}).done(function(){
 					$.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[4]+'/public/values?alt=json',

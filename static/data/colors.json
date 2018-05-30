@@ -1,0 +1,71 @@
+{
+  "version": "1.0",
+  "encoding": "UTF-8",
+  "colors": [
+    {
+      "category": "Core",
+      "color": "#3333CC",
+      "legend": "CS core course"
+    },
+    {
+      "category": "Constrained",
+      "color": "#5F00BF",
+      "legend": "CS constrained elective"
+    },
+    {
+      "category": "CS-elective",
+      "color": "#0000FF",
+      "legend": "CS free elective"
+    },
+    {
+      "category": "Math",
+      "color": "#32CD32",
+      "legend": "Math course"
+    },
+    {
+      "category": "Science",
+      "color": "#BF001C",
+      "legend": "Engineering and Natural Sciences course"
+    },
+    {
+      "category": "Humanities",
+      "color": "#8B4513",
+      "legend": "Arts and Humanities course"
+    },
+    {
+      "category": "CCM",
+      "color": "#D1AC19",
+      "legend": "Computing @ Carnegie Mellon course"
+    },
+    {
+      "category": "Elective",
+      "color": "#808080",
+      "legend": "Free elective or minor course"
+    },
+    {
+      "category": "Algorithms",
+      "color": "#B500BF",
+      "legend": "Algorithm and Complexity constrained el."
+    },
+    {
+      "category": "Applications",
+      "color": "#26BF91",
+      "legend": "Applications constrained elective"
+    },
+    {
+      "category": "Logics",
+      "color": "#88BF2F",
+      "legend": "Logics and Languages constrained el."
+    },
+    {
+      "category": "Systems",
+      "color": "#BFAC00",
+      "legend": "Software Systems constrained elective"
+    },
+    {
+      "category": "General",
+      "color": "#BCB69E",
+      "legend": "General Education elective"
+    }
+  ]
+}

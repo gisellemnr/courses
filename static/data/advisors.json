@@ -3,20 +3,20 @@
   "encoding": "UTF-8",
   "advisors": [
     {
-      "andrewid": { "$t": "kharras" },
-      "name":     { "$t": "Khaled Harras" }
+      "andrewid": "kharras",
+      "name":     "Khaled Harras"
     },
     {
-      "andrewid": { "$t": "cak" },
-      "name":     { "$t": "Christos Kapoutsis" }
+      "andrewid": "cak",
+      "name":     "Christos Kapoutsis"
     },
     {
-      "andrewid": { "$t": "srazak" },
-      "name":     { "$t": "Saquib Razak" }
+      "andrewid": "srazak",
+      "name":     "Saquib Razak"
     },
     {
-      "andrewid": { "$t": "greis" },
-      "name":     { "$t": "Giselle Reis" }
+      "andrewid": "greis",
+      "name":     "Giselle Reis"
     }
   ]
 }
