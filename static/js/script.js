@@ -37,10 +37,10 @@ function getGoogleSpreadsheet(spreadsheet) {
 					result.colors.push({ category:val.gsx$category.$t, color:val.gsx$color.$t, legend:val.gsx$legend.$t });
 				});
 			}).done(function(){
-				$.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[3]+'/public/values?alt=json',
+				$.getJSON('../static/data/advisors.json',
 					function(data){
-					$.each(data.feed.entry,function(i,val){
-						result.advisors.push({ andrewid:val.gsx$andrewid.$t, name:val.gsx$name.$t });
+					$.each(data.advisors,function(i,val){
+						result.advisors.push({ andrewid:val.andrewid.$t, name:val.name.$t });
 					});
 				}).done(function(){
 					$.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[4]+'/public/values?alt=json',

@@ -1,0 +1,22 @@
+{
+  "version": "1.0",
+  "encoding": "UTF-8",
+  "advisors": [
+    {
+      "andrewid": { "$t": "kharras" },
+      "name":     { "$t": "Khaled Harras" }
+    },
+    {
+      "andrewid": { "$t": "cak" },
+      "name":     { "$t": "Christos Kapoutsis" }
+    },
+    {
+      "andrewid": { "$t": "srazak" },
+      "name":     { "$t": "Saquib Razak" }
+    },
+    {
+      "andrewid": { "$t": "greis" },
+      "name":     { "$t": "Giselle Reis" }
+    }
+  ]
+}
