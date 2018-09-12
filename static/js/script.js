@@ -30,23 +30,30 @@ function getGoogleSpreadsheet(spreadsheet) {
                           description:val.description });
         });
     }).done(function(){
-        $.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[1]+'/public/values?alt=json',
+        $.getJSON('static/data/placeholders.json',
             function(data){
-            $.each(data.feed.entry,function(i,val){
-                result.placeholders.push({ number:val.gsx$number.$t, title:val.gsx$title.$t, category:val.gsx$category.$t,
-                                    url:val.gsx$url.$t, semester:val.gsx$semester.$t, description:val.gsx$description.$t });
+            $.each(data.placeholders,function(i,val){
+                result.placeholders.push({ number:val.number, 
+                                           title:val.title, 
+                                           category:val.category,
+                                           url:val.url, 
+                                           semester:val.semester, 
+                                           description:val.description });
             });
         }).done(function(){
             $.getJSON('static/data/colors.json',
                 function(data){
                 $.each(data.colors,function(i,val){
-                    result.colors.push({ category:val.category, color:val.color, legend:val.legend });
+                    result.colors.push({ category:val.category, 
+                                         color:val.color, 
+                                         legend:val.legend });
                 });
             }).done(function(){
                 $.getJSON('static/data/advisors.json',
                     function(data){
                     $.each(data.advisors,function(i,val){
-                        result.advisors.push({ andrewid:val.andrewid, name:val.name });
+                        result.advisors.push({ andrewid:val.andrewid, 
+                                               name:val.name });
                     });
                 }).done(function(){
                     $.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[4]+'/public/values?alt=json',

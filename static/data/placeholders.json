@@ -1,0 +1,174 @@
+{
+  "version": "1.0",
+  "encoding": "UTF-8",
+  "placeholders": [
+    {
+      "number": "SCI-01",
+      "title": "Science course",
+      "category": "Science",
+      "url": "",
+      "semester": "F1",
+      "description": ""
+    },
+    {
+      "number": "SCI-02",
+      "title": "Science course",
+      "category": "Science",
+      "url": "",
+      "semester": "S1",
+      "description": ""
+    },
+    {
+      "number": "HUM-01",
+      "title": "Humanities course",
+      "category": "Humanities",
+      "url": "",
+      "semester": "F2",
+      "description": ""
+    },
+    {
+      "number": "SCI-03",
+      "title": "Science course",
+      "category": "Science",
+      "url": "",
+      "semester": "F2",
+      "description": ""
+    },
+    {
+      "number": "HUM-02",
+      "title": "Humanities course",
+      "category": "Humanities",
+      "url": "",
+      "semester": "S2",
+      "description": ""
+    },
+    {
+      "number": "SCI-04",
+      "title": "Science course",
+      "category": "Science",
+      "url": "",
+      "semester": "S2",
+      "description": ""
+    },
+    {
+      "number": "15-ALG",
+      "title": "One Algorithm and Complexity constrained elective",
+      "category": "Algorithms",
+      "url": "",
+      "semester": "F3",
+      "description": ""
+    },
+    {
+      "number": "FEL-01",
+      "title": "Minor/Free elective",
+      "category": "Elective",
+      "url": "",
+      "semester": "F3",
+      "description": ""
+    },
+    {
+      "number": "HUM-03",
+      "title": "Humanities course",
+      "category": "Humanities",
+      "url": "",
+      "semester": "F3",
+      "description": ""
+    },
+    {
+      "number": "15-APP",
+      "title": "One Applications constrained elective",
+      "category": "Applications",
+      "url": "",
+      "semester": "S3",
+      "description": ""
+    },
+    {
+      "number": "CSEL-1",
+      "title": "Minor/Free CS elective",
+      "category": "CS-elective",
+      "url": "",
+      "semester": "S3",
+      "description": ""
+    },
+    {
+      "number": "FEL-02",
+      "title": "Minor/Free elective",
+      "category": "Elective",
+      "url": "",
+      "semester": "S3",
+      "description": ""
+    },
+    {
+      "number": "HUM-04",
+      "title": "Humanities course",
+      "category": "Humanities",
+      "url": "",
+      "semester": "S3",
+      "description": ""
+    },
+    {
+      "number": "15-LOG",
+      "title": "One Logics and Languages constrained elective",
+      "category": "Logics",
+      "url": "",
+      "semester": "F4",
+      "description": ""
+    },
+    {
+      "number": "CSEL-2",
+      "title": "Minor/Free CS elective",
+      "category": "CS-elective",
+      "url": "",
+      "semester": "F4",
+      "description": ""
+    },
+    {
+      "number": "FEL-03",
+      "title": "Minor/Free elective",
+      "category": "Elective",
+      "url": "",
+      "semester": "F4",
+      "description": ""
+    },
+    {
+      "number": "HUM-05",
+      "title": "Humanities course",
+      "category": "Humanities",
+      "url": "",
+      "semester": "F4",
+      "description": ""
+    },
+    {
+      "number": "15-SYS",
+      "title": "One Sofware Systems constrained elective",
+      "category": "Systems",
+      "url": "",
+      "semester": "S4",
+      "description": ""
+    },
+    {
+      "number": "FEL-04",
+      "title": "Minor/Free elective",
+      "category": "Elective",
+      "url": "",
+      "semester": "S4",
+      "description": ""
+    },
+    {
+      "number": "FEL-05",
+      "title": "Minor/Free elective",
+      "category": "Elective",
+      "url": "",
+      "semester": "S4",
+      "description": ""
+    },
+    {
+      "number": "HUM-06",
+      "title": "Humanities course",
+      "category": "Humanities",
+      "url": "",
+      "semester": "S4",
+      "description": ""
+    }
+  ]
+}
