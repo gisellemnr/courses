@@ -56,10 +56,12 @@ function getGoogleSpreadsheet(spreadsheet) {
                                                name:val.name });
                     });
                 }).done(function(){
-                    $.getJSON('https://spreadsheets.google.com/feeds/list/'+spreadsheet+'/'+worksheet[4]+'/public/values?alt=json',
+                    $.getJSON('static/data/parameters.json',
                         function(data){
-                        $.each(data.feed.entry,function(i,val){
-                            result.parameters.push({ property:val.gsx$property.$t, value:val.gsx$value.$t, description:val.gsx$description.$t });
+                        $.each(data.parameters,function(i,val){
+                            result.parameters.push({ property:val.property, 
+                                                     value:val.value, 
+                                                     description:val.description });
                         });
                     }).done(function(){
                         return start(result);

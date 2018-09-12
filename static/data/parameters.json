@@ -1,0 +1,11 @@
+{
+  "version": "1.0",
+  "encoding": "UTF-8",
+  "parameters": [
+    {
+      "property": "ARROW_DIRECTION",
+      "value": "1"
+      "description": "If 0 arrow points to prerequisite; 1 otherwise."
+    }
+  ]
+}
