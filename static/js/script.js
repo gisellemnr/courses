@@ -3,17 +3,11 @@ var VIEWER = false;
 
 $(document).ready(function(){
     setUp();
-    getGoogleSpreadsheet('1ShWLPVNENsUixC5qzAHseZOB9wFDAc_CAW1SrnNftEY');
+    getData();
 });
 
-function getGoogleSpreadsheet(spreadsheet) {
-    // This is to find the ids of the Google sheets    
-    // $.ajax({
-    //     url:"https://spreadsheets.google.com/feeds/worksheets/" + spreadsheet + "/public/basic?alt=json",
-    //     dataType:"jsonp",
-    //     success:function(data) { console.log(data.feed.entry); },
-    // });
-    var worksheet = ['ocz', 'ocy', 'odb', 'ocx', 'ocw'];
+function getData() {
+
     var result = { courses:[], placeholders:[], colors:[], advisors:[], parameters:[] };
     
     $.getJSON('static/data/courses.json',
